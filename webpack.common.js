@@ -8,7 +8,8 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
 module.exports = {
   entry: {
-    main: './src/index.ts'
+    example: './example/index.ts',
+    main: './src/index.ts',
   },
   output: {
     filename: '[name].js',
@@ -23,7 +24,15 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './example/index.html',
-      chunks: ['index']
+      chunks: ['example']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'card.html',
+      template: './src/card.html',
+      templateParameters: {
+        partial: 'card'
+      },
+      chunks: ['main']
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
@@ -31,9 +40,9 @@ module.exports = {
     }),
     new StyleLintPlugin(),
     new FriendlyErrorsWebpackPlugin(),
-    // new webpack.DefinePlugin({
-    //   HOST: JSON.stringify(process.env.npm_package_config_host)
-    // })
+    new webpack.DefinePlugin({
+      HOST: JSON.stringify(process.env.npm_package_config_host)
+    })
   ],
   module: {
     rules: [
@@ -80,7 +89,6 @@ module.exports = {
     ]
   },
   resolve: {
-    alias: { joi: 'joi-browser' },
     extensions: ['.ts', '.js']
   }
 };

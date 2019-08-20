@@ -1,25 +1,15 @@
+import {cardsLogos} from '../../imports/card/card-logos';
+import Selectors from '../../imports/card/card-selectors';
+import DomMethods from '../DomMethods/DomMethods';
+import Translator from '../Translation/Translation';
+import {ICardDetails, ISubscribeObject} from './ICard';
+
 /**
  * Defines animated card, it's 'stateless' component which only receives data validated previously by other components.
- * TODO: In not distant future it'll be refactored to standalone version available to work with library.
  */
 class Card {
-  private static ANIMATED_CARD_INPUT_SELECTOR = 'st-animated-card';
-  private static  ANIMATED_CARD_CREDIT_CARD_ID = 'st-animated-card-number';
-  private static  ANIMATED_CARD_EXPIRATION_DATE_ID = 'st-animated-card-expiration-date';
-  private static  ANIMATED_CARD_SECURITY_CODE_ID = 'st-animated-card-security-code';
-  private static  ANIMATED_CARD_SECURITY_CODE_FRONT_ID = 'st-animated-card-security-code-front';
-  private static  ANIMATED_CARD_SECURITY_CODE_FRONT_FIELD_ID = 'st-animated-card-security-code-front-field';
-  private static  ANIMATED_CARD_SIDE_FRONT: string = 'st-animated-card-side-front';
-  private static  ANIMATED_CARD_SIDE_BACK: string = 'st-animated-card-side-back';
-  private static  ANIMATED_CARD_PAYMENT_LOGO_ID: string = 'st-payment-logo';
-  private static  ANIMATED_CARD_COMPONENT_FRAME: string = 'st-animated-card-iframe';
-  private static  ANIMATED_CARD_COMPONENT_NAME: string = 'animatedCard';
-  private static  ANIMATED_CARD_CREDIT_CARD_LABEL = 'st-animated-card-card-number-label';
-  private static  ANIMATED_CARD_EXPIRATION_DATE_LABEL = 'st-animated-card-expiration-date-label';
-  private static  ANIMATED_CARD_SECURITY_CODE_LABEL = 'st-animated-card-security-code-label';
-  private static ifCardExists = (): HTMLInputElement =>
-    document.getElementById(Card.ANIMATED_CARD_INPUT_SELECTOR) as HTMLInputElement;
-
+  public static ifCardExists = (): HTMLInputElement =>
+    document.getElementById(Selectors.ANIMATED_CARD_INPUT_SELECTOR) as HTMLInputElement;
   private static CARD_TYPES = {
     AMEX: 'amex',
     ASTROPAYCARD: 'astropaycard',
@@ -56,6 +46,7 @@ class Card {
   private static NOT_FLIPPED_CARDS = [Card.CARD_TYPES.AMEX];
   private static SECURITY_CODE_LENGTH_EXTENDED = 4;
 
+
   /**
    * Set one of three values on animated card
    * @param value
@@ -68,18 +59,18 @@ class Card {
    * @param type
    */
   private static _getLogo = (type: string) => cardsLogos[type];
-  private _animatedCardBack: HTMLElement = document.getElementById(Card.ANIMATED_CARD_SIDE_BACK);
+  private _animatedCardBack: HTMLElement = document.getElementById(Selectors.ANIMATED_CARD_SIDE_BACK);
   private _animatedCardExpirationDate: HTMLElement = document.getElementById(
-    Card.ANIMATED_CARD_EXPIRATION_DATE_ID
+    Selectors.ANIMATED_CARD_EXPIRATION_DATE_ID
   );
-  private _animatedCardFront: HTMLElement = document.getElementById(Card.ANIMATED_CARD_SIDE_FRONT);
-  private _animatedCardPan: HTMLElement = document.getElementById(Card.ANIMATED_CARD_CREDIT_CARD_ID);
-  private _animatedCardSecurityCode: HTMLElement = document.getElementById(Card.ANIMATED_CARD_SECURITY_CODE_ID);
+  private _animatedCardFront: HTMLElement = document.getElementById(Selectors.ANIMATED_CARD_SIDE_FRONT);
+  private _animatedCardPan: HTMLElement = document.getElementById(Selectors.ANIMATED_CARD_CREDIT_CARD_ID);
+  private _animatedCardSecurityCode: HTMLElement = document.getElementById(Selectors.ANIMATED_CARD_SECURITY_CODE_ID);
   private _animatedCardSecurityCodeFront: HTMLElement = document.getElementById(
-    Card.ANIMATED_CARD_SECURITY_CODE_FRONT_ID
+    Selectors.ANIMATED_CARD_SECURITY_CODE_FRONT_ID
   );
   private _animatedCardSecurityCodeFrontField: HTMLElement = document.getElementById(
-    Card.ANIMATED_CARD_SECURITY_CODE_FRONT_FIELD_ID
+    Selectors.ANIMATED_CARD_SECURITY_CODE_FRONT_FIELD_ID
   );
 
   private _animatedCardLogoBackground: HTMLElement = document.getElementById(
@@ -92,15 +83,14 @@ class Card {
     securityCode: Card.CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE,
     type: Card.CARD_DETAILS_PLACEHOLDERS.TYPE
   };
-  private _cardElement: HTMLElement = document.getElementById(Card.ANIMATED_CARD_INPUT_SELECTOR);
+  private _cardElement: HTMLElement = document.getElementById(Selectors.ANIMATED_CARD_INPUT_SELECTOR);
+  private _translator: Translator;
 
   constructor() {
+    this._translator = new Translator('en_GB');
     this._setLabels();
     this._setDefaultInputsValues();
-    this._setSubscribeEvents();
     this._onCardNumberChanged({formattedValue: '', value: ''}); // Need to call this to use the default card type
-    this._setSecurityCodeChangeListener();
-    this._setSecurityCodeFocusEventListener();
   }
 
   /**
@@ -117,34 +107,15 @@ class Card {
     }
   }
 
-  /**
-   * Listens to type of card and sets proper card length.
-   * @private
-   */
-  private _setSecurityCodeChangeListener() {
-    this._messageBus.subscribe(MessageBus.EVENTS.CHANGE_SECURITY_CODE_LENGTH, (length: number) => {
-      this._setSecurityCodePlaceholderContent(length);
-    });
-  }
-
-  /**
-   * Checks is card should be flipped or not.
-   * @private
-   */
-  private _setSecurityCodeFocusEventListener() {
-    this._messageBus.subscribe(MessageBus.EVENTS.FOCUS_SECURITY_CODE, (state: boolean) => {
-      state ? this._shouldFlipCard() : this._flipCardBack();
-    });
-  }
 
   /**
    * Sets labels for all fields of animated card
    * @private
    */
   private _setLabels() {
-    this._setLabel(Card.ANIMATED_CARD_CREDIT_CARD_LABEL, Language.translations.LABEL_CARD_NUMBER);
-    this._setLabel(Card.ANIMATED_CARD_EXPIRATION_DATE_LABEL, Language.translations.LABEL_EXPIRATION_DATE);
-    this._setLabel(Card.ANIMATED_CARD_SECURITY_CODE_LABEL, Language.translations.LABEL_SECURITY_CODE);
+    this._setLabel(Selectors.ANIMATED_CARD_CREDIT_CARD_LABEL, Translator.translations.LABEL_CARD_NUMBER);
+    this._setLabel(Selectors.ANIMATED_CARD_EXPIRATION_DATE_LABEL, Translator.translations.LABEL_EXPIRATION_DATE);
+    this._setLabel(Selectors.ANIMATED_CARD_SECURITY_CODE_LABEL, Translator.translations.LABEL_SECURITY_CODE);
   }
 
   /**
@@ -177,14 +148,14 @@ class Card {
   private _setThemeClasses() {
     const {type} = this._cardDetails;
 
-    DOMMethods.addClass(this._animatedCardLogoBackground, `${Card.CARD_CLASSES.CLASS_LOGO}`);
+    DomMethods.addClass(this._animatedCardLogoBackground, `${Card.CARD_CLASSES.CLASS_LOGO}`);
     if (type) {
-      DOMMethods.removeClass(this._animatedCardLogoBackground, `${Card.CARD_CLASSES.CLASS_LOGO_DEFAULT}`);
+      DomMethods.removeClass(this._animatedCardLogoBackground, `${Card.CARD_CLASSES.CLASS_LOGO_DEFAULT}`);
     } else {
-      DOMMethods.addClass(this._animatedCardLogoBackground, `${Card.CARD_CLASSES.CLASS_LOGO_DEFAULT}`);
+      DomMethods.addClass(this._animatedCardLogoBackground, `${Card.CARD_CLASSES.CLASS_LOGO_DEFAULT}`);
     }
-    DOMMethods.addClass(this._animatedCardFront, this._returnThemeClass(type));
-    DOMMethods.addClass(this._animatedCardBack, this._returnThemeClass(type));
+    DomMethods.addClass(this._animatedCardFront, this._returnThemeClass(type));
+    DomMethods.addClass(this._animatedCardBack, this._returnThemeClass(type));
   }
 
   /**
@@ -193,20 +164,20 @@ class Card {
    */
   private _setLogo() {
     const {logo, type} = this._cardDetails;
-    if (!document.getElementById(Card.ANIMATED_CARD_PAYMENT_LOGO_ID) && logo) {
-      const element = DOMMethods.createHtmlElement.apply(this, [
+    if (!document.getElementById(Selectors.ANIMATED_CARD_PAYMENT_LOGO_ID) && logo) {
+      const element = DomMethods.createHtmlElement.apply(this, [
         {
           alt: type,
           class: Card.CARD_CLASSES.CLASS_LOGO_IMAGE,
-          id: Card.ANIMATED_CARD_PAYMENT_LOGO_ID,
+          id: Selectors.ANIMATED_CARD_PAYMENT_LOGO_ID,
           src: logo
         },
         'img'
       ]);
-      DOMMethods.appendChildIntoDOM(Card.CARD_CLASSES.CLASS_LOGO_WRAPPER, element);
-      DOMMethods.setProperty.apply(this, ['src', logo, Card.ANIMATED_CARD_PAYMENT_LOGO_ID]);
+      DomMethods.appendChildIntoDOM(Card.CARD_CLASSES.CLASS_LOGO_WRAPPER, element);
+      DomMethods.setProperty.apply(this, ['src', logo, Selectors.ANIMATED_CARD_PAYMENT_LOGO_ID]);
     } else if (logo) {
-      DOMMethods.setProperty.apply(this, ['src', logo, Card.ANIMATED_CARD_PAYMENT_LOGO_ID]);
+      DomMethods.setProperty.apply(this, ['src', logo, Selectors.ANIMATED_CARD_PAYMENT_LOGO_ID]);
     }
     return logo;
   }
@@ -233,10 +204,10 @@ class Card {
     const isAmex: boolean = this._cardDetails.type === Card.CARD_TYPES.AMEX;
 
     if (isAmex) {
-      DOMMethods.removeClass(this._animatedCardSecurityCodeFront, Card.CARD_CLASSES.CLASS_SECURITY_CODE_HIDDEN);
+      DomMethods.removeClass(this._animatedCardSecurityCodeFront, Card.CARD_CLASSES.CLASS_SECURITY_CODE_HIDDEN);
       this._animatedCardSecurityCodeFrontField.textContent = this._cardDetails.securityCode;
     } else {
-      DOMMethods.addClass(this._animatedCardSecurityCodeFront, Card.CARD_CLASSES.CLASS_SECURITY_CODE_HIDDEN);
+      DomMethods.addClass(this._animatedCardSecurityCodeFront, Card.CARD_CLASSES.CLASS_SECURITY_CODE_HIDDEN);
       this._animatedCardSecurityCode.textContent = this._cardDetails.securityCode;
     }
   }
@@ -260,13 +231,13 @@ class Card {
   private _flipCard = () => this._cardElement.classList.add(Card.CARD_CLASSES.CLASS_FOR_ANIMATION);
 
   /**
-   * Flips back card by clearing classes
+   * Flips back card by clearing models
    * @private
    */
   private _flipCardBack() {
     if (!Card.NOT_FLIPPED_CARDS.includes(this._cardDetails.type)) {
       if (this._cardElement.classList.contains(Card.CARD_CLASSES.CLASS_FOR_ANIMATION)) {
-        this._cardElement.setAttribute('class', Card.ANIMATED_CARD_INPUT_SELECTOR);
+        this._cardElement.setAttribute('class', Selectors.ANIMATED_CARD_INPUT_SELECTOR);
       }
     }
   }
@@ -276,9 +247,9 @@ class Card {
    * @private
    */
   private _removeLogo() {
-    DOMMethods.removeChildFromDOM.apply(this, [
+    DomMethods.removeChildFromDOM.apply(this, [
       Card.CARD_CLASSES.CLASS_LOGO_WRAPPER,
-      Card.ANIMATED_CARD_PAYMENT_LOGO_ID
+      Selectors.ANIMATED_CARD_PAYMENT_LOGO_ID
     ]);
   }
 
@@ -298,7 +269,7 @@ class Card {
    * @private
    */
   private _setCardType(cardNumber: string) {
-    const type = this._binLookup.binLookup(cardNumber).type;
+    const type = 'some type from API';  // this._binLookup.binLookup(cardNumber).type;
     return type ? type.toLowerCase() : type;
   }
 
@@ -376,22 +347,6 @@ class Card {
   }
 
   /**
-   * Sets subscribe events on every editable field of card
-   * @private
-   */
-  private _setSubscribeEvents() {
-    this._messageBus.subscribe(MessageBus.EVENTS.CHANGE_CARD_NUMBER, (data: ISubscribeObject) => {
-      this._onCardNumberChanged(data);
-    });
-    this._messageBus.subscribe(MessageBus.EVENTS.CHANGE_EXPIRATION_DATE, (data: ISubscribeObject) =>
-      this._onExpirationDateChanged(data)
-    );
-    this._messageBus.subscribe(MessageBus.EVENTS.CHANGE_SECURITY_CODE, (data: ISubscribeObject) =>
-      this._onSecurityCodeChanged(data)
-    );
-  }
-
-  /**
    * Sets text of specified label
    * @param labelSelector
    * @param text
@@ -399,17 +354,6 @@ class Card {
    */
   private _setLabel(labelSelector: string, text: string) {
     document.getElementById(labelSelector).textContent = this._translator.translate(text);
-  }
-
-  private getBinLookupConfig() {
-    const binLookupConfig: IBinLookupConfigType = {};
-    if (this._params.paymentTypes !== undefined) {
-      binLookupConfig.supported = this._params.paymentTypes.split(',');
-    }
-    if (this._params.defaultPaymentType !== undefined) {
-      binLookupConfig.defaultCardType = this._params.defaultPaymentType;
-    }
-    return binLookupConfig;
   }
 }
 
