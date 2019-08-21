@@ -5,11 +5,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
     example: './example/index.ts',
-    main: './src/index.ts',
+    stCard: './src/STCard.ts',
   },
   output: {
     filename: '[name].js',
@@ -26,18 +27,18 @@ module.exports = {
       template: './example/index.html',
       chunks: ['example']
     }),
-    new HtmlWebpackPlugin({
-      filename: 'card.html',
-      template: './src/card.html',
-      templateParameters: {
-        partial: 'card'
-      },
-      chunks: ['main']
-    }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css'
     }),
+    new CopyPlugin([
+      {
+        from: 'src/images',
+        to: 'images',
+        test: /([^/]+)\/(.+)\.(png|jpg|jpeg|gif|ico|svg|webp)$/,
+        force: true
+      }
+    ]),
     new StyleLintPlugin(),
     new FriendlyErrorsWebpackPlugin(),
     new webpack.DefinePlugin({
@@ -80,7 +81,7 @@ module.exports = {
           {
             loader: 'tslint-loader',
             options: {
-              emitErrors: true
+              emitErrors: false
             }
           }
         ],

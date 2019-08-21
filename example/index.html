@@ -1,24 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8"/>
   <meta
     name="viewport"
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
   />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
   <title>Secure Trading Example Form</title>
 </head>
 
 <body>
 <form id="st-form" class="example-form" autocomplete="off" novalidate>
-  <div id="st-animated-card" class="st-animated-card-wrapper"></div>
-  <script type="text/javascript" src="main.js"></script>
-  <script type="text/javascript" src="example.js"></script>
+
+  <div class="merchants-form__field">
+    <label for="merchants-card-number">Card number: </label>
+    <input type="text" id="merchants-card-number" name="merchants-card-number"/>
+  </div>
+
+  <div class="merchants-form__field">
+    <label for="merchants-expiration-date">Expiration date: </label>
+    <input type="text" id="merchants-expiration-date" name="merchants-expiration-date"/>
+  </div>
+
+  <div class="merchants-form__field">
+    <label for="merchants-security-code">Security code: </label>
+    <input type="text" id="merchants-security-code" name="merchants-security-code"/>
+  </div>
+
+  <div id="merchants-animated-card"></div>
+
+  <script type="text/javascript" src="stCard.js"></script>
 </form>
 <script>
-    (function() {
-        var card = Card({});
+    (function () {
+        var card = Card({
+            cardNumberId: 'merchants-card-number',
+            expirationDateId: 'merchants-expiration-date',
+            securityCodeId: 'merchants-security-code'
+        });
+        card.fieldChange('merchants-card-number');
+        card.fieldChange('merchants-expiration-date');
+        card.fieldChange('merchants-security-code');
+        console.log(card);
     })();
 </script>
 </body>

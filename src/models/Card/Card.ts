@@ -1,3 +1,5 @@
+import 'location-origin';
+import 'url-polyfill';
 import {cardsLogos} from '../../imports/card/card-logos';
 import Selectors from '../../imports/card/card-selectors';
 import DomMethods from '../DomMethods/DomMethods';
@@ -269,7 +271,7 @@ class Card {
    * @private
    */
   private _setCardType(cardNumber: string) {
-    const type = 'some type from API';  // this._binLookup.binLookup(cardNumber).type;
+    const type = 'visa';  // this._binLookup.binLookup(cardNumber).type;
     return type ? type.toLowerCase() : type;
   }
 
