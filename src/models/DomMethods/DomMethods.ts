@@ -1,3 +1,6 @@
+/**
+ *
+ */
 class DomMethods {
   /**
    * Adds class to inputs classList.
