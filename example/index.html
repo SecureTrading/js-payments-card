@@ -45,8 +45,12 @@
         card.onCardNumberInput('merchants-card-number', (element) => {
             card.changeCardNumber(element.value);
         });
-        card.onExpirationDateInput('merchants-expiration-date');
-        card.onSecurityCodeInput('merchants-security-code');
+        card.onExpirationDateInput('merchants-expiration-date', (element) => {
+            card.changeExpirationDate(element.value);
+        });
+        card.onSecurityCodeInput('merchants-security-code', (element) => {
+            card.changeSecurityCode(element.value);
+        });
         console.log(card);
     })();
 </script>

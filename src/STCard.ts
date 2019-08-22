@@ -32,26 +32,36 @@ class STCard {
   public onCardNumberInput(id: string, callback: any) {
     const cardNumber = document.getElementById(id) as HTMLInputElement;
     cardNumber.addEventListener('input', () => {
-      console.log(cardNumber.value);
+      this.changeCardNumber(cardNumber.value);
     })
   }
 
   public onExpirationDateInput(id: string, callback: any) {
     const expirationDate = document.getElementById(id) as HTMLInputElement;
     expirationDate.addEventListener('input', () => {
-      console.log(expirationDate.value);
+      this.changeExpirationDate(expirationDate.value);
     })
   }
 
   public onSecurityCodeInput(id: string, callback: any) {
     const securityCode = document.getElementById(id) as HTMLInputElement;
     securityCode.addEventListener('input', () => {
-      console.log(securityCode.value);
+      this.changeSecurityCode(securityCode.value);
     })
   }
 
   public changeCardNumber(value: string) {
     const element = document.getElementById('st-animated-card-number');
+    element.textContent = value;
+  }
+
+  public changeExpirationDate(value: string) {
+    const element = document.getElementById('st-animated-card-expiration-date');
+    element.textContent = value;
+  }
+
+  public changeSecurityCode(value: string) {
+    const element = document.getElementById('st-animated-card-security-code');
     element.textContent = value;
   }
 
