@@ -9,11 +9,22 @@ body {
   overflow: hidden;
 }
 
+.st-animated-card-wrapper {
+  height: 8.1rem;
+  width: 100%;
+  border: 0;
+  overflow: hidden;
+  min-height: 30rem;
+  min-width: 37rem;
+}
+
+
 .st-animated-card {
+  min-height: 30rem;
+  display: flex;
   width: 100%;
   perspective: 100rem;
   height: 100%;
-  display: flex;
   justify-content: center;
   align-items: center;
 

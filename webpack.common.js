@@ -10,7 +10,8 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: {
     example: './example/index.ts',
-    stCard: './src/STCard.ts',
+    stcard: './src/STCard.ts',
+    stcardstyle: './src/styles/card.scss'
   },
   output: {
     filename: '[name].js',
@@ -86,6 +87,11 @@ module.exports = {
           }
         ],
         exclude: /node_modules/
+      },
+      {
+        test: /\.html$/,
+        exclude: /node_modules/,
+        use: { loader: 'html-loader' }
       }
     ]
   },

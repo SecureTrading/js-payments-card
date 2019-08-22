@@ -28,20 +28,25 @@
     <input type="text" id="merchants-security-code" name="merchants-security-code"/>
   </div>
 
-  <div id="merchants-animated-card"></div>
-
-  <script type="text/javascript" src="stCard.js"></script>
+  <div id="st-animated-card" class="st-animated-card-wrapper"></div>
 </form>
+<script type="text/javascript" src="stcard.js"></script>
+<link rel="stylesheet" href="stcardstyle.css"/>
 <script>
     (function () {
         var card = Card({
-            cardNumberId: 'merchants-card-number',
-            expirationDateId: 'merchants-expiration-date',
-            securityCodeId: 'merchants-security-code'
+            ids: {
+                cardNumberId: 'merchants-card-number',
+                expirationDateId: 'merchants-expiration-date',
+                securityCodeId: 'merchants-security-code'
+            },
+            animatedCardContainer: 'st-animated-card'
         });
-        card.fieldChange('merchants-card-number');
-        card.fieldChange('merchants-expiration-date');
-        card.fieldChange('merchants-security-code');
+        card.onCardNumberInput('merchants-card-number', (element) => {
+            card.changeCardNumber(element.value);
+        });
+        card.onExpirationDateInput('merchants-expiration-date');
+        card.onSecurityCodeInput('merchants-security-code');
         console.log(card);
     })();
 </script>
