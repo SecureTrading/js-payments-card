@@ -297,7 +297,7 @@ class Card {
     }
 
     this._cardDetails.cardNumber = Card._setCardDetail(
-      formattedValue,
+      value,
       Card.CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER
     );
     this._animatedCardPan.textContent = this._cardDetails.cardNumber;

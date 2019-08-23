@@ -46,6 +46,7 @@ class STCard {
     cardNumber.addEventListener('input', (event) => {
       callback(event);
       this._validation.validate('PAN', cardNumber.id, 'merchants-card-number-error');
+      this._card.onCardNumberChanged(cardNumber.value);
       STCard._onChange(cardNumber.value, STCard.CARD_PAN_FIELD);
     })
   }
