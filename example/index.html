@@ -16,16 +16,19 @@
   <div class="merchants-form__field">
     <label for="merchants-card-number">Card number: </label>
     <input type="text" id="merchants-card-number" name="merchants-card-number"/>
+    <div class="error-label" id="merchants-card-number-error"></div>
   </div>
 
   <div class="merchants-form__field">
     <label for="merchants-expiration-date">Expiration date: </label>
     <input type="text" id="merchants-expiration-date" name="merchants-expiration-date"/>
+    <div class="error-label" id="merchants-expiration-date-error"></div>
   </div>
 
   <div class="merchants-form__field">
     <label for="merchants-security-code">Security code: </label>
     <input type="text" id="merchants-security-code" name="merchants-security-code"/>
+    <div class="error-label" id="merchants-security-code-error"></div>
   </div>
 
   <div id="st-animated-card" class="st-animated-card-wrapper"></div>
@@ -42,14 +45,14 @@
             },
             animatedCardContainer: 'st-animated-card'
         });
-        card.onCardNumberInput('merchants-card-number', (element) => {
-            card.changeCardNumber(element.value);
+        card.onCardNumberInput('merchants-card-number', (event) => {
+            console.log(event)
         });
-        card.onExpirationDateInput('merchants-expiration-date', (element) => {
-            card.changeExpirationDate(element.value);
+        card.onExpirationDateInput('merchants-expiration-date', (event) => {
+            console.log(event)
         });
-        card.onSecurityCodeInput('merchants-security-code', (element) => {
-            card.changeSecurityCode(element.value);
+        card.onSecurityCodeInput('merchants-security-code', (event) => {
+            console.log(event)
         });
         console.log(card);
     })();
