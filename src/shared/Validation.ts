@@ -1,76 +1,36 @@
 import Translator from "../models/Translation/Translation";
+import Formatter from "./Formatter";
 
 type input = "PAN" | "CODE" | 'DATE';
 
-/**
- * Base class for validation, aggregates common methods and attributes for all subclasses
- */
 export default class Validation {
   public static ERROR_FIELD_CLASS: string = 'error-field';
   private static LUHN_CHECK_ARRAY: number[] = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9];
-
-  /**
-   * Method for prevent inserting non digits
-   * @param event
-   */
-  public static isCharNumber(event: KeyboardEvent) {
-    const key: string = event.key;
-    const regex = new RegExp(Validation.ONLY_DIGITS_REGEXP);
-    return regex.test(key);
-  }
-
-  public setValidity(inputElement: HTMLInputElement, errorContent: string) {
-    return this._errorMessage && inputElement.setCustomValidity(errorContent);
-  }
-
-  /**
-   * Gets validity state from input object and sets proper Validation message.
-   * @param validityState
-   * @private
-   */
-  public static getMessage(validityState: ValidityState): string {
-    const {customError, patternMismatch, valid, valueMissing} = validityState;
-    let validationMessage: string = '';
-    if (!valid) {
-      if (valueMissing) {
-        validationMessage = 'field is required';
-      } else if (patternMismatch) {
-        validationMessage = 'pattern mismatch';
-      } else if (customError) {
-        validationMessage = 'Validation error';
-      } else {
-        validationMessage = '';
-      }
-    }
-    return validationMessage;
-  }
-
-  private static BACKEND_ERROR_FIELDS_NAMES = {
-    cardNumber: 'pan',
-    expirationDate: 'expirydate',
-    securityCode: 'securitycode'
-  };
-  private static ENTER_KEY_CODE = 13;
-  private static ONLY_DIGITS_REGEXP = /^[0-9]*$/;
-  private _translator: Translator;
-  private _luhnPassed: boolean;
   private _errorMessage: string;
+  private _luhnPassed: boolean;
+  private _translator: Translator;
 
   public validate(inputType: input, inputId: string, labelId: string) {
     const input = document.getElementById(inputId) as HTMLInputElement;
-    const label = document.getElementById(labelId) as HTMLInputElement;
-    const {validity, value} = input;
-    this._errorMessage = Validation.getMessage(validity);
-    inputType === 'PAN' && this._panDedicatedValidation(value, input);
-    this.setValidity(input, this._errorMessage);
-    label.textContent = this._errorMessage;
-    console.log(this._errorMessage);
+    const label = document.getElementById(labelId) as HTMLElement;
+
+    this._translator = new Translator('en_GB');
+    input.value = Formatter.trimNonNumeric(input.value);
+    this._getMessage(input.validity);
+    inputType === 'PAN' && this._panDedicatedValidation(input.value);
+    this._setValidity(input, this._errorMessage);
     this._toggleErrorClass(input);
+    this._translate(this._errorMessage);
+    this._insertErrorMessage(label);
   }
 
-  private _panDedicatedValidation(value: string, input: HTMLInputElement){
+  private _panDedicatedValidation(value: string) {
     this._luhnCheck(value);
-    !this._luhnPassed && (this._errorMessage = 'Luhn failed');
+    return !this._luhnPassed && (this._errorMessage = 'Value mismatch pattern');
+  }
+
+  private _insertErrorMessage(label: HTMLElement) {
+    return label.textContent = this._errorMessage;
   }
 
   private _luhnCheck(cardNumber: string) {
@@ -85,34 +45,36 @@ export default class Validation {
       const algorithmValue = bit ? Validation.LUHN_CHECK_ARRAY[val] : val;
       sum += algorithmValue;
     }
-
-    const luhnCheck = sum && sum % 10 === 0;
-    this._luhnPassed = luhnCheck;
-    return luhnCheck;
+    return this._luhnPassed = sum && sum % 10 === 0;
   }
 
 
-  private _toggleErrorClass = (input: HTMLInputElement) => {
-    input.validity.valid
+  private _toggleErrorClass(input: HTMLInputElement) {
+    return input.validity.valid
       ? input.classList.remove(Validation.ERROR_FIELD_CLASS)
       : input.classList.add(Validation.ERROR_FIELD_CLASS);
   };
 
-
-  private _getProperTranslation(
-    inputElement: HTMLInputElement,
-    isCardNumberInput: boolean,
-    validityState: string,
-    messageElement?: HTMLElement,
-    customErrorMessage?: string
-  ) {
-    if (messageElement && customErrorMessage && !isCardNumberInput) {
-      return this._translator.translate(customErrorMessage);
-    } else if (messageElement && inputElement.value && isCardNumberInput && !inputElement.validity.valid) {
-      return this._translator.translate('pattern mismatch');
-    } else {
-      return this._translator.translate(validityState);
-    }
+  private _setValidity(inputElement: HTMLInputElement, errorContent: string) {
+    return this._errorMessage && inputElement.setCustomValidity(errorContent);
   }
 
+  private _translate(content: string) {
+    return this._errorMessage = this._translator.translate(content);
+  }
+
+  private _getMessage(validityState: ValidityState) {
+    const {customError, patternMismatch, valid, valueMissing} = validityState;
+    if (!valid) {
+      if (valueMissing) {
+        this._errorMessage = 'field is required';
+      } else if (patternMismatch) {
+        this._errorMessage = 'pattern mismatch';
+      } else if (customError) {
+        this._errorMessage = 'Validation error';
+      } else {
+        this._errorMessage = '';
+      }
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import Card from './models/Card/Card';
-import template from './card.html';
 import Validation from "./shared/Validation";
+import BinLookup from "./shared/BinLookup";
+import template from "./card.html";
 
 interface IIds {
   cardNumberId: string,
@@ -28,22 +29,16 @@ class STCard {
     element.textContent = value;
   }
 
-
-  private _cardNumberElement: HTMLInputElement;
-  private _cardNumberValue: string;
-  private _securityCodeElement: HTMLInputElement;
-  private _securityCodeValue: string;
-  private _expirationDateElement: HTMLInputElement;
-  private _expirationDateValue: string;
-  private _cardBrand: string;
+  private _card: Card;
   private _animatedCardTargetContainer: HTMLDivElement;
+
 
   constructor(config: any) {
     const {animatedCardContainer} = config;
-    this._validation = new Validation();
     this._animatedCardTargetContainer = document.getElementById(animatedCardContainer) as HTMLDivElement;
     this._animatedCardTargetContainer.innerHTML = template;
-    Card.ifCardExists() && new Card();
+    this._validation = new Validation();
+    Card.ifCardExists() && (this._card = new Card());
   }
 
   public onCardNumberInput(id: string, callback: any) {

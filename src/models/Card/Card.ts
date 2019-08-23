@@ -5,6 +5,8 @@ import Selectors from '../../imports/card/card-selectors';
 import DomMethods from '../DomMethods/DomMethods';
 import Translator from '../Translation/Translation';
 import {ICardDetails, ISubscribeObject} from './ICard';
+import BinLookup from "../../shared/BinLookup";
+import template from "../../card.html";
 
 /**
  * Defines animated card, it's 'stateless' component which only receives data validated previously by other components.
@@ -85,14 +87,15 @@ class Card {
     securityCode: Card.CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE,
     type: Card.CARD_DETAILS_PLACEHOLDERS.TYPE
   };
+  private _binLookup: BinLookup;
   private _cardElement: HTMLElement = document.getElementById(Selectors.ANIMATED_CARD_INPUT_SELECTOR);
   private _translator: Translator;
 
   constructor() {
     this._translator = new Translator('en_GB');
+    this._binLookup = new BinLookup();
     this._setLabels();
     this._setDefaultInputsValues();
-    this._onCardNumberChanged({formattedValue: '', value: ''}); // Need to call this to use the default card type
   }
 
   /**
@@ -270,8 +273,7 @@ class Card {
    * @param cardNumber
    * @private
    */
-  private _setCardType(cardNumber: string) {
-    const type = 'visa';  // this._binLookup.binLookup(cardNumber).type;
+  private _setCardType(type: string) {
     return type ? type.toLowerCase() : type;
   }
 
@@ -283,10 +285,9 @@ class Card {
    * value: Value passed from component
    * @private
    */
-  private _onCardNumberChanged(data: ISubscribeObject) {
-    const {formattedValue, value} = data;
-    this._cardDetails.type = this._setCardType(value);
-
+  public onCardNumberChanged(value: string) {
+    const data = this._binLookup.binLookup(value);
+    this._cardDetails.type = data.type;
     if (this._cardDetails.securityCode === '') {
       if (this._cardDetails.type === Card.CARD_TYPES.AMEX) {
         this._cardDetails.securityCode = Card.CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED;
