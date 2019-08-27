@@ -1,5 +1,5 @@
 /**
- *
+ * Helper methods, mostly in manipulating DOM.
  */
 class DomMethods {
   /**

@@ -7,10 +7,4 @@ interface ICardDetails {
   type: string;
 }
 
-interface ISubscribeObject {
-  formattedValue: string;
-  validity?: object;
-  value: string;
-}
-
-export { ICardDetails, ISubscribeObject };
+export { ICardDetails };

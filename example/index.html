@@ -38,6 +38,7 @@
 <script>
     (function () {
         var card = Card({
+            locale: 'en_GB',
             ids: {
                 cardNumberId: 'merchants-card-number',
                 expirationDateId: 'merchants-expiration-date',
@@ -46,15 +47,14 @@
             animatedCardContainer: 'st-animated-card'
         });
         card.onCardNumberInput('merchants-card-number', (event) => {
-            //console.log(event)
+
         });
         card.onExpirationDateInput('merchants-expiration-date', (event) => {
-            //console.log(event)
+
         });
         card.onSecurityCodeInput('merchants-security-code', (event) => {
-            //console.log(event)
+
         });
-        //console.log(card);
     })();
 </script>
 </body>

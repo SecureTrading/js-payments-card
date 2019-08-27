@@ -1,5 +1,4 @@
 import i18next from 'i18next';
-// TypeScript has been set to import json it just warns about it in here
 // @ts-ignore
 import cy_GB from '../../imports/translations/cy_GB.json';
 // @ts-ignore
@@ -21,7 +20,6 @@ import no_NO from '../../imports/translations/no_NO.json';
 // @ts-ignore
 import sv_SE from '../../imports/translations/sv_SE.json';
 
-// TODO docstring - class to act as adapter in case we ever change out the translator mechanism
 class Translator {
   private static _translations = {
     LABEL_CARD_NUMBER: 'Card number',
