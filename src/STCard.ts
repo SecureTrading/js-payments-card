@@ -2,11 +2,13 @@ import Card from './models/Card/Card';
 import Validation from "./shared/Validation";
 // @ts-ignore
 import template from "./card.html";
+import Formatter from "./shared/Formatter";
 
 class STCard {
   private _animatedCardTargetContainer: HTMLDivElement;
   private _card: Card;
   private _validation: Validation;
+  private _formatter: Formatter;
 
   constructor(config: any) {
     const {animatedCardContainer} = config;
@@ -29,7 +31,10 @@ class STCard {
     expirationDate.addEventListener('input', (event) => {
       callback(event);
       this._card.onExpirationDateChanged(expirationDate.value);
-    })
+    });
+    expirationDate.addEventListener('paste', () => {
+      this._formatter.maskExpirationDateOnPaste()
+    });
   }
 
   public onSecurityCodeInput(id: string, callback: any) {

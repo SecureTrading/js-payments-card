@@ -15,6 +15,19 @@ export default class Utils {
     return Array.from(array).indexOf(item) >= 0;
   }
 
+  /**
+   * Clear whitespaces in expression.
+   * @param string
+   * @param regex
+   */
+  public static stripChars(string: string, regex: any) {
+    if (typeof regex === 'undefined') {
+      regex = /[\D+]/g;
+    }
+    return string.replace(regex, '');
+  }
+
+
   public static forEachBreak<inputType, returnType>(
     iterable: ArrayLike<inputType>,
     callback: (item: inputType) => returnType
