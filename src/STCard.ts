@@ -38,7 +38,7 @@ class STCard {
     this._animatedCardTargetContainer = document.getElementById(animatedCardContainer) as HTMLDivElement;
     this._animatedCardTargetContainer.innerHTML = template;
     this._validation = new Validation();
-    Card.ifCardExists() && (this._card = new Card());
+    Card.ifCardWrapperExist() && (this._card = new Card());
   }
 
   public onCardNumberInput(id: string, callback: any) {

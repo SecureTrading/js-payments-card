@@ -1,7 +1,21 @@
+import Selectors, {CARD_SELECTORS} from "../imports/card/card-selectors";
+import Translator from "../models/Translation/Translation";
+
 /**
  * Utils method class
  */
 export default class Utils {
+
+  protected translator: Translator;
+
+  constructor() {
+    this.translator = new Translator('en_GB');
+  }
+
+  public static ifCardWrapperExist() {
+    return document.getElementById(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR) as HTMLInputElement;
+  }
+
   /**
    * Test if item is in array
    * @param array An array of items
@@ -98,37 +112,18 @@ export default class Utils {
     return string.replace(regex, '');
   }
 
-  /**
-   * Gets last element of given array.
-   * @param array
-   */
-  public static getLastElementOfArray = (array: number[]) => array && array.slice(-1).pop();
 
-  /**
-   * Sets data to localStorage, previously converts
-   * them to string depends on type given.getPaymentSuccessStatus
-   * @param name
-   * @param data
-   */
-  public static setLocalStorageItem(name: string, data: any) {
-    if (data) {
-      const type = typeof data;
-      const isObject = type === 'object' && type !== null;
-      const dataToSet = isObject ? JSON.stringify(data) : data.toString();
-      localStorage.setItem(name, dataToSet);
-    }
-  }
+  protected static getLastElementOfArray = (array: number[]) => array && array.slice(-1).pop();
 
-  /**
-   * Sets data to localStorage, previously converts
-   * them to string depends on type given.
-   * @param name
-   * @param storage
-   */
-  public static getLocalStorageItem(name: string, storage: string) {
-    if (storage) {
-      const json = JSON.parse(storage);
-      return Object.keys(json).indexOf(name) >= 0 ? json[name] : '';
-    }
-  }
+  protected getElement = (id: string): HTMLInputElement => document.getElementById(id) as HTMLInputElement;
+
+  protected getContent = (value: string, placeholder: string) => (value ? value : placeholder);
+
+  protected setAttr = (id: string, attr: string, value: string) => this.getElement(id).setAttribute(attr, value);
+
+  // @ts-ignore
+  protected setContent = (id: string, text: string) => this.getElement(id).textContent = this.translator.translate(text);
+
+  protected toLower = (content: string | null) => content ? content.toLowerCase() : content;
+
 }
