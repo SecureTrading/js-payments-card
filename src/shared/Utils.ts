@@ -14,6 +14,23 @@ export default class Utils {
   public static inArray<T>(array: ArrayLike<T>, item: T) {
     return Array.from(array).indexOf(item) >= 0;
   }
+  public static getLastElementOfArray = (array: number[]) => array && array.slice(-1).pop();
+
+  public static setElementAttributes(attributes: any, element: HTMLInputElement) {
+    for (const attribute in attributes) {
+      if (attributes.hasOwnProperty(attribute)) {
+        const value = attributes[attribute];
+        if (Utils.inArray(['value'], attribute)) {
+          // @ts-ignore
+          element[attribute] = value;
+        } else if (value === false) {
+          element.removeAttribute(attribute);
+        } else {
+          element.setAttribute(attribute, value);
+        }
+      }
+    }
+  }
 
   /**
    * Clear whitespaces in expression.

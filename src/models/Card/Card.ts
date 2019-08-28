@@ -6,6 +6,7 @@ import Translator from '../Translation/Translation';
 import {ICardDetails} from './ICard';
 import BinLookup from "../../shared/BinLookup";
 import Utils from "../../shared/Utils";
+import Formatter from "../../shared/Formatter";
 
 /**
  * Represents html structure and basic behaviour of animated card.
@@ -23,15 +24,24 @@ class Card extends Utils {
     securityCode: CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE,
     type: CARD_DETAILS_PLACEHOLDERS.TYPE
   };
+  private _cardNumberId: string;
+  private _expirationDateId: string;
+  private _securityCodeId: string;
   private _securityCodePlaceholder: string;
   private _translator: Translator;
+  private _formatter: Formatter;
   private readonly _locale: string;
 
   constructor(config: any) {
     super();
+    const {ids: {cardNumberId, expirationDateId, securityCodeId}} = config;
+    this._cardNumberId = cardNumberId;
+    this._expirationDateId = expirationDateId;
+    this._securityCodeId = securityCodeId;
     this._locale = config.locale;
     this._binLookup = new BinLookup();
     this._translator = new Translator(this._locale);
+    this._formatter = new Formatter();
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_CREDIT_CARD_LABEL, Translator.translations.LABEL_CARD_NUMBER);
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_EXPIRATION_DATE_LABEL, Translator.translations.LABEL_EXPIRATION_DATE);
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_LABEL, Translator.translations.LABEL_SECURITY_CODE);
@@ -58,7 +68,7 @@ class Card extends Utils {
    * @param expirationDate
    */
   public onExpirationDateChanged(expirationDate: string) {
-    this._cardDetails.expirationDate = this.getContent(expirationDate, CARD_DETAILS_PLACEHOLDERS.EXPIRATION_DATE);
+    this._cardDetails.expirationDate = this._formatter.date(this.getContent(expirationDate, CARD_DETAILS_PLACEHOLDERS.EXPIRATION_DATE), this._expirationDateId);
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_EXPIRATION_DATE_ID, this._cardDetails.expirationDate);
   }
 
@@ -68,7 +78,7 @@ class Card extends Utils {
    * @param securityCode
    */
   public onSecurityCodeChanged(securityCode: string) {
-    this._cardDetails.securityCode = this.getContent(securityCode, this._securityCodePlaceholder);
+    this._cardDetails.securityCode = this._formatter.code(this.getContent(securityCode, this._securityCodePlaceholder), this._securityCodeId);
     this._setSecurityCode();
   }
 
@@ -100,7 +110,7 @@ class Card extends Utils {
    */
   private _setCardNumberDetails(cardNumber: string): string | null {
     const type: string = this.toLower(this._getCardDetails(cardNumber).type);
-    this._cardDetails.cardNumber = this.getContent(cardNumber, CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER);
+    this._cardDetails.cardNumber = this._formatter.number(this.getContent(cardNumber, CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER), this._cardNumberId);
     this._cardDetails.type = type;
     this._cardDetails.flippable = this._isFlippableCard(type);
     return type;

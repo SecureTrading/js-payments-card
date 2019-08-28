@@ -1,34 +1,53 @@
-import BinLookup from "./BinLookup";
 import Utils from "./Utils";
+import Validation from "./Validation";
 
-class Formatter {
-  public static SPECIAL_LENGTH_PATTERN: string = '^[0-9]{4}$';
-  public static STANDARD_LENGTH_PATTERN: string = '^[0-9]{3}$';
-  private static DATA_NON_NUMERIC: RegExp = /\D/g;
-  private static DATA_NON_NUMERIC_EXCEPT_SLASH: RegExp = /[^0-9\/]/g;
-  private static DATA_NON_NUMERIC_EXCEPT_SPACE: RegExp = /[^0-9\ ]/g;
-  private static BACKSPACE_KEY_CODE: number = 8;
+class Formatter extends Validation {
   private static BLOCKS: number[] = [2, 2];
-  private static DELETE_KEY_CODE: number = 46;
-  private static DISABLE_FIELD_CLASS: string = 'st-input--disabled';
-  private static DISABLE_STATE: string = 'disabled';
-  private static INPUT_PATTERN: string = '^(0[1-9]|1[0-2])\\/([0-9]{2})$';
-  private static ONLY_DIGITS_REGEXP = /[^\d]/g;
-  private static EXPIRATION_DATE_DIGITS_AMOUNT = 4;
-  private static EXPIRATION_DATE_FORMAT = /^([\d]{2})([\d]{2})$/;
-  private static EXPIRATION_DATE_REPLACE_VALUE = '$1/$2';
-  private _binLookup: BinLookup;
-  private _cardNumberValue: string;
-  private readonly _cardNumberField: HTMLInputElement;
   private _cardNumberFormatted: string;
-  private _date: any;
+  private _date: string[] = ['', ''];
 
-  constructor(){
-    this._binLookup = new BinLookup()
+  constructor() {
+    super();
   }
 
-  public maskExpirationDateOnPaste(data: string): string {
-    let date: string = Formatter._clearNonDigitsChars(data);
+  public number(cardNumber: string, id?: string) {
+    super.cardNumber(cardNumber);
+    const element: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
+    let cardNumberCleaned: string = this.removeNonDigits(this.cardNumberValue);
+    element.value = cardNumberCleaned;
+    const format = this.getCardDetails(cardNumberCleaned).format;
+    const previousValue = cardNumberCleaned;
+    let value = previousValue;
+    let selectEnd = element.selectionEnd;
+    let selectStart = element.selectionStart;
+
+    if (format && value.length > 0) {
+      value = Utils.stripChars(value, undefined);
+      let matches = value.match(new RegExp(format, '')).slice(1);
+      if (Utils.inArray(matches, undefined)) {
+        matches = matches.slice(0, matches.indexOf(undefined));
+      }
+      const matched = matches.length;
+      if (this.binLookup.binLookup(value).format && matched > 1) {
+        const preMatched = previousValue.split(' ').length;
+        selectStart += matched - preMatched;
+        selectEnd += matched - preMatched;
+        value = matches.join(' ');
+      }
+    }
+
+    if (value !== previousValue) {
+      Utils.setElementAttributes({value}, element);
+      element.setSelectionRange(selectStart, selectEnd);
+    }
+    this._cardNumberFormatted = value;
+    this.cardNumberValue = value.replace(/\s/g, '');
+    return value;
+  }
+
+  public date(value: string, id: string) {
+    super.expirationDate(value);
+    let date: string = this.removeNonDigits(value);
     let result: string = '';
 
     Formatter.BLOCKS.forEach(length => {
@@ -42,20 +61,15 @@ class Formatter {
     return this._getFixedDateString(result);
   }
 
-  public static trimNonNumericExceptSpace(data: string): string {
-    return data.trim().replace(Formatter.DATA_NON_NUMERIC_EXCEPT_SPACE, '');
+  public code(value: string, id: string) {
+    super.securityCode(value);
+    const element: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
+    let securityCodeCleaned: string = this.removeNonDigits(this.securityCodeValue);
+    element.value = securityCodeCleaned;
+    return securityCodeCleaned;
   }
 
-  public static trimNonNumeric(data: string): string {
-    return data.trim().replace(Formatter.DATA_NON_NUMERIC, '');
-  }
-
-  private static _clearNonDigitsChars = (value: string) => {
-    return value.replace(Formatter.ONLY_DIGITS_REGEXP, '');
-  };
-
-
-  private static _getISOFormatDate(previousDate: string[], currentDate: string[]) {
+  private _getISOFormatDate(previousDate: string[], currentDate: string[]) {
     const currentDateMonth = currentDate[0];
     const currentDateYear = currentDate[1];
     const previousDateYear = previousDate[1];
@@ -83,11 +97,11 @@ class Formatter {
     month = value.slice(0, 2);
     year = value.slice(2, 4);
     date = [month, year];
-    return Formatter._getISOFormatDate(this._date, date);
+    return this._getISOFormatDate(this._date, date);
   }
 
-  private _getValidatedDate(value: string) {
-    let date: string = Formatter._clearNonDigitsChars(value);
+  public maskDate(data: string): string {
+    let date: string = this.removeNonDigits(data);
     let result: string = '';
 
     Formatter.BLOCKS.forEach(length => {
@@ -101,58 +115,6 @@ class Formatter {
     return this._getFixedDateString(result);
   }
 
-  private _formatCardNumber(cardNumber: string) {
-    const format = this._getCardFormat(cardNumber);
-    const previousValue = cardNumber;
-    let value = previousValue;
-    let selectEnd = this._cardNumberField.selectionEnd;
-    let selectStart = this._cardNumberField.selectionStart;
-
-    if (format && value.length > 0) {
-      value = Utils.stripChars(value, undefined);
-      let matches = value.match(new RegExp(format, '')).slice(1);
-      if (Utils.inArray(matches, undefined)) {
-        matches = matches.slice(0, matches.indexOf(undefined));
-      }
-      const matched = matches.length;
-      if (this._binLookup.binLookup(value).format && matched > 1) {
-        const preMatched = previousValue.split(' ').length;
-        selectStart += matched - preMatched;
-        selectEnd += matched - preMatched;
-        value = matches.join(' ');
-      }
-    }
-
-    if (value !== previousValue) {
-      this._setCardNumberAttributes({ value });
-      this._cardNumberField.setSelectionRange(selectStart, selectEnd);
-    }
-    this._cardNumberFormatted = value;
-    this._cardNumberValue = value.replace(/\s/g, '');
-    return value;
-  }
-
-  private _getCardFormat = (cardNumber: string) =>
-    this._getBinLookupDetails(cardNumber) ? this._getBinLookupDetails(cardNumber).format : undefined;
-
-  private _getBinLookupDetails = (cardNumber: string) =>
-    this._binLookup.binLookup(cardNumber).type ? this._binLookup.binLookup(cardNumber) : undefined;
-
-  private _setCardNumberAttributes(attributes: any) {
-    for (const attribute in attributes) {
-      if (attributes.hasOwnProperty(attribute)) {
-        const value = attributes[attribute];
-        if (Utils.inArray(['value'], attribute)) {
-          // @ts-ignore
-          this._cardNumberField[attribute] = value;
-        } else if (value === false) {
-          this._cardNumberField.removeAttribute(attribute);
-        } else {
-          this._cardNumberField.setAttribute(attribute, value);
-        }
-      }
-    }
-  }
 }
 
 export default Formatter;
