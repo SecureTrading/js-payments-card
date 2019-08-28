@@ -24,20 +24,19 @@ class Card extends Utils {
     securityCode: CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE,
     type: CARD_DETAILS_PLACEHOLDERS.TYPE
   };
-  private _cardNumberId: string;
-  private _expirationDateId: string;
-  private _securityCodeId: string;
-  private _securityCodePlaceholder: string;
+  private readonly _cardNumberId: string;
+  private readonly _expirationDateId: string;
+  private readonly _securityCodeId: string;
   private _translator: Translator;
   private _formatter: Formatter;
   private readonly _locale: string;
 
   constructor(config: any) {
     super();
-    const {ids: {cardNumberId, expirationDateId, securityCodeId}} = config;
-    this._cardNumberId = cardNumberId;
-    this._expirationDateId = expirationDateId;
-    this._securityCodeId = securityCodeId;
+    const {fields: {inputs}} = config;
+    this._cardNumberId = inputs.cardNumber;
+    this._expirationDateId = inputs.expirationDate;
+    this._securityCodeId = inputs.securityCode;
     this._locale = config.locale;
     this._binLookup = new BinLookup();
     this._translator = new Translator(this._locale);
@@ -78,7 +77,7 @@ class Card extends Utils {
    * @param securityCode
    */
   public onSecurityCodeChanged(securityCode: string) {
-    this._cardDetails.securityCode = this._formatter.code(this.getContent(securityCode, this._securityCodePlaceholder), this._securityCodeId);
+    this._cardDetails.securityCode = this._formatter.code(securityCode, this._securityCodeId);
     this._setSecurityCode();
   }
 
@@ -122,7 +121,7 @@ class Card extends Utils {
    */
   private _addSecurityCodeOnBack() {
     DomMethods.addClass(this.getElement(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_FRONT_ID), CARD_CLASSES.CLASS_SECURITY_CODE_HIDDEN);
-    this.setContent(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_BACK_ID, this._cardDetails.securityCode);
+    this.setContent(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_BACK_ID, this._cardDetails.securityCode)
   }
 
   /**
@@ -141,23 +140,24 @@ class Card extends Utils {
    */
   private _setSecurityCode() {
     if (this._isAmex(this._cardDetails.type)) {
-      this._setSecurityCodePlaceholder(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_FRONT_FIELD_ID, CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED);
+      this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED);
       this._addSecurityCodeOnFront();
     } else {
-      this._setSecurityCodePlaceholder(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_BACK_ID, CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
+      this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
       this._addSecurityCodeOnBack();
     }
   }
 
   /**
-   * Sets security code placeholder and indicates it in proper target (front or back of animated card).
-   * @param target
-   * @param content
+   * Sets security code placeholder if security code is empty or / and card number is indicated and card brand has changed.
    * @private
    */
-  private _setSecurityCodePlaceholder(target: string, content: string) {
-    this._securityCodePlaceholder = content;
-    this.setContent(target, this._securityCodePlaceholder);
+  private _setSecurityCodePlaceholder(placeholder: string) {
+    if (this._cardDetails.securityCode === '' ||
+      this._cardDetails.securityCode === CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE ||
+      this._cardDetails.securityCode === CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED) {
+      this._cardDetails.securityCode = placeholder;
+    }
   }
 
   /**

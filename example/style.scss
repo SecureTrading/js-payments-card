@@ -78,6 +78,7 @@ html {
   font-size: 62.5%;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
 }
 
 
@@ -86,22 +87,7 @@ body {
   font-size: $font-size-body;
   line-height: $line-height-body;
   color: $color-body;
-
-  /* prettier-ignore */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-  Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-}
-
-.error-field {
-  background-color: #f8d7da;
-  color: #721c24;
-  border-color: $border-color-notification-error;
-}
-
-.error-label {
-  font-size: 1.3rem;
-  line-height: 1.6rem;
-  color: #ff4545;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 @-webkit-keyframes autofill {
@@ -117,23 +103,43 @@ input:-webkit-autofill.error-field {
   -webkit-animation-fill-mode: both;
 }
 
-.st-button-submit__disabled {
-  opacity: .5;
-  cursor: not-allowed;
+.merchants-form {
+  padding: 10rem;
+  width: 100%;
+  max-width: 100rem;
+  margin: auto;
 
-  &:hover {
-    background: transparent;
+  &__header {
+    display: flex;
+    justify-content: center;
   }
-}
 
-.st-input {
-  &--disabled {
-    opacity: .5;
-    cursor: not-allowed;
-    background: transparent;
+  &__field {
+    display: flex;
+    flex-direction: column;
+    min-height: 10rem;
+    justify-content: center;
+
+    &--error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border-color: $border-color-notification-error;
+    }
   }
-}
 
-.merchants-form__field {
-  min-height: 10rem;
+  &__input {
+    min-height: 3rem;
+    border-radius: .2rem;
+    box-shadow: none;
+    border: .1rem solid darkgrey;
+    margin: 1.5rem 0;
+    padding: .2rem .6rem;
+    color: darkgrey;
+  }
+
+  &__error {
+    font-size: 1.3rem;
+    line-height: 1.6rem;
+    color: #ff4545;
+  }
 }

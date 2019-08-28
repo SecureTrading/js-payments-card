@@ -8,28 +8,34 @@
   />
   <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
   <title>Secure Trading Example Form</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
 </head>
 
 <body>
-<form id="st-form" class="example-form" autocomplete="off" novalidate>
+<form id="st-form" class="merchants-form" autocomplete="off" novalidate>
+  <img src="./../dist/images/st.png" alt="Secure Trading" title="Secure Trading" width="300px"/>
+  <header>
+    <h1>Secure Trading Animated Card Example</h1>
+  </header>
 
-  <div class="merchants-form__field">
-    <label for="merchants-card-number">Card number: </label>
-    <input type="text" class="input" id="merchants-card-number" name="merchants-card-number"/>
-    <div class="error-label" id="merchants-card-number-error"></div>
-  </div>
+  <div class="merchants-form__fields">
+    <div class="merchants-form__field">
+      <label for="merchants-card-number">Card number: </label>
+      <input type="text" class="merchants-form__input" id="merchants-card-number" name="merchants-card-number"/>
+      <div class="merchants-form__error" id="merchants-card-number-error"></div>
+    </div>
 
-  <div class="merchants-form__field">
-    <label for="merchants-expiration-date">Expiration date: </label>
-    <input type="text" class="input" id="merchants-expiration-date" name="merchants-expiration-date"/>
-    <div class="error-label" id="merchants-expiration-date-error"></div>
-  </div>
+    <div class="merchants-form__field">
+      <label for="merchants-expiration-date">Expiration date: </label>
+      <input type="text" class="merchants-form__input" id="merchants-expiration-date" name="merchants-expiration-date"/>
+      <div class="merchants-form__error" id="merchants-expiration-date-error"></div>
+    </div>
 
-  <div class="merchants-form__field">
-    <label for="merchants-security-code">Security code: </label>
-    <input type="text" class="input" id="merchants-security-code" name="merchants-security-code"/>
-    <div class="error-label" id="merchants-security-code-error"></div>
+    <div class="merchants-form__field">
+      <label for="merchants-security-code">Security code: </label>
+      <input type="text" class="merchants-form__input" id="merchants-security-code" name="merchants-security-code"/>
+      <div class="merchants-form__error" id="merchants-security-code-error"></div>
+    </div>
   </div>
 
   <div id="st-animated-card" class="st-animated-card-wrapper"></div>
@@ -37,26 +43,33 @@
 <script type="text/javascript" src="stcard.js"></script>
 <link rel="stylesheet" href="stcardstyle.css"/>
 <script>
-    (function () {
-        var card = Card({
-            locale: 'en_GB',
-            ids: {
-                cardNumberId: 'merchants-card-number',
-                expirationDateId: 'merchants-expiration-date',
-                securityCodeId: 'merchants-security-code'
-            },
-            animatedCardContainer: 'st-animated-card'
-        });
-        card.onCardNumberInput('merchants-card-number', (event) => {
+  (function() {
+    var card = Card({
+      locale: "en_GB",
+      fields: {
+        inputs: {
+          cardNumber: "merchants-card-number",
+          expirationDate: "merchants-expiration-date",
+          securityCode: "merchants-security-code"
+        },
+        errors: {
+          cardNumber: "merchants-card-number-error",
+          expirationDate: "merchants-expiration-date-error",
+          securityCode: "merchants-security-code-error"
+        }
+      },
+      animatedCardContainer: "st-animated-card"
+    });
+    card.onCardNumberInput("merchants-card-number", (event) => {
 
-        });
-        card.onExpirationDateInput('merchants-expiration-date', (event) => {
+    });
+    card.onExpirationDateInput("merchants-expiration-date", (event) => {
 
-        });
-        card.onSecurityCodeInput('merchants-security-code', (event) => {
+    });
+    card.onSecurityCodeInput("merchants-security-code", (event) => {
 
-        });
-    })();
+    });
+  })();
 </script>
 </body>
 </html>

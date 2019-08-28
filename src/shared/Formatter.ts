@@ -2,8 +2,13 @@ import Utils from "./Utils";
 import Validation from "./Validation";
 
 class Formatter extends Validation {
-  private static BLOCKS: number[] = [2, 2];
+  private _blocks: number[] = [2, 2];
   private _cardNumberFormatted: string;
+  private _dateBlocks = {
+    currentDateMonth: '',
+    currentDateYear: '',
+    previousDateYear: '',
+  };
   private _date: string[] = ['', ''];
 
   constructor() {
@@ -15,7 +20,8 @@ class Formatter extends Validation {
     const element: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
     let cardNumberCleaned: string = this.removeNonDigits(this.cardNumberValue);
     element.value = cardNumberCleaned;
-    const format = this.getCardDetails(cardNumberCleaned).format;
+    const cardDetails = this.getCardDetails(cardNumberCleaned);
+    const format = cardDetails ? cardDetails.format : Formatter.STANDARD_FORMAT_PATTERN;
     const previousValue = cardNumberCleaned;
     let value = previousValue;
     let selectEnd = element.selectionEnd;
@@ -28,7 +34,7 @@ class Formatter extends Validation {
         matches = matches.slice(0, matches.indexOf(undefined));
       }
       const matched = matches.length;
-      if (this.binLookup.binLookup(value).format && matched > 1) {
+      if (format && matched > 1) {
         const preMatched = previousValue.split(' ').length;
         selectStart += matched - preMatched;
         selectEnd += matched - preMatched;
@@ -45,76 +51,59 @@ class Formatter extends Validation {
     return value;
   }
 
-  public date(value: string, id: string) {
+  public date(value: string, id?: string) {
     super.expirationDate(value);
-    let date: string = this.removeNonDigits(value);
+    const element: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
     let result: string = '';
 
-    Formatter.BLOCKS.forEach(length => {
-      if (date.length > 0) {
-        const sub = date.slice(0, length);
-        const rest = date.slice(length);
+    this._blocks.forEach(length => {
+      if (this.expirationDateValue.length > 0) {
+        const sub = this.expirationDateValue.slice(0, length);
+        const rest = this.expirationDateValue.slice(length);
         result += sub;
-        date = rest;
+        this.expirationDateValue = rest;
       }
     });
-    return this._getFixedDateString(result);
+    const fixedDate = this._dateFixed(result);
+    element.value = fixedDate;
+    return fixedDate;
   }
 
-  public code(value: string, id: string) {
+  public code(value: string, id?: string) {
     super.securityCode(value);
     const element: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
-    let securityCodeCleaned: string = this.removeNonDigits(this.securityCodeValue);
-    element.value = securityCodeCleaned;
-    return securityCodeCleaned;
+    element.value = this.securityCodeValue;
+    return this.securityCodeValue;
   }
 
-  private _getISOFormatDate(previousDate: string[], currentDate: string[]) {
-    const currentDateMonth = currentDate[0];
-    const currentDateYear = currentDate[1];
-    const previousDateYear = previousDate[1];
+  private _dateISO(previousDate: string[], currentDate: string[]) {
+    this._dateBlocks.currentDateMonth = currentDate[0];
+    this._dateBlocks.currentDateYear = currentDate[1];
+    this._dateBlocks.previousDateYear = previousDate[1];
 
-    if (!currentDateMonth.length) {
+    if (!this._dateBlocks.currentDateMonth.length) {
       return '';
-    } else if (currentDateMonth.length && currentDateYear.length === 0) {
-      return currentDateMonth;
-    } else if (currentDateMonth.length === 2 && currentDateYear.length === 1 && previousDateYear.length === 0) {
-      return currentDateMonth + '/' + currentDateYear;
+    } else if (this._dateBlocks.currentDateMonth.length && this._dateBlocks.currentDateYear.length === 0) {
+      return this._dateBlocks.currentDateMonth;
+    } else if (this._dateBlocks.currentDateMonth.length === 2 && this._dateBlocks.currentDateYear.length === 1 && this._dateBlocks.previousDateYear.length === 0) {
+      return this._dateBlocks.currentDateMonth + '/' + this._dateBlocks.currentDateYear;
     } else if (
-      (currentDateMonth.length === 2 &&
-        currentDateYear.length === 1 &&
-        (previousDateYear.length === 1 || previousDateYear.length === 2)) ||
-      (currentDateMonth.length === 2 && currentDateYear.length === 2)
+      (this._dateBlocks.currentDateMonth.length === 2 &&
+        this._dateBlocks.currentDateYear.length === 1 &&
+        (this._dateBlocks.previousDateYear.length === 1 || this._dateBlocks.previousDateYear.length === 2)) ||
+      (this._dateBlocks.currentDateMonth.length === 2 && this._dateBlocks.currentDateYear.length === 2)
     ) {
-      return currentDateMonth + '/' + currentDateYear;
+      return this._dateBlocks.currentDateMonth + '/' + this._dateBlocks.currentDateYear;
     }
   }
 
-  private _getFixedDateString(value: string) {
+  private _dateFixed(value: string) {
     let date: string[];
-    let month;
-    let year;
-    month = value.slice(0, 2);
-    year = value.slice(2, 4);
+    let month: string = value.slice(0, 2);
+    let year: string = value.slice(2, 4);
     date = [month, year];
-    return this._getISOFormatDate(this._date, date);
+    return this._dateISO(this._date, date);
   }
-
-  public maskDate(data: string): string {
-    let date: string = this.removeNonDigits(data);
-    let result: string = '';
-
-    Formatter.BLOCKS.forEach(length => {
-      if (date.length > 0) {
-        const sub = date.slice(0, length);
-        const rest = date.slice(length);
-        result += sub;
-        date = rest;
-      }
-    });
-    return this._getFixedDateString(result);
-  }
-
 }
 
 export default Formatter;
