@@ -1,5 +1,6 @@
 import Utils from "./Utils";
 import Validation from "./Validation";
+import { CARD_DETAILS_PLACEHOLDERS } from "../imports/card/card-type";
 
 class Formatter extends Validation {
   private _blocks: number[] = [2, 2];
@@ -48,6 +49,7 @@ class Formatter extends Validation {
     }
     this._cardNumberFormatted = value;
     this.cardNumberValue = value.replace(/\s/g, '');
+    value = value ? value : CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER;
     return value;
   }
 
@@ -64,8 +66,9 @@ class Formatter extends Validation {
         this.expirationDateValue = rest;
       }
     });
-    const fixedDate = this._dateFixed(result);
+    let fixedDate = this._dateFixed(result);
     element.value = fixedDate;
+    fixedDate = fixedDate ? fixedDate : CARD_DETAILS_PLACEHOLDERS.EXPIRATION_DATE;
     return fixedDate;
   }
 

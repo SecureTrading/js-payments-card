@@ -1,9 +1,9 @@
-import {cardsLogos} from '../../imports/card/card-logos';
-import {CARD_CLASSES, CARD_COMPONENT_CLASS, CARD_SELECTORS} from "../../imports/card/card-selectors";
-import {CARD_TYPES, CARD_DETAILS_PLACEHOLDERS} from "../../imports/card/card-type";
-import DomMethods from '../DomMethods/DomMethods';
-import Translator from '../Translation/Translation';
-import {ICardDetails} from './ICard';
+import { cardsLogos } from "../../imports/card/card-logos";
+import { CARD_CLASSES, CARD_COMPONENT_CLASS, CARD_SELECTORS } from "../../imports/card/card-selectors";
+import { CARD_TYPES, CARD_DETAILS_PLACEHOLDERS } from "../../imports/card/card-type";
+import DomMethods from "../DomMethods/DomMethods";
+import Translator from "../Translation/Translation";
+import { ICardDetails } from "./ICard";
 import BinLookup from "../../shared/BinLookup";
 import Utils from "../../shared/Utils";
 import Formatter from "../../shared/Formatter";
@@ -20,7 +20,7 @@ class Card extends Utils {
     cardNumber: CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER,
     expirationDate: CARD_DETAILS_PLACEHOLDERS.EXPIRATION_DATE,
     flippable: true,
-    logo: '',
+    logo: "",
     securityCode: CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE,
     type: CARD_DETAILS_PLACEHOLDERS.TYPE
   };
@@ -33,7 +33,7 @@ class Card extends Utils {
 
   constructor(config: any) {
     super();
-    const {fields: {inputs}} = config;
+    const { fields: { inputs } } = config;
     this._cardNumberId = inputs.cardNumber;
     this._expirationDateId = inputs.expirationDate;
     this._securityCodeId = inputs.securityCode;
@@ -92,7 +92,7 @@ class Card extends Utils {
         element.classList.remove(CARD_CLASSES.CLASS_FOR_ANIMATION) :
         element.classList.add(CARD_CLASSES.CLASS_FOR_ANIMATION);
     } else {
-      element.classList.remove(CARD_CLASSES.CLASS_FOR_ANIMATION)
+      element.classList.remove(CARD_CLASSES.CLASS_FOR_ANIMATION);
     }
   }
 
@@ -121,7 +121,7 @@ class Card extends Utils {
    */
   private _addSecurityCodeOnBack() {
     DomMethods.addClass(this.getElement(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_FRONT_ID), CARD_CLASSES.CLASS_SECURITY_CODE_HIDDEN);
-    this.setContent(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_BACK_ID, this._cardDetails.securityCode)
+    this.setContent(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_BACK_ID, this._cardDetails.securityCode);
   }
 
   /**
@@ -153,7 +153,7 @@ class Card extends Utils {
    * @private
    */
   private _setSecurityCodePlaceholder(placeholder: string) {
-    if (this._cardDetails.securityCode === '' ||
+    if (this._cardDetails.securityCode === "" ||
       this._cardDetails.securityCode === CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE ||
       this._cardDetails.securityCode === CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED) {
       this._cardDetails.securityCode = placeholder;
@@ -168,8 +168,8 @@ class Card extends Utils {
   private _clearThemeClasses() {
     DomMethods.removeClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${CARD_CLASSES.CLASS_LOGO}`);
     DomMethods.addClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${CARD_CLASSES.CLASS_LOGO_DEFAULT}`);
-    this.setAttr(CARD_SELECTORS.ANIMATED_CARD_SIDE_FRONT, 'class', `${CARD_CLASSES.CLASS_SIDE} ${CARD_CLASSES.CLASS_FRONT}`);
-    this.setAttr(CARD_SELECTORS.ANIMATED_CARD_SIDE_BACK, 'class', `${CARD_CLASSES.CLASS_SIDE} ${CARD_CLASSES.CLASS_BACK}`);
+    this.setAttr(CARD_SELECTORS.ANIMATED_CARD_SIDE_FRONT, "class", `${CARD_CLASSES.CLASS_SIDE} ${CARD_CLASSES.CLASS_FRONT}`);
+    this.setAttr(CARD_SELECTORS.ANIMATED_CARD_SIDE_BACK, "class", `${CARD_CLASSES.CLASS_SIDE} ${CARD_CLASSES.CLASS_BACK}`);
   }
 
   /**
@@ -210,12 +210,12 @@ class Card extends Utils {
    * @private
    */
   private _addLogo(): string {
-    const {logo, type} = this._cardDetails;
+    const { logo, type } = this._cardDetails;
     const ifImageExists: boolean = !!document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID);
     if (ifImageExists && !!logo) {
-      DomMethods.setProperty.apply(this, ['src', logo, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
+      DomMethods.setProperty.apply(this, ["src", logo, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
     } else if (!ifImageExists && !!logo) {
-      this._setLogo(logo, type)
+      this._setLogo(logo, type);
     } else {
       return logo;
     }
@@ -235,7 +235,7 @@ class Card extends Utils {
         id: CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID,
         src: logo
       },
-      'img'
+      "img"
     ]);
   }
 
@@ -265,7 +265,7 @@ class Card extends Utils {
    */
   private _setLogo(logo: string, type: string) {
     DomMethods.appendChildIntoDOM(CARD_CLASSES.CLASS_LOGO_WRAPPER, this._createLogo(logo, type));
-    DomMethods.setProperty.apply(this, ['src', logo, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
+    DomMethods.setProperty.apply(this, ["src", logo, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
   }
 }
 
