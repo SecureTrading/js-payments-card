@@ -6,7 +6,8 @@ class Validation {
   private static BACKSPACE_KEY_CODE: number = 8;
   private static CARD_NUMBER_DEFAULT_LENGTH: number = 16;
   private static DELETE_KEY_CODE: number = 46;
-  private static ONLY_DIGITS_REGEXP = /[^\d]/g;
+  private static MATCH_CHARS = /[^\d]/g;
+  private static MATCH_DIGITS = "^[0-9]*$";
   private static SECURITY_CODE_DEFAULT_LENGTH: number = 3;
   protected static STANDARD_FORMAT_PATTERN: string = "(\\d{1,4})(\\d{1,4})?(\\d{1,4})?(\\d+)?";
   protected binLookup: BinLookup;
@@ -67,8 +68,20 @@ class Validation {
   }
 
   protected removeNonDigits(value: string) {
-    return value.replace(Validation.ONLY_DIGITS_REGEXP, "");
+    return value.replace(Validation.MATCH_CHARS, "");
   };
+
+  private _isNumber(key: string) {
+    const regex = new RegExp(Validation.MATCH_DIGITS);
+    return regex.test(key);
+  }
+
+  public preventNonDigits(event: KeyboardEvent) {
+    const { key } = event;
+    if (!this._isNumber(key)) {
+      event.preventDefault();
+    }
+  }
 
   public validate(element: HTMLInputElement, errorContainer: HTMLElement, customCondition?: string) {
     const { customError, patternMismatch, typeMismatch, valid, valueMissing } = element.validity;
@@ -80,8 +93,10 @@ class Validation {
         element.classList.add("error");
         errorContainer.textContent = "Field is required";
       } else if (patternMismatch) {
+        element.classList.add("error");
         errorContainer.textContent = "Pattern mismatch";
       } else {
+        element.classList.add("error");
         errorContainer.textContent = customCondition;
       }
     } else {

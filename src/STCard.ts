@@ -1,4 +1,4 @@
-import Card from './models/Card/Card';
+import Card from "./models/Card/Card";
 import Validation from "./shared/Validation";
 // @ts-ignore
 import template from "./card.html";
@@ -15,7 +15,7 @@ class STCard {
   private _validation: Validation;
 
   constructor(config: any) {
-    const {fields: {inputs, errors}, animatedCardContainer} = config;
+    const { fields: { inputs, errors }, animatedCardContainer } = config;
     this._addInputs(inputs);
     this._addInputErrorLabels(errors);
     this._addAnimatedCardContainer(animatedCardContainer);
@@ -24,46 +24,62 @@ class STCard {
   }
 
   public onCardNumberInput(id: string, callback: any) {
-    this._cardNumberInput.addEventListener('input', (event) => {
+    this._cardNumberInput.addEventListener("blur", () => {
+      this._validation.validate(this._cardNumberInput, this._cardNumberError);
+    });
+
+    this._cardNumberInput.addEventListener("input", (event: KeyboardEvent) => {
       callback(event);
       this._card.onCardNumberChanged(this._cardNumberInput.value);
-      this._validation.keepCursorAtSamePosition(this._cardNumberInput)
+      this._validation.keepCursorAtSamePosition(this._cardNumberInput);
     });
-    this._cardNumberInput.addEventListener('paste', () => {
 
-    });
-    this._cardNumberInput.addEventListener('keydown', (event: any) => {
+    this._cardNumberInput.addEventListener("keydown", (event: any) => {
       this._validation.setKeyDownProperties(this._cardNumberInput, event);
+    });
+
+    this._cardNumberInput.addEventListener("keypress", (event: KeyboardEvent) => {
+      this._validation.preventNonDigits(event);
     });
   }
 
   public onExpirationDateInput(id: string, callback: any) {
-    this._expirationDateInput.addEventListener('input', (event) => {
+    this._expirationDateInput.addEventListener("blur", () => {
+      this._validation.validate(this._expirationDateInput, this._expirationDateError);
+    });
+
+    this._expirationDateInput.addEventListener("input", (event) => {
       callback(event);
       this._card.onExpirationDateChanged(this._expirationDateInput.value);
-      this._validation.keepCursorAtSamePosition(this._expirationDateInput)
+      this._validation.keepCursorAtSamePosition(this._expirationDateInput);
     });
-    this._expirationDateInput.addEventListener('paste', () => {
 
-    });
-    this._expirationDateInput.addEventListener('keydown', (event: any) => {
+    this._expirationDateInput.addEventListener("keydown", (event: any) => {
       this._validation.setKeyDownProperties(this._expirationDateInput, event);
+    });
+
+    this._expirationDateInput.addEventListener("keypress", (event: KeyboardEvent) => {
+      this._validation.preventNonDigits(event);
     });
   }
 
   public onSecurityCodeInput(id: string, callback: any) {
-    this._securityCodeInput.addEventListener('input', (event) => {
+    this._securityCodeInput.addEventListener("blur", () => {
+      this._validation.validate(this._securityCodeInput, this._securityCodeError);
+      this._card.flipCard();
+    });
+
+    this._securityCodeInput.addEventListener("focus", () => {
+      this._card.flipCard();
+    });
+
+    this._securityCodeInput.addEventListener("input", (event) => {
       callback(event);
       this._card.onSecurityCodeChanged(this._securityCodeInput.value);
     });
 
-    this._securityCodeInput.addEventListener('focus', (event) => {
-      this._card.flipCard();
-    });
-
-    this._securityCodeInput.addEventListener('blur', (event) => {
-      this._validation.validate(this._securityCodeInput, this._expirationDateError);
-      this._card.flipCard();
+    this._securityCodeInput.addEventListener("keypress", (event: KeyboardEvent) => {
+      this._validation.preventNonDigits(event);
     });
   }
 
