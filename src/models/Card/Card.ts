@@ -178,14 +178,17 @@ class Card extends Utils {
     }
   }
 
+  private _clearLogoClasses(toRemove: string, toAdd: string) {
+    DomMethods.removeClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${toRemove}`);
+    DomMethods.addClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${toAdd}`);
+  }
+
   /**
    * Reverts cards theme to default one - when type is not specified.
    * Deletes and adds appropriate classes to go back to 'grey' card.
    * @private
    */
   private _clearThemeClasses() {
-    DomMethods.removeClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${CARD_CLASSES.CLASS_LOGO}`);
-    DomMethods.addClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${CARD_CLASSES.CLASS_LOGO_DEFAULT}`);
     this.setAttr(
       CARD_SELECTORS.ANIMATED_CARD_SIDE_FRONT,
       'class',
@@ -204,6 +207,7 @@ class Card extends Utils {
    * @private
    */
   private _resetTheme() {
+    this._clearLogoClasses(CARD_CLASSES.CLASS_LOGO, CARD_CLASSES.CLASS_LOGO_DEFAULT);
     this._clearThemeClasses();
     this.clearContent(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_BACK_ID);
     this._removeLogo();
@@ -225,8 +229,8 @@ class Card extends Utils {
    * @private
    */
   private _setThemeClasses() {
-    DomMethods.removeClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${CARD_CLASSES.CLASS_LOGO_DEFAULT}`);
-    DomMethods.addClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${CARD_CLASSES.CLASS_LOGO}`);
+    this._clearLogoClasses(CARD_CLASSES.CLASS_LOGO_DEFAULT, CARD_CLASSES.CLASS_LOGO);
+    this._clearThemeClasses();
     DomMethods.addClass(
       this.getElement(CARD_SELECTORS.ANIMATED_CARD_SIDE_FRONT),
       this._returnThemeClass(this._cardDetails.type)
