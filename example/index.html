@@ -1,75 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta
-    name="viewport"
-    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-  />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-  <title>Secure Trading Example Form</title>
-  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Secure Trading Example Form</title>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
+  </head>
 
-<body>
-<form id="st-form" class="merchants-form" autocomplete="off" novalidate>
-<!--  <img src="./../dist/images/st.png" alt="Secure Trading" title="Secure Trading" width="300px"/>-->
-  <header>
-    <h1>Secure Trading Animated Card Example</h1>
-  </header>
+  <body>
+    <form id="st-form" class="merchants-form" autocomplete="off" novalidate>
+      <header>
+        <img
+          src="https://www.securetrading.com/wp-content/uploads/2018/08/st-logo.svg"
+          alt="Online Payment Partners"
+          id="logo"
+          height="54"
+          width="300"
+        />
+        <h2>Secure Trading Animated Card Example</h2>
+      </header>
 
-  <div class="merchants-form__fields">
-    <div class="merchants-form__field">
-      <label for="merchants-card-number">Card number: </label>
-      <input type="text" class="merchants-form__input" id="merchants-card-number" name="merchants-card-number"/>
-      <div class="merchants-form__error" id="merchants-card-number-error"></div>
-    </div>
+      <div class="merchants-form__fields">
+        <div class="merchants-form__field">
+          <label for="merchants-card-number">Card number: </label>
+          <input type="text" class="merchants-form__input" id="merchants-card-number" name="merchants-card-number" />
+          <div class="merchants-form__error" id="merchants-card-number-error"></div>
+        </div>
 
-    <div class="merchants-form__field">
-      <label for="merchants-expiration-date">Expiration date: </label>
-      <input type="text" class="merchants-form__input" id="merchants-expiration-date" name="merchants-expiration-date"/>
-      <div class="merchants-form__error" id="merchants-expiration-date-error"></div>
-    </div>
+        <div class="merchants-form__field">
+          <label for="merchants-expiration-date">Expiration date: </label>
+          <input
+            type="text"
+            class="merchants-form__input"
+            id="merchants-expiration-date"
+            name="merchants-expiration-date"
+          />
+          <div class="merchants-form__error" id="merchants-expiration-date-error"></div>
+        </div>
 
-    <div class="merchants-form__field">
-      <label for="merchants-security-code">Security code: </label>
-      <input type="text" class="merchants-form__input" id="merchants-security-code" name="merchants-security-code"/>
-      <div class="merchants-form__error" id="merchants-security-code-error"></div>
-    </div>
-  </div>
+        <div class="merchants-form__field">
+          <label for="merchants-security-code">Security code: </label>
+          <input
+            type="text"
+            class="merchants-form__input"
+            id="merchants-security-code"
+            name="merchants-security-code"
+          />
+          <div class="merchants-form__error" id="merchants-security-code-error"></div>
+        </div>
+      </div>
 
-  <div id="st-animated-card" class="st-animated-card-wrapper"></div>
-</form>
-<script type="text/javascript" src="stcard.js"></script>
-<link rel="stylesheet" href="stcardstyle.css"/>
-<script>
-  (function() {
-    var card = Card({
-      locale: "en_GB",
-      fields: {
-        inputs: {
-          cardNumber: "merchants-card-number",
-          expirationDate: "merchants-expiration-date",
-          securityCode: "merchants-security-code"
-        },
-        errors: {
-          cardNumber: "merchants-card-number-error",
-          expirationDate: "merchants-expiration-date-error",
-          securityCode: "merchants-security-code-error"
-        }
-      },
-      animatedCardContainer: "st-animated-card"
-    });
-    card.onCardNumberInput("merchants-card-number", (event) => {
-
-    });
-    card.onExpirationDateInput("merchants-expiration-date", (event) => {
-
-    });
-    card.onSecurityCodeInput("merchants-security-code", (event) => {
-
-    });
-  })();
-</script>
-</body>
+      <div id="st-animated-card" class="st-animated-card-wrapper"></div>
+    </form>
+    <script type="text/javascript" src="stcard.js"></script>
+    <link rel="stylesheet" href="stcardstyle.css" />
+    <script>
+      (function() {
+        var card = Card({
+          locale: 'en_GB',
+          fields: {
+            inputs: {
+              cardNumber: 'merchants-card-number',
+              expirationDate: 'merchants-expiration-date',
+              securityCode: 'merchants-security-code'
+            },
+            errors: {
+              cardNumber: 'merchants-card-number-error',
+              expirationDate: 'merchants-expiration-date-error',
+              securityCode: 'merchants-security-code-error'
+            }
+          },
+          animatedCardContainer: 'st-animated-card'
+        });
+        card.onCardNumberInput('merchants-card-number', event => {});
+        card.onExpirationDateInput('merchants-expiration-date', event => {});
+        card.onSecurityCodeInput('merchants-security-code', event => {});
+      })();
+    </script>
+  </body>
 </html>

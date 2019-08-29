@@ -1,4 +1,4 @@
-import Translator from "../../src/models/Translation/Translation";
+import Translator from '../../src/models/Translation/Translation';
 
 // @ts-ignore
 import cy_GB from '../../src/imports/translations/cy_GB.json';
@@ -29,7 +29,7 @@ describe('translate()', () => {
 
   it('should translate to french', () => {
     let translator = new Translator('fr_FR');
-    expect(translator.translate('Expiration date')).toBe('Date d\'expiration');
+    expect(translator.translate('Expiration date')).toBe("Date d'expiration");
   });
 
   it('should translate to german', () => {
