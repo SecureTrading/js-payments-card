@@ -1,24 +1,24 @@
-import BinLookup from "./BinLookup";
-import Utils from "./Utils";
-import { BrandDetailsType } from "../imports/card/card-type";
-import Translator from "../models/Translation/Translation";
+import { BrandDetailsType } from '../imports/card/card-type';
+import Translator from '../models/Translation/Translation';
+import BinLookup from './BinLookup';
+import Utils from './Utils';
 
 class Validation {
+  protected static STANDARD_FORMAT_PATTERN: string = '(\\d{1,4})(\\d{1,4})?(\\d{1,4})?(\\d+)?';
   private static BACKSPACE_KEY_CODE: number = 8;
   private static CARD_NUMBER_DEFAULT_LENGTH: number = 16;
   private static DELETE_KEY_CODE: number = 46;
   private static MATCH_CHARS = /[^\d]/g;
   private static MATCH_DIGITS = /^[0-9]*$/;
   private static SECURITY_CODE_DEFAULT_LENGTH: number = 3;
-  protected static STANDARD_FORMAT_PATTERN: string = "(\\d{1,4})(\\d{1,4})?(\\d{1,4})?(\\d+)?";
   private static LUHN_CHECK_ARRAY: number[] = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9];
-  private static ERROR_CLASS: string = "error";
+  private static ERROR_CLASS: string = 'error';
 
   protected binLookup: BinLookup;
-  private _translator: Translator;
   protected cardNumberValue: string;
   protected expirationDateValue: string;
   protected securityCodeValue: string;
+  private _translator: Translator;
   private _currentKeyCode: number;
   private _selectionRangeEnd: number;
   private _selectionRangeStart: number;
@@ -44,16 +44,75 @@ class Validation {
 
   public luhnCheck(element: HTMLInputElement) {
     const { value } = element;
-    this._luhnAlgorithm(value) ?
-      element.setCustomValidity("") :
-      element.setCustomValidity("luhn");
+    this._luhnAlgorithm(value) ? element.setCustomValidity('') : element.setCustomValidity('luhn');
+  }
+
+  public validate(element: HTMLInputElement, errorContainer: HTMLElement) {
+    const { customError, patternMismatch, valid, valueMissing } = element.validity;
+    if (!valid) {
+      if (valueMissing) {
+        this._setError(element, errorContainer, 'Field is required');
+      } else if (patternMismatch) {
+        this._setError(element, errorContainer, 'Value mismatch pattern');
+      } else if (customError) {
+        this._setError(element, errorContainer, 'Value mismatch pattern');
+      } else {
+        this._setError(element, errorContainer, 'Invalid field');
+      }
+    } else {
+      this._removeError(element, errorContainer);
+    }
+  }
+
+  public preventNonDigits(event: KeyboardEvent) {
+    const { key } = event;
+    if (!this._isNumber(key)) {
+      event.preventDefault();
+    }
   }
 
   protected cardNumber(value: string) {
     this.cardNumberValue = this.removeNonDigits(value);
     const cardDetails = this.getCardDetails(this.cardNumberValue);
-    const length = cardDetails.type ? Utils.getLastElementOfArray(cardDetails.length) : Validation.CARD_NUMBER_DEFAULT_LENGTH;
+    const length = cardDetails.type
+      ? Utils.getLastElementOfArray(cardDetails.length)
+      : Validation.CARD_NUMBER_DEFAULT_LENGTH;
     this.cardNumberValue = this.limitLength(this.cardNumberValue, length);
+  }
+
+  protected expirationDate(value: string) {
+    this.expirationDateValue = this.removeNonDigits(value);
+  }
+
+  protected securityCode(value: string) {
+    this.securityCodeValue = this.removeNonDigits(value);
+    const cardDetails = this.getCardDetails(this.cardNumberValue);
+    const length = cardDetails.type
+      ? Utils.getLastElementOfArray(cardDetails.cvcLength)
+      : Validation.SECURITY_CODE_DEFAULT_LENGTH;
+    this.securityCodeValue = this.limitLength(this.securityCodeValue, length);
+  }
+
+  protected getCardDetails(cardNumber: string = ''): BrandDetailsType {
+    return this.binLookup.binLookup(cardNumber);
+  }
+
+  protected _isPressedKeyDelete(): boolean {
+    return (
+      this._currentKeyCode === Validation.DELETE_KEY_CODE || this._currentKeyCode === Validation.BACKSPACE_KEY_CODE
+    );
+  }
+
+  protected limitLength(value: string, length: number): string {
+    return value.substring(0, length);
+  }
+
+  protected removeNonDigits(value: string): string {
+    return value.replace(Validation.MATCH_CHARS, '');
+  }
+
+  private _isNumber(key: string): boolean {
+    return this._matchDigitsRegexp.test(key);
   }
 
   /**
@@ -67,7 +126,7 @@ class Validation {
    * @private
    */
   private _luhnAlgorithm(cardNumber: string): boolean {
-    const cardNumberWithoutSpaces = cardNumber.replace(/\s/g, "");
+    const cardNumberWithoutSpaces = cardNumber.replace(/\s/g, '');
     let bit = 1;
     let cardNumberLength = cardNumberWithoutSpaces.length;
     let sum = 0;
@@ -81,47 +140,6 @@ class Validation {
     return sum && sum % 10 === 0;
   }
 
-  protected expirationDate(value: string) {
-    this.expirationDateValue = this.removeNonDigits(value);
-  }
-
-  protected securityCode(value: string) {
-    this.securityCodeValue = this.removeNonDigits(value);
-    const cardDetails = this.getCardDetails(this.cardNumberValue);
-    const length = cardDetails.type ? Utils.getLastElementOfArray(cardDetails.cvcLength) : Validation.SECURITY_CODE_DEFAULT_LENGTH;
-    this.securityCodeValue = this.limitLength(this.securityCodeValue, length);
-  }
-
-  protected getCardDetails(cardNumber: string = ""): BrandDetailsType {
-    return this.binLookup.binLookup(cardNumber);
-  }
-
-  protected _isPressedKeyDelete(): boolean {
-    return (
-      this._currentKeyCode === Validation.DELETE_KEY_CODE ||
-      this._currentKeyCode === Validation.BACKSPACE_KEY_CODE
-    );
-  }
-
-  protected limitLength(value: string, length: number): string {
-    return value.substring(0, length);
-  }
-
-  protected removeNonDigits(value: string): string {
-    return value.replace(Validation.MATCH_CHARS, "");
-  };
-
-  private _isNumber(key: string): boolean {
-    return this._matchDigitsRegexp.test(key);
-  }
-
-  public preventNonDigits(event: KeyboardEvent) {
-    const { key } = event;
-    if (!this._isNumber(key)) {
-      event.preventDefault();
-    }
-  }
-
   private _setError(element: HTMLInputElement, errorContainer: HTMLElement, errorMessage: string) {
     element.classList.add(Validation.ERROR_CLASS);
     errorContainer.textContent = this._translator.translate(errorMessage);
@@ -129,24 +147,7 @@ class Validation {
 
   private _removeError(element: HTMLInputElement, errorContainer: HTMLElement) {
     element.classList.remove(Validation.ERROR_CLASS);
-    errorContainer.textContent = "";
-  }
-
-  public validate(element: HTMLInputElement, errorContainer: HTMLElement) {
-    const { customError, patternMismatch, valid, valueMissing } = element.validity;
-    if (!valid) {
-      if (valueMissing) {
-        this._setError(element, errorContainer, "Field is required");
-      } else if (patternMismatch) {
-        this._setError(element, errorContainer, "Value mismatch pattern");
-      } else if (customError) {
-        this._setError(element, errorContainer, "Value mismatch pattern");
-      } else {
-        this._setError(element, errorContainer, "Invalid field");
-      }
-    } else {
-      this._removeError(element, errorContainer);
-    }
+    errorContainer.textContent = '';
   }
 }
 

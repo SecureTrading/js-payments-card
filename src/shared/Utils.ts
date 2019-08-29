@@ -1,12 +1,7 @@
-import {CARD_SELECTORS} from "../imports/card/card-selectors";
-import Translator from "../models/Translation/Translation";
+import { CARD_SELECTORS } from '../imports/card/card-selectors';
+import Translator from '../models/Translation/Translation';
 
 export default class Utils {
-  protected translator: Translator;
-  constructor() {
-    this.translator = new Translator('en_GB');
-  }
-
   public static ifCardWrapperExist() {
     return document.getElementById(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR) as HTMLInputElement;
   }
@@ -14,6 +9,7 @@ export default class Utils {
   public static inArray<T>(array: ArrayLike<T>, item: T) {
     return Array.from(array).indexOf(item) >= 0;
   }
+
   public static getLastElementOfArray = (array: number[]) => array && array.slice(-1).pop();
 
   public static setElementAttributes(attributes: any, element: HTMLInputElement) {
@@ -44,7 +40,6 @@ export default class Utils {
     return string.replace(regex, '');
   }
 
-
   public static forEachBreak<inputType, returnType>(
     iterable: ArrayLike<inputType>,
     callback: (item: inputType) => returnType
@@ -60,10 +55,17 @@ export default class Utils {
     return result || null;
   }
 
+  protected translator: Translator;
+
+  constructor() {
+    this.translator = new Translator('en_GB');
+  }
+
   protected getElement = (id: string): HTMLInputElement => document.getElementById(id) as HTMLInputElement;
   protected getContent = (value: string, placeholder: string) => (value ? value : placeholder);
-  protected setContent = (id: string, text: string) => this.getElement(id).textContent = this.translator.translate(text);
+  protected setContent = (id: string, text: string) =>
+    (this.getElement(id).textContent = this.translator.translate(text));
   protected setAttr = (id: string, attr: string, value: string) => this.getElement(id).setAttribute(attr, value);
-  protected toLower = (content: string | null) => content ? content.toLowerCase() : content;
+  protected toLower = (content: string | null) => (content ? content.toLowerCase() : content);
   protected clearContent = (id: string) => this.setContent(id, '');
 }

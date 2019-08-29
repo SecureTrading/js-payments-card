@@ -1,6 +1,6 @@
-import Utils from "./Utils";
-import Validation from "./Validation";
-import { CARD_DETAILS_PLACEHOLDERS } from "../imports/card/card-type";
+import { CARD_DETAILS_PLACEHOLDERS } from '../imports/card/card-type';
+import Utils from './Utils';
+import Validation from './Validation';
 
 class Formatter extends Validation {
   private _blocks: number[] = [2, 2];
@@ -8,7 +8,7 @@ class Formatter extends Validation {
   private _dateBlocks = {
     currentDateMonth: '',
     currentDateYear: '',
-    previousDateYear: '',
+    previousDateYear: ''
   };
   private _date: string[] = ['', ''];
 
@@ -19,7 +19,7 @@ class Formatter extends Validation {
   public number(cardNumber: string, id?: string) {
     super.cardNumber(cardNumber);
     const element: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
-    let cardNumberCleaned: string = this.removeNonDigits(this.cardNumberValue);
+    const cardNumberCleaned: string = this.removeNonDigits(this.cardNumberValue);
     element.value = cardNumberCleaned;
     const cardDetails = this.getCardDetails(cardNumberCleaned);
     const format = cardDetails ? cardDetails.format : Formatter.STANDARD_FORMAT_PATTERN;
@@ -44,7 +44,7 @@ class Formatter extends Validation {
     }
 
     if (value !== previousValue) {
-      Utils.setElementAttributes({value}, element);
+      Utils.setElementAttributes({ value }, element);
       element.setSelectionRange(selectStart, selectEnd);
     }
     this._cardNumberFormatted = value;
@@ -88,7 +88,11 @@ class Formatter extends Validation {
       return '';
     } else if (this._dateBlocks.currentDateMonth.length && this._dateBlocks.currentDateYear.length === 0) {
       return this._dateBlocks.currentDateMonth;
-    } else if (this._dateBlocks.currentDateMonth.length === 2 && this._dateBlocks.currentDateYear.length === 1 && this._dateBlocks.previousDateYear.length === 0) {
+    } else if (
+      this._dateBlocks.currentDateMonth.length === 2 &&
+      this._dateBlocks.currentDateYear.length === 1 &&
+      this._dateBlocks.previousDateYear.length === 0
+    ) {
       return this._dateBlocks.currentDateMonth + '/' + this._dateBlocks.currentDateYear;
     } else if (
       (this._dateBlocks.currentDateMonth.length === 2 &&
@@ -102,8 +106,8 @@ class Formatter extends Validation {
 
   private _dateFixed(value: string) {
     let date: string[];
-    let month: string = value.slice(0, 2);
-    let year: string = value.slice(2, 4);
+    const month: string = value.slice(0, 2);
+    const year: string = value.slice(2, 4);
     date = [month, year];
     return this._dateISO(this._date, date);
   }

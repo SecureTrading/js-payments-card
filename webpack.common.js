@@ -1,46 +1,60 @@
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const StyleLintPlugin = require('stylelint-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+const path = require("path");
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const StyleLintPlugin = require("stylelint-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
   entry: {
-    example: './example/index.ts',
-    stcard: './src/STCard.ts',
-    stcardstyle: './src/styles/card.scss'
+    example: "./example/index.ts",
+    stcard: "./src/STCard.ts",
+    stcardstyle: "./src/styles/card.scss"
   },
   output: {
-    filename: '[name].js',
-    path: path.join(__dirname, 'dist'),
-    library: 'Card',
-    libraryExport: 'default',
-    libraryTarget: 'var',
-    publicPath: ''
+    filename: "[name].js",
+    path: path.join(__dirname, "dist"),
+    library: "Card",
+    libraryExport: "default",
+    libraryTarget: "var",
+    publicPath: ""
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true,
+        terserOptions: {}
+      })
+    ]
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: './example/index.html',
-      chunks: ['example']
+      filename: "index.html",
+      template: "./example/index.html",
+      chunks: ["example"]
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
+      filename: "[name].css",
+      chunkFilename: "[id].css"
     }),
     new CopyPlugin([
       {
-        from: 'src/images',
-        to: 'images',
+        from: "src/images",
+        to: "images",
         test: /([^/]+)\/(.+)\.(png|jpg|jpeg|gif|ico|svg|webp)$/,
         force: true
       }
     ]),
+
     new StyleLintPlugin(),
+    new BundleAnalyzerPlugin(),
     new FriendlyErrorsWebpackPlugin(),
     new webpack.DefinePlugin({
       HOST: JSON.stringify(process.env.npm_package_config_host)
@@ -53,34 +67,34 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               importLoaders: 1
             }
           },
-          'postcss-loader',
-          'sass-loader'
+          "postcss-loader",
+          "sass-loader"
         ]
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: ['file-loader']
+        use: ["file-loader"]
       },
       {
         test: /\.tsx?|js$/,
-        use: 'babel-loader',
+        use: "babel-loader",
         include: [
-          path.join(__dirname, 'src'),
-          path.join(__dirname, 'test'),
-          path.join(__dirname, 'example'),
+          path.join(__dirname, "src"),
+          path.join(__dirname, "test"),
+          path.join(__dirname, "example")
         ]
       },
       {
         test: /\.ts$/,
-        enforce: 'pre',
+        enforce: "pre",
         use: [
           {
-            loader: 'tslint-loader',
+            loader: "tslint-loader",
             options: {
               emitErrors: false
             }
@@ -91,11 +105,11 @@ module.exports = {
       {
         test: /\.html$/,
         exclude: /node_modules/,
-        use: { loader: 'html-loader' }
+        use: { loader: "html-loader" }
       }
     ]
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: [".ts", ".js"]
   }
 };

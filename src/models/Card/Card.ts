@@ -1,12 +1,12 @@
-import { cardsLogos } from "../../imports/card/card-logos";
-import { CARD_CLASSES, CARD_COMPONENT_CLASS, CARD_SELECTORS } from "../../imports/card/card-selectors";
-import { CARD_TYPES, CARD_DETAILS_PLACEHOLDERS } from "../../imports/card/card-type";
-import DomMethods from "../DomMethods/DomMethods";
-import Translator from "../Translation/Translation";
-import { ICardDetails } from "./ICard";
-import BinLookup from "../../shared/BinLookup";
-import Utils from "../../shared/Utils";
-import Formatter from "../../shared/Formatter";
+import { cardsLogos } from '../../imports/card/card-logos';
+import { CARD_CLASSES, CARD_COMPONENT_CLASS, CARD_SELECTORS } from '../../imports/card/card-selectors';
+import { CARD_DETAILS_PLACEHOLDERS, CARD_TYPES } from '../../imports/card/card-type';
+import BinLookup from '../../shared/BinLookup';
+import Formatter from '../../shared/Formatter';
+import Utils from '../../shared/Utils';
+import DomMethods from '../DomMethods/DomMethods';
+import Translator from '../Translation/Translation';
+import { ICardDetails } from './ICard';
 
 /**
  * Represents html structure and basic behaviour of animated card.
@@ -20,7 +20,7 @@ class Card extends Utils {
     cardNumber: CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER,
     expirationDate: CARD_DETAILS_PLACEHOLDERS.EXPIRATION_DATE,
     flippable: true,
-    logo: "",
+    logo: '',
     securityCode: CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE,
     type: CARD_DETAILS_PLACEHOLDERS.TYPE
   };
@@ -33,7 +33,9 @@ class Card extends Utils {
 
   constructor(config: any) {
     super();
-    const { fields: { inputs } } = config;
+    const {
+      fields: { inputs }
+    } = config;
     this._cardNumberId = inputs.cardNumber;
     this._expirationDateId = inputs.expirationDate;
     this._securityCodeId = inputs.securityCode;
@@ -67,7 +69,10 @@ class Card extends Utils {
    * @param expirationDate
    */
   public onExpirationDateChanged(expirationDate: string) {
-    this._cardDetails.expirationDate = this._formatter.date(this.getContent(expirationDate, CARD_DETAILS_PLACEHOLDERS.EXPIRATION_DATE), this._expirationDateId);
+    this._cardDetails.expirationDate = this._formatter.date(
+      this.getContent(expirationDate, CARD_DETAILS_PLACEHOLDERS.EXPIRATION_DATE),
+      this._expirationDateId
+    );
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_EXPIRATION_DATE_ID, this._cardDetails.expirationDate);
   }
 
@@ -88,9 +93,9 @@ class Card extends Utils {
   public flipCard() {
     const element = this.getElement(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR);
     if (this._isFlippableCard(this._cardDetails.type)) {
-      element.classList.contains(CARD_CLASSES.CLASS_FOR_ANIMATION) ?
-        element.classList.remove(CARD_CLASSES.CLASS_FOR_ANIMATION) :
-        element.classList.add(CARD_CLASSES.CLASS_FOR_ANIMATION);
+      element.classList.contains(CARD_CLASSES.CLASS_FOR_ANIMATION)
+        ? element.classList.remove(CARD_CLASSES.CLASS_FOR_ANIMATION)
+        : element.classList.add(CARD_CLASSES.CLASS_FOR_ANIMATION);
     } else {
       element.classList.remove(CARD_CLASSES.CLASS_FOR_ANIMATION);
     }
@@ -109,7 +114,10 @@ class Card extends Utils {
    */
   private _setCardNumberDetails(cardNumber: string): string | null {
     const type: string = this.toLower(this.getCardDetails(cardNumber).type);
-    this._cardDetails.cardNumber = this._formatter.number(this.getContent(cardNumber, CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER), this._cardNumberId);
+    this._cardDetails.cardNumber = this._formatter.number(
+      this.getContent(cardNumber, CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER),
+      this._cardNumberId
+    );
     this._cardDetails.type = type;
     this._cardDetails.flippable = this._isFlippableCard(type);
     return type;
@@ -120,7 +128,10 @@ class Card extends Utils {
    * @private
    */
   private _addSecurityCodeOnBack() {
-    DomMethods.addClass(this.getElement(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_FRONT_ID), CARD_CLASSES.CLASS_SECURITY_CODE_HIDDEN);
+    DomMethods.addClass(
+      this.getElement(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_FRONT_ID),
+      CARD_CLASSES.CLASS_SECURITY_CODE_HIDDEN
+    );
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_BACK_ID, this._cardDetails.securityCode);
   }
 
@@ -129,18 +140,21 @@ class Card extends Utils {
    * @private
    */
   private _addSecurityCodeOnFront() {
-    DomMethods.removeClass(this.getElement(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_FRONT_ID), CARD_CLASSES.CLASS_SECURITY_CODE_HIDDEN);
+    DomMethods.removeClass(
+      this.getElement(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_FRONT_ID),
+      CARD_CLASSES.CLASS_SECURITY_CODE_HIDDEN
+    );
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_FRONT_FIELD_ID, this._cardDetails.securityCode);
   }
 
   /**
    * Sets proper security code placeholder and security code value, depends on if card number is Amex or not
-   * (generally if it's "flippable" or not). List of "non-flippable" cards is defined in this class `${NOT_FLIPPED_CARDS}.
+   * (generally if it's "flippable" or not). List of "non-flippable" cards is defined in this class
+   * `${NOT_FLIPPED_CARDS}.
    * @private
    */
   private _setSecurityCode() {
     if (this._isAmex(this._cardDetails.type)) {
-
       this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED);
       this._addSecurityCodeOnFront();
     } else {
@@ -150,13 +164,16 @@ class Card extends Utils {
   }
 
   /**
-   * Sets security code placeholder if security code is empty or / and card number is indicated and card brand has changed.
+   * Sets security code placeholder if security code is empty or / and card number
+   * is indicated and card brand has changed.
    * @private
    */
   private _setSecurityCodePlaceholder(placeholder: string) {
-    if (this._cardDetails.securityCode === "" ||
+    if (
+      this._cardDetails.securityCode === '' ||
       this._cardDetails.securityCode === CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE ||
-      this._cardDetails.securityCode === CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED) {
+      this._cardDetails.securityCode === CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED
+    ) {
       this._cardDetails.securityCode = placeholder;
     }
   }
@@ -169,8 +186,16 @@ class Card extends Utils {
   private _clearThemeClasses() {
     DomMethods.removeClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${CARD_CLASSES.CLASS_LOGO}`);
     DomMethods.addClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${CARD_CLASSES.CLASS_LOGO_DEFAULT}`);
-    this.setAttr(CARD_SELECTORS.ANIMATED_CARD_SIDE_FRONT, "class", `${CARD_CLASSES.CLASS_SIDE} ${CARD_CLASSES.CLASS_FRONT}`);
-    this.setAttr(CARD_SELECTORS.ANIMATED_CARD_SIDE_BACK, "class", `${CARD_CLASSES.CLASS_SIDE} ${CARD_CLASSES.CLASS_BACK}`);
+    this.setAttr(
+      CARD_SELECTORS.ANIMATED_CARD_SIDE_FRONT,
+      'class',
+      `${CARD_CLASSES.CLASS_SIDE} ${CARD_CLASSES.CLASS_FRONT}`
+    );
+    this.setAttr(
+      CARD_SELECTORS.ANIMATED_CARD_SIDE_BACK,
+      'class',
+      `${CARD_CLASSES.CLASS_SIDE} ${CARD_CLASSES.CLASS_BACK}`
+    );
   }
 
   /**
@@ -202,8 +227,14 @@ class Card extends Utils {
   private _setThemeClasses() {
     DomMethods.removeClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${CARD_CLASSES.CLASS_LOGO_DEFAULT}`);
     DomMethods.addClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${CARD_CLASSES.CLASS_LOGO}`);
-    DomMethods.addClass(this.getElement(CARD_SELECTORS.ANIMATED_CARD_SIDE_FRONT), this._returnThemeClass(this._cardDetails.type));
-    DomMethods.addClass(this.getElement(CARD_SELECTORS.ANIMATED_CARD_SIDE_BACK), this._returnThemeClass(this._cardDetails.type));
+    DomMethods.addClass(
+      this.getElement(CARD_SELECTORS.ANIMATED_CARD_SIDE_FRONT),
+      this._returnThemeClass(this._cardDetails.type)
+    );
+    DomMethods.addClass(
+      this.getElement(CARD_SELECTORS.ANIMATED_CARD_SIDE_BACK),
+      this._returnThemeClass(this._cardDetails.type)
+    );
   }
 
   /**
@@ -214,7 +245,7 @@ class Card extends Utils {
     const { logo, type } = this._cardDetails;
     const ifImageExists: boolean = !!document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID);
     if (ifImageExists && !!logo) {
-      DomMethods.setProperty.apply(this, ["src", logo, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
+      DomMethods.setProperty.apply(this, ['src', logo, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
     } else if (!ifImageExists && !!logo) {
       this._setLogo(logo, type);
     } else {
@@ -236,7 +267,7 @@ class Card extends Utils {
         id: CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID,
         src: logo
       },
-      "img"
+      'img'
     ]);
   }
 
@@ -255,7 +286,10 @@ class Card extends Utils {
    * @private
    */
   private _removeLogo() {
-    DomMethods.removeChildFromDOM.apply(this, [CARD_CLASSES.CLASS_LOGO_WRAPPER, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
+    DomMethods.removeChildFromDOM.apply(this, [
+      CARD_CLASSES.CLASS_LOGO_WRAPPER,
+      CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID
+    ]);
   }
 
   /**
@@ -266,7 +300,7 @@ class Card extends Utils {
    */
   private _setLogo(logo: string, type: string) {
     DomMethods.appendChildIntoDOM(CARD_CLASSES.CLASS_LOGO_WRAPPER, this._createLogo(logo, type));
-    DomMethods.setProperty.apply(this, ["src", logo, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
+    DomMethods.setProperty.apply(this, ['src', logo, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
   }
 }
 
