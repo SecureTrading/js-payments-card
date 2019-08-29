@@ -1,5 +1,10 @@
 import Card from "./models/Card/Card";
 import Validation from "./shared/Validation";
+import {
+  CARD_NUMBER_PROPERTIES,
+  EXPIRATION_DATE_PROPERTIES,
+  SECURITY_CODE_PROPERTIES
+} from "./imports/card/card-properties";
 // @ts-ignore
 import template from "./card.html";
 
@@ -13,24 +18,28 @@ class STCard {
   private _securityCodeInput: HTMLInputElement;
   private _card: Card;
   private _validation: Validation;
+  private static MATCH_EXACTLY_THREE_DIGITS = "^[0-9]{3}$";
+  private static MATCH_EXACTLY_FOUR_DIGITS = "^[0-9]{4}$";
 
   constructor(config: any) {
-    const { fields: { inputs, errors }, animatedCardContainer } = config;
+    const { fields: { inputs, errors }, animatedCardContainer, locale } = config;
     this._addInputs(inputs);
     this._addInputErrorLabels(errors);
     this._addAnimatedCardContainer(animatedCardContainer);
-    this._validation = new Validation();
+    this._validation = new Validation(locale);
     Card.ifCardWrapperExist() && (this._card = new Card(config));
   }
 
   public onCardNumberInput(id: string, callback: any) {
     this._cardNumberInput.addEventListener("blur", () => {
+      this._validation.luhnCheck(this._cardNumberInput);
       this._validation.validate(this._cardNumberInput, this._cardNumberError);
     });
 
     this._cardNumberInput.addEventListener("input", (event: KeyboardEvent) => {
       callback(event);
       this._card.onCardNumberChanged(this._cardNumberInput.value);
+      this._changeSecurityCodePattern(this._cardNumberInput.value);
       this._validation.keepCursorAtSamePosition(this._cardNumberInput);
     });
 
@@ -87,6 +96,9 @@ class STCard {
     this._cardNumberInput = document.getElementById(inputs.cardNumber) as HTMLInputElement;
     this._expirationDateInput = document.getElementById(inputs.expirationDate) as HTMLInputElement;
     this._securityCodeInput = document.getElementById(inputs.securityCode) as HTMLInputElement;
+    this._setInputsAttributes(CARD_NUMBER_PROPERTIES, this._cardNumberInput);
+    this._setInputsAttributes(EXPIRATION_DATE_PROPERTIES, this._expirationDateInput);
+    this._setInputsAttributes(SECURITY_CODE_PROPERTIES, this._securityCodeInput);
   }
 
   private _addInputErrorLabels(errors: any) {
@@ -98,6 +110,22 @@ class STCard {
   private _addAnimatedCardContainer(animatedCardContainer: string) {
     this._animatedCardTargetContainer = document.getElementById(animatedCardContainer) as HTMLDivElement;
     this._animatedCardTargetContainer.innerHTML = template;
+  }
+
+  private _setInputsAttributes(attributes: any, element: HTMLInputElement) {
+    Object.keys(attributes).map((item) => {
+      element.setAttribute(item, attributes[item]);
+    });
+  }
+
+  private _changeSecurityCodePattern(value: string) {
+    if (this._card.getCardDetails(value).type === "AMEX") {
+      this._securityCodeInput.setAttribute("pattern", STCard.MATCH_EXACTLY_FOUR_DIGITS);
+      this._securityCodeInput.setAttribute("placeholder", 'XXXX');
+    } else {
+      this._securityCodeInput.setAttribute("pattern", STCard.MATCH_EXACTLY_THREE_DIGITS);
+      this._securityCodeInput.setAttribute("placeholder", 'XXX');
+    }
   }
 }
 

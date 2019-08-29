@@ -12,8 +12,8 @@ class Formatter extends Validation {
   };
   private _date: string[] = ['', ''];
 
-  constructor() {
-    super();
+  constructor(locale: string) {
+    super(locale);
   }
 
   public number(cardNumber: string, id?: string) {

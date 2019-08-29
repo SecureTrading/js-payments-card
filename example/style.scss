@@ -117,7 +117,7 @@ input:-webkit-autofill.error-field {
   &__field {
     display: flex;
     flex-direction: column;
-    min-height: 10rem;
+    min-height: 11rem;
     justify-content: center;
 
     &--error {
@@ -132,7 +132,7 @@ input:-webkit-autofill.error-field {
     border-radius: .2rem;
     box-shadow: none;
     border: .1rem solid darkgrey;
-    margin: 1.5rem 0;
+    margin: 1.5rem 0 0 0;
     padding: .2rem .6rem;
     color: darkgrey;
   }
@@ -141,5 +141,9 @@ input:-webkit-autofill.error-field {
     font-size: 1.3rem;
     line-height: 1.6rem;
     color: #ff4545;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
   }
 }

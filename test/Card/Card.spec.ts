@@ -61,7 +61,7 @@ describe('Card', () => {
     });
   });
   // given
-  describe('_getCardDetails()', () => {
+  describe('getCardDetails()', () => {
 
     // when
     beforeEach(() => {
@@ -74,7 +74,7 @@ describe('Card', () => {
     });
   });
   // given
-  describe('_isAmex()', () => {
+  describe('isAmex()', () => {
 
     // when
     beforeEach(() => {

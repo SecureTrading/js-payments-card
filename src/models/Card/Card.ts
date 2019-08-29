@@ -40,7 +40,7 @@ class Card extends Utils {
     this._locale = config.locale;
     this._binLookup = new BinLookup();
     this._translator = new Translator(this._locale);
-    this._formatter = new Formatter();
+    this._formatter = new Formatter(this._locale);
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_CREDIT_CARD_LABEL, Translator.translations.LABEL_CARD_NUMBER);
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_EXPIRATION_DATE_LABEL, Translator.translations.LABEL_EXPIRATION_DATE);
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_LABEL, Translator.translations.LABEL_SECURITY_CODE);
@@ -96,7 +96,7 @@ class Card extends Utils {
     }
   }
 
-  private _getCardDetails = (value: string) => this._binLookup.binLookup(value);
+  public getCardDetails = (value: string) => this._binLookup.binLookup(value);
   private _isAmex = (content: string): boolean => content === CARD_TYPES.AMEX;
   private _isFlippableCard = (type: string): boolean => !Card.NOT_FLIPPED_CARDS.includes(type);
   private _returnThemeClass = (theme: string): string => `${CARD_COMPONENT_CLASS}__${theme}`;
@@ -108,7 +108,7 @@ class Card extends Utils {
    * @private
    */
   private _setCardNumberDetails(cardNumber: string): string | null {
-    const type: string = this.toLower(this._getCardDetails(cardNumber).type);
+    const type: string = this.toLower(this.getCardDetails(cardNumber).type);
     this._cardDetails.cardNumber = this._formatter.number(this.getContent(cardNumber, CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER), this._cardNumberId);
     this._cardDetails.type = type;
     this._cardDetails.flippable = this._isFlippableCard(type);
@@ -140,6 +140,7 @@ class Card extends Utils {
    */
   private _setSecurityCode() {
     if (this._isAmex(this._cardDetails.type)) {
+
       this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED);
       this._addSecurityCodeOnFront();
     } else {
