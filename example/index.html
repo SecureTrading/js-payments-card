@@ -26,31 +26,26 @@
 
       <div class="merchants-form__fields">
         <div class="merchants-form__field">
-          <label for="merchants-card-number">Card number: </label>
-          <input type="text" class="merchants-form__input" id="merchants-card-number" name="merchants-card-number" />
-          <div class="merchants-form__error" id="merchants-card-number-error"></div>
+          <label for="st-card-number-input">Card number: </label>
+          <input type="text" class="merchants-form__input" id="st-card-number-input" name="st-card-number-input" />
+          <div class="merchants-form__error" id="st-card-number-input-error"></div>
         </div>
 
         <div class="merchants-form__field">
-          <label for="merchants-expiration-date">Expiration date: </label>
+          <label for="st-expiration-date-input">Expiration date: </label>
           <input
             type="text"
             class="merchants-form__input"
-            id="merchants-expiration-date"
-            name="merchants-expiration-date"
+            id="st-expiration-date-input"
+            name="st-expiration-date-input"
           />
-          <div class="merchants-form__error" id="merchants-expiration-date-error"></div>
+          <div class="merchants-form__error" id="st-expiration-date-input-error"></div>
         </div>
 
         <div class="merchants-form__field">
-          <label for="merchants-security-code">Security code: </label>
-          <input
-            type="text"
-            class="merchants-form__input"
-            id="merchants-security-code"
-            name="merchants-security-code"
-          />
-          <div class="merchants-form__error" id="merchants-security-code-error"></div>
+          <label for="st-security-code-input">Security code: </label>
+          <input type="text" class="merchants-form__input" id="st-security-code-input" name="st-security-code-input" />
+          <div class="merchants-form__error" id="st-security-code-input-error"></div>
         </div>
       </div>
 
@@ -64,21 +59,21 @@
           locale: 'en_GB',
           fields: {
             inputs: {
-              cardNumber: 'merchants-card-number',
-              expirationDate: 'merchants-expiration-date',
-              securityCode: 'merchants-security-code'
+              cardNumber: 'st-card-number-input',
+              expirationDate: 'st-expiration-date-input',
+              securityCode: 'st-security-code-input'
             },
             errors: {
-              cardNumber: 'merchants-card-number-error',
-              expirationDate: 'merchants-expiration-date-error',
-              securityCode: 'merchants-security-code-error'
+              cardNumber: 'st-card-number-input-error',
+              expirationDate: 'st-expiration-date-input-error',
+              securityCode: 'st-security-code-input-error'
             }
           },
           animatedCardContainer: 'st-animated-card'
         });
-        card.onCardNumberInput('merchants-card-number', event => {});
-        card.onExpirationDateInput('merchants-expiration-date', event => {});
-        card.onSecurityCodeInput('merchants-security-code', event => {});
+        card.onCardNumberInput('st-card-number-input', event => {});
+        card.onExpirationDateInput('st-expiration-date-input', event => {});
+        card.onSecurityCodeInput('st-security-code-input', event => {});
       })();
     </script>
   </body>
