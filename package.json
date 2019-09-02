@@ -1,7 +1,7 @@
 {
-  "name": "js-payments",
+  "name": "js-payments-card",
   "version": "1.0.0",
-  "description": "> A JavaScript interface for allowing tokenisation and authorisation of payments through SecureTrading.",
+  "description": "TypeScript Payment Card",
   "private": true,
   "browserslist": [
     "> 0.2% and last 2 versions",
@@ -24,14 +24,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SecureTrading/js-payments.git"
+    "url": "git+https://github.com/SecureTrading/js-payments-card.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SecureTrading/js-payments/issues"
+    "url": "https://github.com/SecureTrading/js-payments-card/issues"
   },
-  "homepage": "https://github.com/SecureTrading/js-payments#readme",
+  "homepage": "https://github.com/SecureTrading/js-payments-card#readme",
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
@@ -46,7 +46,6 @@
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.4",
-    "coveralls": "^3.0.6",
     "cross-env": "^5.2.0",
     "css-loader": "^3.2.0",
     "cssnano": "^4.1.10",
@@ -59,18 +58,14 @@
     "jest-each": "^24.8.0",
     "jest-fetch-mock": "^2.1.2",
     "jest-get-type": "^24.8.0",
-    "live-server": "^1.2.1",
-    "local-web-server": "^3.0.7",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.12.0",
-    "npm-merge-driver": "^2.3.5",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "postcss-scss": "^2.0.0",
     "prettier": "1.18.2",
     "sass-loader": "^7.2.0",
-    "snyk": "^1.216.4",
     "source-map-loader": "^0.2.4",
     "stylelint": "^10.1.0",
     "stylelint-webpack-plugin": "^0.10.5",
@@ -90,10 +85,6 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
-    "i18next": "^17.0.11",
-    "location-origin": "^1.1.4",
-    "url-polyfill": "^1.1.7"
-  },
-  "snyk": true
+    "i18next": "^17.0.11"
+  }
 }
