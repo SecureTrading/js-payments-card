@@ -56,6 +56,14 @@ class STCard {
     this._cardNumberInput.addEventListener('keypress', (event: KeyboardEvent) => {
       this._validation.preventNonDigits(event);
     });
+
+    this._cardNumberInput.addEventListener('paste', (event: ClipboardEvent) => {
+      const value = this._validation.onPaste(event);
+      // @ts-ignore
+      this._card.onCardNumberChanged(value);
+      this._changeSecurityCodePattern(this._cardNumberInput.value);
+      this._validation.keepCursorAtSamePosition(this._cardNumberInput);
+    });
   }
 
   public onExpirationDateInput(id: string, callback: any) {

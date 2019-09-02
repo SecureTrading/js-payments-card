@@ -71,6 +71,19 @@ class Validation {
     }
   }
 
+  public onPaste(event: ClipboardEvent) {
+    let { clipboardData } = event;
+    event.preventDefault();
+    if (typeof clipboardData === 'undefined') {
+      // @ts-ignore
+      clipboardData = window.clipboardData.getData('Text');
+    } else {
+      // @ts-ignore
+      clipboardData = event.clipboardData.getData('text/plain');
+    }
+    return clipboardData;
+  }
+
   protected cardNumber(value: string) {
     this.cardNumberValue = this.removeNonDigits(value);
     const cardDetails = this.getCardDetails(this.cardNumberValue);
