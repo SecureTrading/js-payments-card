@@ -1,5 +1,5 @@
-import {CARD_SELECTORS} from "../imports/card/card-selectors";
-import Translator from "../models/Translation/Translation";
+import { CARD_SELECTORS } from '../imports/card/card-selectors';
+import Translator from '../models/Translation/Translation';
 
 export default class Utils {
   protected translator: Translator;
@@ -32,8 +32,9 @@ export default class Utils {
 
   protected getElement = (id: string): HTMLInputElement => document.getElementById(id) as HTMLInputElement;
   protected getContent = (value: string, placeholder: string) => (value ? value : placeholder);
-  protected setContent = (id: string, text: string) => this.getElement(id).textContent = this.translator.translate(text);
+  protected setContent = (id: string, text: string) =>
+    (this.getElement(id).textContent = this.translator.translate(text));
   protected setAttr = (id: string, attr: string, value: string) => this.getElement(id).setAttribute(attr, value);
-  protected toLower = (content: string | null) => content ? content.toLowerCase() : content;
+  protected toLower = (content: string | null) => (content ? content.toLowerCase() : content);
   protected clearContent = (id: string) => this.setContent(id, '');
 }

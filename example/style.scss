@@ -73,13 +73,11 @@ $space-outset-input: 0 0 ($space-xs);
 $space-outset-label: 0 0 $space-xs;
 $space-outset-message: $space-xs 0 0;
 
-
 html {
   font-size: 62.5%;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-
 
 body {
   margin: 0;
@@ -118,7 +116,7 @@ input:-webkit-autofill.error-field {
 }
 
 .st-button-submit__disabled {
-  opacity: .5;
+  opacity: 0.5;
   cursor: not-allowed;
 
   &:hover {
@@ -128,7 +126,7 @@ input:-webkit-autofill.error-field {
 
 .st-input {
   &--disabled {
-    opacity: .5;
+    opacity: 0.5;
     cursor: not-allowed;
     background: transparent;
   }

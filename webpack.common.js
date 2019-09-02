@@ -69,11 +69,7 @@ module.exports = {
       {
         test: /\.tsx?|js$/,
         use: 'babel-loader',
-        include: [
-          path.join(__dirname, 'src'),
-          path.join(__dirname, 'test'),
-          path.join(__dirname, 'example'),
-        ]
+        include: [path.join(__dirname, 'src'), path.join(__dirname, 'test'), path.join(__dirname, 'example')]
       },
       {
         test: /\.ts$/,

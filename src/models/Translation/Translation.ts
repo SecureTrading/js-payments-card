@@ -24,7 +24,7 @@ class Translator {
   private static _translations = {
     LABEL_CARD_NUMBER: 'Card number',
     LABEL_EXPIRATION_DATE: 'Expiration date',
-    LABEL_SECURITY_CODE: 'Security code',
+    LABEL_SECURITY_CODE: 'Security code'
   };
   public static get translations(): {
     LABEL_CARD_NUMBER: string;
@@ -39,16 +39,16 @@ class Translator {
       debug: false,
       lng: locale,
       resources: {
-        cy_GB: {translation: cy_GB},
-        da_DK: {translation: da_DK},
-        de_DE: {translation: de_DE},
-        en_GB: {translation: en_GB},
-        en_US: {translation: en_US},
-        es_ES: {translation: es_ES},
-        fr_FR: {translation: fr_FR},
-        nl_NL: {translation: nl_NL},
-        no_NO: {translation: no_NO},
-        sv_SE: {translation: sv_SE}
+        cy_GB: { translation: cy_GB },
+        da_DK: { translation: da_DK },
+        de_DE: { translation: de_DE },
+        en_GB: { translation: en_GB },
+        en_US: { translation: en_US },
+        es_ES: { translation: es_ES },
+        fr_FR: { translation: fr_FR },
+        nl_NL: { translation: nl_NL },
+        no_NO: { translation: no_NO },
+        sv_SE: { translation: sv_SE }
       }
     });
   }

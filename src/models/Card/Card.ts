@@ -1,5 +1,3 @@
-class Card {
-
-}
+class Card {}
 
 export default Card;

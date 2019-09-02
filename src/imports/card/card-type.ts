@@ -39,4 +39,4 @@ const CARD_DETAILS_PLACEHOLDERS = {
   TYPE: 'default'
 };
 
-export { Brand, CardTreeNode, BrandDetailsType, cardTree, brandMapping ,CARD_TYPES, CARD_DETAILS_PLACEHOLDERS };
+export { Brand, CardTreeNode, BrandDetailsType, cardTree, brandMapping, CARD_TYPES, CARD_DETAILS_PLACEHOLDERS };

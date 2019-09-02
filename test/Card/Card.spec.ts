@@ -1,10 +1,6 @@
 import Card from '../../src/models/Card/Card';
 
 // given
-describe('Card', () => {
+describe('Card', () => {});
 
-});
-
-function CardFixture() {
-
-}
+function CardFixture() {}
