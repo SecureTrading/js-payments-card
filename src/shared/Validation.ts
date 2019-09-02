@@ -39,6 +39,8 @@ class Validation {
   public keepCursorAtSamePosition(element: HTMLInputElement) {
     if (this._isPressedKeyDelete()) {
       element.setSelectionRange(this._selectionRangeStart, this._selectionRangeEnd);
+    } else {
+      element.setSelectionRange(++this._selectionRangeStart, ++this._selectionRangeEnd);
     }
   }
 
