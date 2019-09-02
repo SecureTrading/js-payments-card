@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Secure Trading Example Form</title>
+  </head>
+
+  <body>
+    <form id="st-form" class="example-form" autocomplete="off" novalidate>
+      <div class="merchants-form__field">
+        <label for="merchants-card-number">Card number: </label>
+        <input type="text" id="merchants-card-number" name="merchants-card-number" />
+        <div class="error-label" id="merchants-card-number-error"></div>
+      </div>
+
+      <div class="merchants-form__field">
+        <label for="merchants-expiration-date">Expiration date: </label>
+        <input type="text" id="merchants-expiration-date" name="merchants-expiration-date" />
+        <div class="error-label" id="merchants-expiration-date-error"></div>
+      </div>
+
+      <div class="merchants-form__field">
+        <label for="merchants-security-code">Security code: </label>
+        <input type="text" id="merchants-security-code" name="merchants-security-code" />
+        <div class="error-label" id="merchants-security-code-error"></div>
+      </div>
+
+      <div id="st-animated-card" class="st-animated-card-wrapper"></div>
+    </form>
+    <script type="text/javascript" src="stcard.js"></script>
+    <link rel="stylesheet" href="stcardstyle.css" />
+    <script>
+      (function() {
+        var card = Card({
+          locale: 'en_GB',
+          ids: {
+            cardNumberId: 'merchants-card-number',
+            expirationDateId: 'merchants-expiration-date',
+            securityCodeId: 'merchants-security-code'
+          },
+          animatedCardContainer: 'st-animated-card'
+        });
+        card.onCardNumberInput('merchants-card-number', event => {});
+        card.onExpirationDateInput('merchants-expiration-date', event => {});
+        card.onSecurityCodeInput('merchants-security-code', event => {});
+      })();
+    </script>
+  </body>
+</html>

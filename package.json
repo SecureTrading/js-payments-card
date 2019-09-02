@@ -1,0 +1,89 @@
+{
+  "name": "js-payments-card",
+  "version": "1.0.0",
+  "description": "TypeScript Payment Card",
+  "private": true,
+  "browserslist": [
+    "> 0.2% and last 2 versions",
+    "not dead",
+    "IE 10"
+  ],
+  "config": {
+    "host": "localhost",
+    "locale": "en_GB"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack-dev-server --color --progress --config webpack.dev.js",
+    "example": "ws --rewrite '/* -> /dist/$1' --https",
+    "export:translations": "cross-env-shell i18next-conv -l '$npm_package_config_locale' -s ./src/imports/translations/$npm_package_config_locale.json -t ./translations/$npm_package_config_locale.po",
+    "import:translations": "cross-env-shell i18next-conv -l '$npm_package_config_locale' -s ./translations/$npm_package_config_locale.po -t ./src/imports/translations/$npm_package_config_locale.json",
+    "prod": "yarn run build",
+    "test": "jest --watchAll",
+    "coverage": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SecureTrading/js-payments-card.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SecureTrading/js-payments-card/issues"
+  },
+  "homepage": "https://github.com/SecureTrading/js-payments-card#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/plugin-transform-typescript": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^24.0.17",
+    "@types/jest-each": "^0.3.4",
+    "@types/jest-matchers": "^20.0.2",
+    "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.4",
+    "cross-env": "^5.2.0",
+    "css-loader": "^3.2.0",
+    "cssnano": "^4.1.10",
+    "file-loader": "^4.2.0",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "i18next-conv": "^9.1.0",
+    "jest": "^24.8.0",
+    "jest-each": "^24.8.0",
+    "jest-fetch-mock": "^2.1.2",
+    "jest-get-type": "^24.8.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.12.0",
+    "postcss-import": "^12.0.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "postcss-scss": "^2.0.0",
+    "prettier": "1.18.2",
+    "sass-loader": "^7.2.0",
+    "source-map-loader": "^0.2.4",
+    "stylelint": "^10.1.0",
+    "stylelint-webpack-plugin": "^0.10.5",
+    "ts-jest": "^24.0.2",
+    "ts-loader": "^6.0.4",
+    "tslint": "^5.18.0",
+    "tslint-loader": "^3.5.4",
+    "typedoc": "^0.15.0",
+    "typedoc-webpack-plugin": "^1.1.4",
+    "typescript": "^3.5.3",
+    "webpack": "^4.39.2",
+    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0",
+    "webpack-manifest-plugin": "^2.0.4",
+    "webpack-merge": "^4.2.1"
+  },
+  "dependencies": {
+    "i18next": "^17.0.11"
+  }
+}
