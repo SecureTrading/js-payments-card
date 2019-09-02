@@ -9,7 +9,7 @@ yarn
 yarn start
 ```
 
-Then open address `https://localhost:8443` in your web browser.
+Then open address `https://localhost:8444` in your web browser.
 
 ## Technology Stack:
 
@@ -27,20 +27,9 @@ Then open address `https://localhost:8443` in your web browser.
 - [ESLint](https://eslint.org/)
 - [TypeDoc](https://typedoc.org/)
 
-##### CI/CD:
-
-- [Dependabot](https://dependabot.com/)
-- [Snyk](https://snyk.io/)
-- [Coveralls](https://coveralls.io/)
-- [Travis CI](https://travis-ci.org/)
-- [BrowserStack](https://www.browserstack.com/)
-
-[<img alt="BrowserStack" src="browserstack-logo.png" width="300" />](https://www.browserstack.com/)
-
-##### Automated tests:
+##### QA:
 
 - [Jest](https://jestjs.io/) for unit testing
-- [Selenium (Java)](https://www.seleniumhq.org/) + [BrowserSync](https://www.browsersync.io/) for UI testing
 
 ## Browser compatibility:
 
