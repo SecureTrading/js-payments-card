@@ -1,18 +1,13 @@
 // @ts-ignore
 import template from './card.html';
-import Card from './models/Card/Card';
-import Validation from './shared/Validation';
 
 class STCard {
   private _animatedCardTargetContainer: HTMLDivElement;
-  private _card: Card;
-  private _validation: Validation;
 
   constructor(config: any) {
     const { animatedCardContainer } = config;
     this._animatedCardTargetContainer = document.getElementById(animatedCardContainer) as HTMLDivElement;
     this._animatedCardTargetContainer.innerHTML = template;
-    this._validation = new Validation();
   }
 
   public onCardNumberInput(id: string, callback: any) {
