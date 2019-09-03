@@ -44,9 +44,9 @@ class STCard {
 
     this._cardNumberInput.addEventListener('input', (event: KeyboardEvent) => {
       callback(event);
-      this._card.onCardNumberChanged(this._cardNumberInput.value);
+      const { nonformat } = this._card.onCardNumberChanged(this._cardNumberInput.value);
       this._changeSecurityCodePattern(this._cardNumberInput.value);
-      this._validation.keepCursorAtSamePosition(this._cardNumberInput);
+      this._validation.keepCursorAtSamePosition(this._cardNumberInput, nonformat);
     });
 
     this._cardNumberInput.addEventListener('keydown', (event: any) => {
