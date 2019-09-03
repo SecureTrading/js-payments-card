@@ -76,6 +76,9 @@ class Validation {
   public onPaste(event: ClipboardEvent) {
     let { clipboardData } = event;
     event.preventDefault();
+    console.log(clipboardData);
+    // @ts-ignore
+    console.log(window.clipboardData);
     if (typeof clipboardData === 'undefined') {
       // @ts-ignore
       clipboardData = window.clipboardData.getData('Text');
