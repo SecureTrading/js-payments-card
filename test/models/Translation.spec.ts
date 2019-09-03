@@ -21,22 +21,27 @@ import no_NO from '../../src/imports/translations/no_NO.json';
 // @ts-ignore
 import sv_SE from '../../src/imports/translations/sv_SE.json';
 
+// given
 describe('translate()', () => {
+  // then
   it('should leave english unchanged', () => {
     let translator = new Translator('en_GB');
     expect(translator.translate('Expiration date')).toBe('Expiration date');
   });
 
+  // then
   it('should translate to french', () => {
     let translator = new Translator('fr_FR');
     expect(translator.translate('Expiration date')).toBe("Date d'expiration");
   });
 
+  // then
   it('should translate to german', () => {
     let translator = new Translator('de_DE');
     expect(translator.translate('Expiration date')).toBe('Ablaufdatum');
   });
 
+  // then
   it('should have translations for all Language parameters', () => {
     let translations = [en_GB, cy_GB, da_DK, de_DE, en_US, es_ES, fr_FR, nl_NL, no_NO, sv_SE];
     for (let i in translations) {
