@@ -6,7 +6,48 @@ describe('STCard', () => {
   beforeEach(() => {});
 
   // given
-  describe('ifCardWrapperExist', () => {
+  describe('onCardNumberInput', () => {
+    // then
+    it('', () => {});
+  });
+
+  // given
+  describe('onExpirationDateInput', () => {
+    // then
+    it('', () => {});
+  });
+
+  // given
+  describe('onSecurityCodeInput', () => {
+    // then
+    it('', () => {});
+  });
+
+  // given
+  describe('_addInputs', () => {
+    // then
+    it('', () => {});
+  });
+
+  // given
+  describe('_addInputErrorLabels', () => {
+    // then
+    it('', () => {});
+  });
+
+  // given
+  describe('_addAnimatedCardContainer', () => {
+    // then
+    it('', () => {});
+  });
+
+  // given
+  describe('_setInputsAttributes', () => {
+    // then
+    it('', () => {});
+  });
+  // given
+  describe('_changeSecurityCodePattern', () => {
     // then
     it('', () => {});
   });
