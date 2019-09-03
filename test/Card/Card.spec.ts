@@ -193,10 +193,12 @@ describe('Card', () => {
 function CardFixture() {
   const config = {
     locale: 'en_GB',
-    ids: {
-      cardNumberId: 'merchants-card-number',
-      expirationDateId: 'merchants-expiration-date',
-      securityCodeId: 'merchants-security-code'
+    fields: {
+      inputs: {
+        cardNumberId: 'merchants-card-number',
+        expirationDateId: 'merchants-expiration-date',
+        securityCodeId: 'merchants-security-code'
+      }
     },
     animatedCardContainer: 'st-animated-card'
   };
