@@ -53,10 +53,6 @@ class STCard {
       this._validation.setKeyDownProperties(this._cardNumberInput, event);
     });
 
-    this._cardNumberInput.addEventListener('keypress', (event: KeyboardEvent) => {
-      this._validation.preventNonDigits(event);
-    });
-
     this._cardNumberInput.addEventListener('paste', (event: ClipboardEvent) => {
       const value = this._validation.onPaste(event);
       // @ts-ignore
@@ -80,10 +76,6 @@ class STCard {
     this._expirationDateInput.addEventListener('keydown', (event: any) => {
       this._validation.setKeyDownProperties(this._expirationDateInput, event);
     });
-
-    this._expirationDateInput.addEventListener('keypress', (event: KeyboardEvent) => {
-      this._validation.preventNonDigits(event);
-    });
   }
 
   public onSecurityCodeInput(id: string, callback: any) {
@@ -99,10 +91,6 @@ class STCard {
     this._securityCodeInput.addEventListener('input', event => {
       callback(event);
       this._card.onSecurityCodeChanged(this._securityCodeInput.value);
-    });
-
-    this._securityCodeInput.addEventListener('keypress', (event: KeyboardEvent) => {
-      this._validation.preventNonDigits(event);
     });
   }
 
