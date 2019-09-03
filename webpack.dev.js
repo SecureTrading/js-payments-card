@@ -9,7 +9,7 @@ module.exports = merge(common, {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
-    port: 8444,
+    port: 8443,
     https: true,
     hot: true,
     host: '0.0.0.0',
