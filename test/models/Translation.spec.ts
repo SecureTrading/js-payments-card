@@ -1,4 +1,4 @@
-import Translator from '../../src/models/Translation/Translation';
+import Translator from '../../src/models/Translation';
 
 // @ts-ignore
 import cy_GB from '../../src/imports/translations/cy_GB.json';

@@ -1,5 +1,5 @@
 import { CARD_SELECTORS } from '../imports/card/card-selectors';
-import Translator from '../models/Translation/Translation';
+import Translator from '../models/Translation';
 
 export default class Utils {
   public static ifCardWrapperExist() {

@@ -1,5 +1,5 @@
 import { BrandDetailsType } from '../imports/card/card-type';
-import Translator from '../models/Translation/Translation';
+import Translator from '../models/Translation';
 import BinLookup from './BinLookup';
 import Utils from './Utils';
 
