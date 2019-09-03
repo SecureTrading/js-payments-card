@@ -2,9 +2,9 @@ import { cardsLogos } from '../../imports/card/card-logos';
 import { CARD_CLASSES, CARD_COMPONENT_CLASS, CARD_SELECTORS } from '../../imports/card/card-selectors';
 import { CARD_DETAILS_PLACEHOLDERS, CARD_TYPES } from '../../imports/card/card-type';
 import BinLookup from '../../shared/BinLookup';
+import DomMethods from '../../shared/DomMethods';
 import Formatter from '../../shared/Formatter';
 import Utils from '../../shared/Utils';
-import DomMethods from '../DomMethods/DomMethods';
 import Translator from '../Translation/Translation';
 import { ICardDetails } from './ICard';
 

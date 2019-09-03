@@ -1,4 +1,4 @@
-import DomMethods from '../../src/models/DomMethods/DomMethods';
+import DomMethods from '../../src/shared/DomMethods';
 
 // given
 describe('DomMethods', () => {
