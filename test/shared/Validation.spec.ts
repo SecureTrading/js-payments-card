@@ -2,13 +2,25 @@ import Validation from '../../src/shared/Validation';
 
 // given
 describe('Validation', () => {
+  const { instance } = ValidationFixture();
   // when
   beforeEach(() => {});
 
   // given
   describe('setKeyDownProperties', () => {
+    const element: HTMLInputElement = document.createElement('input');
+    const event: any = { keyCode: '45' };
+    beforeEach(() => {
+      instance.setKeyDownProperties(element, event);
+    });
     // then
-    it('', () => {});
+    it('should set all of the specified properties', () => {
+      // this._currentKeyCode = event.keyCode;
+      // this._selectionRangeStart = element.selectionStart;
+      // this._selectionRangeEnd = element.selectionEnd;
+      // @ts-ignore
+      expect(instance._currentKeyCode).toEqual('45');
+    });
   });
 
   // given
