@@ -66,6 +66,7 @@ class Validation {
 
   public luhnCheck(element: HTMLInputElement) {
     const { value } = element;
+    console.log(this._luhnAlgorithm(value));
     this._luhnAlgorithm(value) ? element.setCustomValidity('') : element.setCustomValidity('luhn');
   }
 
@@ -83,13 +84,6 @@ class Validation {
       }
     } else {
       this._removeError(element, errorContainer);
-    }
-  }
-
-  public preventNonDigits(event: KeyboardEvent) {
-    const { key } = event;
-    if (!this._isNumber(key)) {
-      event.preventDefault();
     }
   }
 
