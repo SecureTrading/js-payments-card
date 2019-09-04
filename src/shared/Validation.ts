@@ -40,8 +40,8 @@ class Validation {
   }
 
   public keepCursorAtSamePosition(element: HTMLInputElement, nonformat?: string) {
-    let lengthNonFormat: number = nonformat.length;
-    let lengthFormatted: number = element.value.length;
+    const lengthNonFormat: number = nonformat.length;
+    const lengthFormatted: number = element.value.length;
 
     if (this._isPressedKeyDelete()) {
       element.setSelectionRange(this._selectionRangeStart, this._selectionRangeEnd);
