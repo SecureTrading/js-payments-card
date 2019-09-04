@@ -20,26 +20,68 @@ describe('Utils', () => {
 
   // given
   describe('inArray', () => {
+    const arrayLike: number[] = [1, 2, 3, 4];
     // then
-    it('', () => {});
+    it('should given element exists in array like object', () => {
+      expect(Utils.inArray(arrayLike, 3)).toBe(true);
+    });
+
+    // then
+    it('should given element doesnt exist in array like object', () => {
+      expect(Utils.inArray(arrayLike, 5)).toBe(false);
+    });
   });
 
   // given
   describe('getLastElementOfArray', () => {
+    const array: number[] = [1, 2, 3, 4];
+    const arrayEmpty: number[] = [];
+
     // then
-    it('', () => {});
+    it('should return last element if array exists', () => {
+      expect(Utils.getLastElementOfArray(array)).toEqual(4);
+    });
+
+    // then
+    it('should return undefined if array is not defined', () => {
+      expect(Utils.getLastElementOfArray(undefined)).toBe(undefined);
+    });
+
+    // then
+    it('should return undefined if array is empty', () => {
+      expect(Utils.getLastElementOfArray(arrayEmpty)).toBe(undefined);
+    });
   });
 
   // given
   describe('setElementAttributes', () => {
+    const element: HTMLInputElement = document.createElement('input');
     // then
-    it('', () => {});
+    it('should set proper attributes given in params', () => {
+      // @ts-ignore
+      Utils.setElementAttributes(
+        {
+          firstAttribute: 'FUUUUUUUUUUUUUU',
+          secondAttribute: 'Like a sir',
+          thirdAttribute: 'Pepe the Frog'
+        },
+        element
+      );
+      // @ts-ignore
+      expect(element.getAttribute('firstAttribute')).toEqual('FUUUUUUUUUUUUUU');
+      // @ts-ignore
+      expect(element.getAttribute('secondAttribute')).toEqual('Like a sir');
+      // @ts-ignore
+      expect(element.getAttribute('thirdAttribute')).toEqual('Pepe the Frog');
+    });
   });
 
   // given
   describe('stripChars', () => {
     // then
-    it('', () => {});
+    it('should get rid of the chars from string', () => {
+      expect(Utils.stripChars('123abc')).toEqual('123');
+    });
   });
 
   // given

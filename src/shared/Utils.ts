@@ -13,7 +13,7 @@ class Utils {
   }
 
   /**
-   *
+   * ES5 replacement for includes()
    * @param array
    * @param item
    */
@@ -25,7 +25,7 @@ class Utils {
    *
    * @param array
    */
-  public static getLastElementOfArray = (array: number[]) => array && array.slice(-1).pop();
+  public static getLastElementOfArray = (array: number[]): number => array && array.slice(-1).pop();
 
   /**
    *
@@ -53,7 +53,7 @@ class Utils {
    * @param string
    * @param regex
    */
-  public static stripChars(string: string, regex: any) {
+  public static stripChars(string: string, regex?: any) {
     if (typeof regex === 'undefined') {
       regex = /[\D+]/g;
     }
