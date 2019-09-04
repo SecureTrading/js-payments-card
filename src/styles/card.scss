@@ -6,7 +6,6 @@ body {
   flex: 1;
   height: 100%;
   width: 100%;
-  overflow: hidden;
 }
 
 .st-animated-card-wrapper {
@@ -295,8 +294,9 @@ body {
     font-weight: bold;
     color: $card-value-font-color;
     text-shadow: -0.1rem 0.1rem 0.4rem rgba(0, 0, 0, 0.5);
-    line-height: 2rem;
-    margin-top: 0.75rem;
+    display: flex;
+    height: 2.75rem;
+    align-items: center;
   }
 
   @media screen and (max-width: 22rem) {

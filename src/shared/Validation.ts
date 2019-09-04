@@ -13,6 +13,8 @@ class Validation {
   private static SECURITY_CODE_DEFAULT_LENGTH: number = 3;
   private static LUHN_CHECK_ARRAY: number[] = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9];
   private static ERROR_CLASS: string = 'error';
+  private static CURSOR_SINGLE_SKIP: number = 1;
+  private static CURSOR_DOUBLE_SKIP: number = 2;
 
   protected binLookup: BinLookup;
   protected cardNumberValue: string;
@@ -23,6 +25,7 @@ class Validation {
   private _selectionRangeEnd: number;
   private _selectionRangeStart: number;
   private _matchDigitsRegexp: RegExp;
+  private _cursorSkip: number = 0;
 
   constructor(locale: string) {
     this.binLookup = new BinLookup();
@@ -36,9 +39,28 @@ class Validation {
     this._selectionRangeEnd = element.selectionEnd;
   }
 
-  public keepCursorAtSamePosition(element: HTMLInputElement) {
+  public keepCursorAtSamePosition(element: HTMLInputElement, nonformat?: string) {
+    const lengthNonFormat: number = nonformat.length;
+    const lengthFormatted: number = element.value.length;
+
     if (this._isPressedKeyDelete()) {
       element.setSelectionRange(this._selectionRangeStart, this._selectionRangeEnd);
+    } else if (this._isPressedKeyBackspace()) {
+      element.setSelectionRange(
+        this._selectionRangeStart - Validation.CURSOR_SINGLE_SKIP,
+        this._selectionRangeEnd - Validation.CURSOR_SINGLE_SKIP
+      );
+    } else if (lengthFormatted - lengthNonFormat === this._cursorSkip) {
+      ++this._cursorSkip;
+      element.setSelectionRange(
+        this._selectionRangeStart + Validation.CURSOR_DOUBLE_SKIP,
+        this._selectionRangeEnd + Validation.CURSOR_DOUBLE_SKIP
+      );
+    } else {
+      element.setSelectionRange(
+        this._selectionRangeStart + Validation.CURSOR_SINGLE_SKIP,
+        this._selectionRangeEnd + Validation.CURSOR_SINGLE_SKIP
+      );
     }
   }
 
@@ -71,6 +93,19 @@ class Validation {
     }
   }
 
+  public onPaste(event: ClipboardEvent) {
+    let { clipboardData } = event;
+    event.preventDefault();
+    if (typeof clipboardData === 'undefined') {
+      // @ts-ignore
+      clipboardData = window.clipboardData.getData('Text');
+    } else {
+      // @ts-ignore
+      clipboardData = event.clipboardData.getData('text/plain');
+    }
+    return clipboardData;
+  }
+
   protected cardNumber(value: string) {
     this.cardNumberValue = this.removeNonDigits(value);
     const cardDetails = this.getCardDetails(this.cardNumberValue);
@@ -97,10 +132,12 @@ class Validation {
     return this.binLookup.binLookup(cardNumber);
   }
 
+  protected _isPressedKeyBackspace(): boolean {
+    return this._currentKeyCode === Validation.BACKSPACE_KEY_CODE;
+  }
+
   protected _isPressedKeyDelete(): boolean {
-    return (
-      this._currentKeyCode === Validation.DELETE_KEY_CODE || this._currentKeyCode === Validation.BACKSPACE_KEY_CODE
-    );
+    return this._currentKeyCode === Validation.DELETE_KEY_CODE;
   }
 
   protected limitLength(value: string, length: number): string {
