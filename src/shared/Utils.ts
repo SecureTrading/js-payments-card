@@ -1,17 +1,37 @@
 import { CARD_SELECTORS } from '../imports/card/card-selectors';
 import Translator from '../models/Translation';
 
-export default class Utils {
+/**
+ *
+ */
+class Utils {
+  /**
+   *
+   */
   public static ifCardWrapperExist() {
     return document.getElementById(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR) as HTMLInputElement;
   }
 
+  /**
+   *
+   * @param array
+   * @param item
+   */
   public static inArray<T>(array: ArrayLike<T>, item: T) {
     return Array.from(array).indexOf(item) >= 0;
   }
 
+  /**
+   *
+   * @param array
+   */
   public static getLastElementOfArray = (array: number[]) => array && array.slice(-1).pop();
 
+  /**
+   *
+   * @param attributes
+   * @param element
+   */
   public static setElementAttributes(attributes: any, element: HTMLInputElement) {
     for (const attribute in attributes) {
       if (attributes.hasOwnProperty(attribute)) {
@@ -69,3 +89,4 @@ export default class Utils {
   protected toLower = (content: string | null) => (content ? content.toLowerCase() : content);
   protected clearContent = (id: string) => this.setContent(id, '');
 }
+export default Utils;

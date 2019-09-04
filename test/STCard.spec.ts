@@ -1,4 +1,4 @@
-import STCard from '../src/STCard';
+// import STCard from '../src/STCard';
 
 // given
 describe('STCard', () => {
