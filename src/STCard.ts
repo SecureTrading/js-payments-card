@@ -44,17 +44,21 @@ class STCard {
 
     this._cardNumberInput.addEventListener('input', (event: KeyboardEvent) => {
       callback(event);
-      this._card.onCardNumberChanged(this._cardNumberInput.value);
+      const { nonformat } = this._card.onCardNumberChanged(this._cardNumberInput.value);
       this._changeSecurityCodePattern(this._cardNumberInput.value);
-      this._validation.keepCursorAtSamePosition(this._cardNumberInput);
+      this._validation.keepCursorAtSamePosition(this._cardNumberInput, nonformat);
     });
 
     this._cardNumberInput.addEventListener('keydown', (event: any) => {
       this._validation.setKeyDownProperties(this._cardNumberInput, event);
     });
 
-    this._cardNumberInput.addEventListener('keypress', (event: KeyboardEvent) => {
-      this._validation.preventNonDigits(event);
+    this._cardNumberInput.addEventListener('paste', (event: ClipboardEvent) => {
+      const value = this._validation.onPaste(event);
+      // @ts-ignore
+      this._card.onCardNumberChanged(value);
+      this._changeSecurityCodePattern(this._cardNumberInput.value);
+      this._validation.keepCursorAtSamePosition(this._cardNumberInput);
     });
   }
 
@@ -72,10 +76,6 @@ class STCard {
     this._expirationDateInput.addEventListener('keydown', (event: any) => {
       this._validation.setKeyDownProperties(this._expirationDateInput, event);
     });
-
-    this._expirationDateInput.addEventListener('keypress', (event: KeyboardEvent) => {
-      this._validation.preventNonDigits(event);
-    });
   }
 
   public onSecurityCodeInput(id: string, callback: any) {
@@ -91,10 +91,6 @@ class STCard {
     this._securityCodeInput.addEventListener('input', event => {
       callback(event);
       this._card.onSecurityCodeChanged(this._securityCodeInput.value);
-    });
-
-    this._securityCodeInput.addEventListener('keypress', (event: KeyboardEvent) => {
-      this._validation.preventNonDigits(event);
     });
   }
 

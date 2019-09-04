@@ -50,7 +50,7 @@ class Formatter extends Validation {
     this._cardNumberFormatted = value;
     this.cardNumberValue = value.replace(/\s/g, '');
     value = value ? value : CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER;
-    return value;
+    return { value, nonformat: this.cardNumberValue };
   }
 
   public date(value: string, id?: string) {

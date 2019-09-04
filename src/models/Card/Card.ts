@@ -57,10 +57,11 @@ class Card extends Utils {
    * @param cardNumber
    */
   public onCardNumberChanged(cardNumber: string) {
-    const type = this._setCardNumberDetails(cardNumber);
+    const { type, nonformat } = this._setCardNumberDetails(cardNumber);
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_CREDIT_CARD_ID, this._cardDetails.cardNumber);
     type ? this._setTheme() : this._resetTheme();
     this._setSecurityCode();
+    return { nonformat };
   }
 
   /**
@@ -112,15 +113,16 @@ class Card extends Utils {
    * @param cardNumber
    * @private
    */
-  private _setCardNumberDetails(cardNumber: string): string | null {
+  private _setCardNumberDetails(cardNumber: string): { type: string; nonformat: string } | null {
     const type: string = this.toLower(this.getCardDetails(cardNumber).type);
-    this._cardDetails.cardNumber = this._formatter.number(
+    const { value, nonformat } = this._formatter.number(
       this.getContent(cardNumber, CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER),
       this._cardNumberId
     );
+    this._cardDetails.cardNumber = value;
     this._cardDetails.type = type;
     this._cardDetails.flippable = this._isFlippableCard(type);
-    return type;
+    return { type, nonformat };
   }
 
   /**
