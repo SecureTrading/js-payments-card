@@ -8,26 +8,45 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Secure Trading Example Form</title>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
   </head>
 
   <body>
-    <form id="st-form" class="example-form" autocomplete="off" novalidate>
-      <div class="merchants-form__field">
-        <label for="merchants-card-number">Card number: </label>
-        <input type="text" id="merchants-card-number" name="merchants-card-number" />
-        <div class="error-label" id="merchants-card-number-error"></div>
-      </div>
+    <form id="st-form" class="merchants-form" autocomplete="off" novalidate>
+      <header>
+        <img
+          src="https://www.securetrading.com/wp-content/uploads/2018/08/st-logo.svg"
+          alt="Online Payment Partners"
+          id="logo"
+          height="54"
+          width="300"
+        />
+        <h2>Secure Trading Animated Card Example</h2>
+      </header>
 
-      <div class="merchants-form__field">
-        <label for="merchants-expiration-date">Expiration date: </label>
-        <input type="text" id="merchants-expiration-date" name="merchants-expiration-date" />
-        <div class="error-label" id="merchants-expiration-date-error"></div>
-      </div>
+      <div class="merchants-form__fields">
+        <div class="merchants-form__field">
+          <label for="st-card-number-input">Card number: </label>
+          <input type="text" class="merchants-form__input" id="st-card-number-input" name="st-card-number-input" />
+          <div class="merchants-form__error" id="st-card-number-input-error"></div>
+        </div>
 
-      <div class="merchants-form__field">
-        <label for="merchants-security-code">Security code: </label>
-        <input type="text" id="merchants-security-code" name="merchants-security-code" />
-        <div class="error-label" id="merchants-security-code-error"></div>
+        <div class="merchants-form__field">
+          <label for="st-expiration-date-input">Expiration date: </label>
+          <input
+            type="text"
+            class="merchants-form__input"
+            id="st-expiration-date-input"
+            name="st-expiration-date-input"
+          />
+          <div class="merchants-form__error" id="st-expiration-date-input-error"></div>
+        </div>
+
+        <div class="merchants-form__field">
+          <label for="st-security-code-input">Security code: </label>
+          <input type="text" class="merchants-form__input" id="st-security-code-input" name="st-security-code-input" />
+          <div class="merchants-form__error" id="st-security-code-input-error"></div>
+        </div>
       </div>
 
       <div id="st-animated-card" class="st-animated-card-wrapper"></div>
@@ -38,16 +57,23 @@
       (function() {
         var card = Card({
           locale: 'en_GB',
-          ids: {
-            cardNumberId: 'merchants-card-number',
-            expirationDateId: 'merchants-expiration-date',
-            securityCodeId: 'merchants-security-code'
+          fields: {
+            inputs: {
+              cardNumber: 'st-card-number-input',
+              expirationDate: 'st-expiration-date-input',
+              securityCode: 'st-security-code-input'
+            },
+            errors: {
+              cardNumber: 'st-card-number-input-error',
+              expirationDate: 'st-expiration-date-input-error',
+              securityCode: 'st-security-code-input-error'
+            }
           },
           animatedCardContainer: 'st-animated-card'
         });
-        card.onCardNumberInput('merchants-card-number', event => {});
-        card.onExpirationDateInput('merchants-expiration-date', event => {});
-        card.onSecurityCodeInput('merchants-security-code', event => {});
+        card.onCardNumberInput('st-card-number-input', event => {});
+        card.onExpirationDateInput('st-expiration-date-input', event => {});
+        card.onSecurityCodeInput('st-security-code-input', event => {});
       })();
     </script>
   </body>

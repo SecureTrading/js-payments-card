@@ -84,22 +84,12 @@ body {
   font-size: $font-size-body;
   line-height: $line-height-body;
   color: $color-body;
-
-  /* prettier-ignore */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-  Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: 'Ubuntu', sans-serif;
 }
 
-.error-field {
-  background-color: #f8d7da;
-  color: #721c24;
-  border-color: $border-color-notification-error;
-}
-
-.error-label {
-  font-size: 1.3rem;
-  line-height: 1.6rem;
-  color: #ff4545;
+header {
+  display: flex;
+  margin: 2rem -3.4rem 4rem -3.4rem;
 }
 
 @-webkit-keyframes autofill {
@@ -115,23 +105,49 @@ input:-webkit-autofill.error-field {
   -webkit-animation-fill-mode: both;
 }
 
-.st-button-submit__disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.merchants-form {
+  padding: 10rem;
+  width: 100%;
+  max-width: 100rem;
+  margin: auto;
 
-  &:hover {
-    background: transparent;
+  &__header {
+    display: flex;
+    justify-content: center;
   }
-}
 
-.st-input {
-  &--disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background: transparent;
+  &__field {
+    display: flex;
+    flex-direction: column;
+    min-height: 11rem;
+    justify-content: center;
+
+    &--error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border-color: $border-color-notification-error;
+    }
   }
-}
 
-.merchants-form__field {
-  min-height: 10rem;
+  &__input {
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 1.5rem;
+    line-height: 1.6rem;
+    color: #333;
+    border: 0.1rem solid #6d6d6d;
+    border-radius: 0.4rem;
+    padding: 1.1rem 0.8rem;
+    margin: 0.8rem 0 0.4rem 0;
+  }
+
+  &__error {
+    font-size: 1.3rem;
+    line-height: 1.6rem;
+    color: #ff4545;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
 }

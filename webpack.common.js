@@ -6,6 +6,8 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: {
@@ -20,6 +22,16 @@ module.exports = {
     libraryExport: 'default',
     libraryTarget: 'var',
     publicPath: ''
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true,
+        terserOptions: {}
+      })
+    ]
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -40,7 +52,9 @@ module.exports = {
         force: true
       }
     ]),
+
     new StyleLintPlugin(),
+    new BundleAnalyzerPlugin(),
     new FriendlyErrorsWebpackPlugin(),
     new webpack.DefinePlugin({
       HOST: JSON.stringify(process.env.npm_package_config_host)

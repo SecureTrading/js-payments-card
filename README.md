@@ -1,12 +1,10 @@
 # JS Payment Card
 
-## Quickstart
-
 You can check JS Library in action by running it on your local environment. To do this, run commands below:
 
 ```
-yarn
-yarn start
+npm install
+npm start
 ```
 
 Then open address `https://localhost:8444` in your web browser.
@@ -18,7 +16,7 @@ Then open address `https://localhost:8444` in your web browser.
 - [TypeScript](https://www.typescriptlang.org/)
 - [ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript) + [Babel](https://babeljs.io/)
 - [Webpack](https://webpack.js.org/)
-- [yarn](https://yarnpkg.com/)
+- [npm](https://www.npmjs.com/)
 - [Sass (SCSS + BEM)](https://sass-lang.com/)
 - [PostCSS](https://postcss.org/)
 - [Prettier](https://prettier.io/)
