@@ -99,7 +99,16 @@ describe('Utils', () => {
   // given
   describe('getContent', () => {
     // then
-    it('', () => {});
+    it('should return value if it is specified', () => {
+      // @ts-ignore
+      expect(instance.getContent('test value', 'placeholder')).toEqual('test value');
+    });
+
+    // then
+    it('should return placeholder if value is not specified', () => {
+      // @ts-ignore
+      expect(instance.getContent('', 'placeholder')).toEqual('placeholder');
+    });
   });
 
   // given
@@ -117,7 +126,20 @@ describe('Utils', () => {
   // given
   describe('toLower', () => {
     // then
-    it('', () => {});
+    it('should return to lower case if text is specified', () => {
+      // @ts-ignore
+      expect(instance.toLower('SoME CONTent')).toEqual('some content');
+    });
+
+    // then
+    it('should return null if text is not specified', () => {
+      // @ts-ignore
+      expect(instance.toLower(null)).toEqual(null);
+      // @ts-ignore
+      expect(instance.toLower(undefined)).toEqual(undefined);
+      // @ts-ignore
+      expect(instance.toLower('')).toEqual('');
+    });
   });
 
   // given
