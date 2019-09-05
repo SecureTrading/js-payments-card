@@ -158,9 +158,22 @@ describe('Validation', () => {
         cvcLength: [3],
         format: 'some regexp'
       });
+      // @ts-ignore
+      instance.getCardDetails('41111');
     });
     // then
-    it('should return card details if card number is specified', () => {});
+    it('should return card details if card number is specified', () => {
+      // @ts-ignore
+      instance.getCardDetails('41111');
+      // @ts-ignore
+      expect(instance.binLookup.binLookup).toHaveReturnedWith({
+        type: 'VISA',
+        luhn: true,
+        length: [16],
+        cvcLength: [3],
+        format: 'some regexp'
+      });
+    });
   });
 
   // given
