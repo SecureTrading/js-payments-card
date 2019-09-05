@@ -8,7 +8,9 @@ describe('Utils', () => {
   describe('ifCardWrapperExist', () => {
     // then
     it('should return card wrapper element', () => {
-      expect(Utils.ifCardWrapperExist().getAttribute('id')).toEqual(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR);
+      expect(Utils.ifElementExists(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR).getAttribute('id')).toEqual(
+        CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR
+      );
     });
   });
 
@@ -50,6 +52,21 @@ describe('Utils', () => {
   // given
   describe('setElementAttributes', () => {
     const element: HTMLInputElement = document.createElement('input');
+
+    // then
+    it('should return value (as card value only attribute)', () => {
+      element.setAttribute('value', '');
+      // @ts-ignore
+      Utils.setElementAttributes(
+        {
+          value: '1111 1111'
+        },
+        element
+      );
+      // @ts-ignore
+      expect(element.getAttribute('value')).toEqual('');
+    });
+
     // then
     it('should set proper attributes given in params', () => {
       // @ts-ignore
@@ -70,16 +87,15 @@ describe('Utils', () => {
     });
 
     it('should clear value attribute when its specified as false', () => {
-      element.setAttribute('value', 'Pepe the Frog');
       // @ts-ignore
       Utils.setElementAttributes(
         {
-          value: 'dsadsadsada'
+          thirdAttribute: false
         },
         element
       );
       // @ts-ignore
-      // expect(element.getAttribute('value')).toEqual('');
+      expect(element.getAttribute('thirdAttribute')).toEqual(null);
     });
   });
 
@@ -88,6 +104,11 @@ describe('Utils', () => {
     // then
     it('should get rid of the chars from string', () => {
       expect(Utils.stripChars('123abc')).toEqual('123');
+    });
+
+    // then
+    it('should get rid of all digits from string', () => {
+      expect(Utils.stripChars('123abc', /[0-9]/g)).toEqual('abc');
     });
   });
 
