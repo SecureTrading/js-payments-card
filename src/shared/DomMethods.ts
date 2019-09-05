@@ -51,6 +51,8 @@ class DomMethods {
     const child = document.getElementById(childId);
     if (parent && child) {
       parent.removeChild(child);
+    } else {
+      throw new Error('Parent or child element is not specified ');
     }
     return parent;
   }
