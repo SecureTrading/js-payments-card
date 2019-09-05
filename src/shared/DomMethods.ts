@@ -10,6 +10,31 @@ class DomMethods {
   public static addClass = (element: HTMLElement, classToAdd: string) => element.classList.add(classToAdd);
 
   /**
+   * Appends HTML element into DOM.
+   * @param target
+   * @param child
+   */
+  public static appendChildIntoDOM(target: string, child: HTMLElement) {
+    const element = document.getElementById(target)
+      ? document.getElementById(target)
+      : document.getElementsByTagName('body')[0];
+    element.appendChild(child);
+    return element;
+  }
+
+  /**
+   * Creates and returns html element.
+   * @param attributes
+   * @param markup
+   */
+  public static createHtmlElement = (attributes: any, markup: string) => {
+    const element = document.createElement(markup);
+    // @ts-ignore
+    Object.keys(attributes).map(item => element.setAttribute(item, attributes[item]));
+    return element;
+  };
+
+  /**
    * Removes class to inputs classList.
    * @param element
    * @param classToRemove
@@ -26,32 +51,10 @@ class DomMethods {
     const child = document.getElementById(childId);
     if (parent && child) {
       parent.removeChild(child);
+    } else {
+      throw new Error('Parent or child element is not specified ');
     }
     return parent;
-  }
-  /**
-   * Creates and returns html element.
-   * @param attributes
-   * @param markup
-   */
-  public static createHtmlElement = (attributes: any, markup: string) => {
-    const element = document.createElement(markup);
-    // @ts-ignore
-    Object.keys(attributes).map(item => element.setAttribute(item, attributes[item]));
-    return element;
-  };
-
-  /**
-   * Appends HTML element into DOM.
-   * @param target
-   * @param child
-   */
-  public static appendChildIntoDOM(target: string, child: HTMLElement) {
-    const element = document.getElementById(target)
-      ? document.getElementById(target)
-      : document.getElementsByTagName('body')[0];
-    element.appendChild(child);
-    return element;
   }
 
   /**
