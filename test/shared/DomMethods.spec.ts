@@ -9,6 +9,27 @@ describe('DomMethods', () => {
   });
 
   // given
+  describe('DomMethods.addClass', () => {
+    // then
+    it('should add class to DOM element', () => {
+      const element = document.createElement('div');
+      DomMethods.addClass(element, 'someclass');
+      expect(element.classList.contains('someclass')).toBe(true);
+    });
+  });
+
+  // given
+  describe('DomMethods.appendChildIntoDOM', () => {
+    // then
+    it('should append element into DOM', () => {
+      const element = document.createElement('div');
+      element.setAttribute('id', 'some-id');
+
+      expect(element.classList.contains('someclass')).toBe(true);
+    });
+  });
+
+  // given
   describe('DomMethods.removeChildFromDOM', () => {
     // when
     const { htmlForParentAndChild } = createFormFixture();
