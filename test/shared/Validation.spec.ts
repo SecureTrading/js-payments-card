@@ -32,10 +32,21 @@ describe('Validation', () => {
       // @ts-ignore
       instance._selectionRangeEnd = 2;
       // @ts-ignore
-      instance._isPressedKeyBackspace = jest.fn().mockReturnValueOnce(true);
+      // instance._isPressedKeyBackspace = jest.fn().mockReturnValueOnce(true);
+      // @ts-ignore
+      // instance._isPressedKeyDelete = jest.fn().mockReturnValueOnce(true);
     });
+
     // then
-    it('should set selection range when delete key is pressed', () => {});
+    it('should set selection range when delete key is pressed', () => {
+      // @ts-ignore
+      // instance._isPressedKeyDelete = jest.fn().mockReturnValueOnce(true);
+      // instance.keepCursorAtSamePosition(element, '411111');
+      // // @ts-ignore
+      // expect(instance._selectionRangeStart).toEqual(2);
+      // // @ts-ignore
+      // expect(instance._selectionRangeEnd).toEqual(2);
+    });
   });
 
   // given
@@ -67,11 +78,11 @@ describe('Validation', () => {
       expect(errorContainer.textContent).toEqual('Field is required');
     });
     // then
-    it('should set validity valid as true when input is correct', () => {
-      element.value = '4111111111111111';
+    it('should set customError  when input is not correct', () => {
+      element.value = '4111111111111';
       instance.validate(element, errorContainer);
       // @ts-ignore
-      expect(element.validity.valid).toBe(false);
+      expect(element.validity.customError).toBe(true);
       // @ts-ignore
       expect(errorContainer.textContent).toEqual('Value mismatch pattern');
     });
@@ -84,7 +95,11 @@ describe('Validation', () => {
       clipboardData: { getData: jest.fn() }
     };
     // then
-    it('should return clipboardData', () => {});
+    it('should call preventDefault clipboardData', () => {
+      // @ts-ignore
+      instance.onPaste(event);
+      expect(event.preventDefault).toHaveBeenCalled();
+    });
   });
 
   // given
@@ -147,42 +162,22 @@ describe('Validation', () => {
   });
 
   // given
-  describe('getCardDetails', () => {
-    // when
-    beforeEach(() => {
-      // @ts-ignore
-      instance.binLookup.binLookup = jest.fn().mockReturnValueOnce({
-        type: 'VISA',
-        luhn: true,
-        length: [16],
-        cvcLength: [3],
-        format: 'some regexp'
-      });
-      // @ts-ignore
-      instance.getCardDetails('41111');
-    });
-    // then
-    it('should return card details if card number is specified', () => {
-      // @ts-ignore
-      instance.getCardDetails('41111');
-      // @ts-ignore
-      // expect(instance.binLookup.binLookup).toHaveReturnedWith({
-      //   type: 'VISA',
-      //   luhn: true,
-      //   length: [16],
-      //   cvcLength: [3],
-      //   format: 'some regexp'
-      // });
-    });
-  });
-
-  // given
   describe('_isPressedKeyBackspace', () => {
     // then
-    it('should return false if pressed key is not Backspace', () => {});
+    it('should return false if pressed key is not Backspace', () => {
+      // @ts-ignore
+      instance._currentKeyCode = 33;
+      // @ts-ignore
+      expect(instance._isPressedKeyBackspace()).toBe(false);
+    });
 
     // then
-    it('should return true if pressed key is Backspace', () => {});
+    it('should return true if pressed key is Backspace', () => {
+      // @ts-ignore
+      instance._currentKeyCode = 8;
+      // @ts-ignore
+      expect(instance._isPressedKeyBackspace()).toBe(true);
+    });
   });
 
   // given
@@ -281,6 +276,7 @@ function ValidationFixture() {
   const errorMessage: string = 'This is some random error message';
   const element: HTMLInputElement = document.createElement('input');
   element.setAttribute('required', 'true');
+  element.setAttribute('pattern', 'd');
   const errorContainer: HTMLDivElement = document.createElement('div');
   const instance = new Validation(locale);
   return { instance, element, errorContainer, errorMessage };
