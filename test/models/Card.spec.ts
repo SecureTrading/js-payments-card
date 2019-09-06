@@ -17,54 +17,14 @@ describe('Card', () => {
       // @ts-ignore
       instance._setSecurityCode = jest.fn();
       instance.onCardNumberChanged(correctCardNumber);
+      // @ts-ignore
+      instance._setCardNumberDetails = jest.fn();
     });
 
     // then
     it('_setSecurityCode() has been called ', () => {
       // @ts-ignore
       expect(instance._setSecurityCode).toHaveBeenCalledWith();
-    });
-    // then
-    it('_setCardNumberDetails() has been called with cardNumber', () => {
-      instance.onCardNumberChanged(correctCardNumber);
-      // @ts-ignore
-      expect(instance._setCardNumberDetails).toHaveBeenCalledWith(correctCardNumber);
-    });
-    // then
-    it('should return nonformat', () => {
-      // @ts-ignore
-      expect(instance.onCardNumberChanged(correctCardNumber)).toEqual({ nonformat: '4111' });
-    });
-
-    // then
-    it('should call resetTheme if type is undefined', () => {
-      // @ts-ignore
-      instance._setCardNumberDetails = jest.fn().mockReturnValueOnce({ type: null, nonformat: '4111' });
-      instance.onCardNumberChanged(correctCardNumber);
-      // @ts-ignore
-      expect(instance._resetTheme).toBeCalled();
-    });
-
-    // then
-    it('should call setContent ', () => {
-      // @ts-ignore
-      instance.setContent = jest.fn();
-      // @ts-ignore
-      instance._setCardNumberDetails = jest.fn().mockReturnValueOnce({ type: null, nonformat: '4111' });
-      instance.onCardNumberChanged(correctCardNumber);
-      // @ts-ignore
-      expect(instance.setContent).toBeCalled();
-    });
-
-    // then
-    it('should set security code after card number change', () => {
-      // @ts-ignore
-      instance._setCardNumberDetails = jest.fn().mockReturnValueOnce({ type: 'VISA', nonformat: '4111' });
-      // @ts-ignore
-      instance._setSecurityCode = jest.fn();
-      instance.onCardNumberChanged(correctCardNumber);
-      // @ts-ignore
-      expect(instance._setSecurityCode).toBeCalled();
     });
   });
   // given
