@@ -16,32 +16,80 @@ describe('Card', () => {
       instance._setTheme = jest.fn();
       // @ts-ignore
       instance._setSecurityCode = jest.fn();
-      instance.onCardNumberChanged(correctCardNumber);
-      // @ts-ignore
-      instance._setCardNumberDetails = jest.fn();
     });
 
     // then
     it('_setSecurityCode() has been called ', () => {
+      instance.onCardNumberChanged(correctCardNumber);
       // @ts-ignore
-      expect(instance._setSecurityCode).toHaveBeenCalledWith();
+      expect(instance._setSecurityCode).toHaveBeenCalled();
+    });
+
+    // then
+    it('_setTheme() has been called ', () => {
+      // @ts-ignore
+      instance._setCardNumberDetails = jest.fn().mockReturnValueOnce({ type: 'VISA', nonformat: '411111' });
+      instance.onCardNumberChanged(correctCardNumber);
+      // @ts-ignore
+      expect(instance._setTheme).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call _resetTheme() if type is falsy', () => {
+      // @ts-ignore
+      instance._setCardNumberDetails = jest.fn().mockReturnValueOnce({ type: undefined, nonformat: '411111' });
+      instance.onCardNumberChanged(correctCardNumber);
+      // @ts-ignore
+      expect(instance._resetTheme).toHaveBeenCalled();
+    });
+
+    // then
+    it('should return non-format value', () => {
+      // @ts-ignore
+      instance._setCardNumberDetails = jest.fn().mockReturnValueOnce({ type: 'VISA', nonformat: '411111' });
+      instance.onCardNumberChanged(correctCardNumber);
+      // expect(instance.onCardNumberChanged('411111')).toEqual({ nonformat: '411111' });
     });
   });
   // given
   describe('onExpirationDateChanged()', () => {
     // when
-    beforeEach(() => {});
+    beforeEach(() => {
+      instance.onExpirationDateChanged('111');
+    });
 
     // then
-    it('', () => {});
+    it('should set value of expiration date in class properties', () => {
+      // @ts-ignore
+      expect(instance._cardDetails.expirationDate).toEqual('11/1');
+    });
+
+    // then
+    it('should set expiration date on card', () => {
+      // @ts-ignore
+      expect(document.getElementById(CARD_SELECTORS.ANIMATED_CARD_EXPIRATION_DATE_ID).textContent).toEqual('11/1');
+    });
   });
   // given
   describe('onSecurityCodeChanged()', () => {
     // when
-    beforeEach(() => {});
+    beforeEach(() => {
+      // @ts-ignore
+      instance._setSecurityCode = jest.fn();
+      instance.onSecurityCodeChanged('1111111');
+    });
 
     // then
-    it('', () => {});
+    it('should set value of security code in class properties and shorten it if its necessary', () => {
+      // @ts-ignore
+      expect(instance._cardDetails.securityCode).toEqual('111');
+    });
+
+    // then
+    it('should set security code on card', () => {
+      // @ts-ignore
+      expect(instance._setSecurityCode).toHaveBeenCalled();
+    });
   });
   // given
   describe('flipCard()', () => {
@@ -49,39 +97,76 @@ describe('Card', () => {
     beforeEach(() => {});
 
     // then
-    it('', () => {});
+    it('should flip card if its flippable', () => {
+      // @ts-ignore
+      instance._isFlippableCard = jest.fn().mockReturnValueOnce(true);
+      instance.flipCard();
+      // @ts-ignore
+      expect(instance._isFlippableCard).toHaveBeenCalled();
+    });
+
+    // then
+    it('should remove flip class', () => {
+      // @ts-ignore
+      instance._isFlippableCard = jest.fn().mockReturnValueOnce(true);
+      instance.flipCard();
+      expect(
+        document
+          .getElementById(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR)
+          .classList.contains(CARD_CLASSES.CLASS_FOR_ANIMATION)
+      ).toBe(false);
+    });
+
+    // then
+    it('should remove flip class if its not flippable', () => {
+      // @ts-ignore
+      instance._isFlippableCard = jest.fn().mockReturnValueOnce(false);
+      instance.flipCard();
+      expect(
+        document
+          .getElementById(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR)
+          .classList.contains(CARD_CLASSES.CLASS_FOR_ANIMATION)
+      ).toBe(false);
+    });
   });
   // given
   describe('getCardDetails()', () => {
     // when
-    beforeEach(() => {});
+    const returnedObject = {
+      cvcLength: [3],
+      format: '(\\d{1,4})(\\d{1,4})?(\\d{1,4})?(\\d+)?',
+      length: [13, 16, 19],
+      luhn: true,
+      type: 'VISA'
+    };
 
     // then
-    it('', () => {});
+    it('should return card details', () => {
+      expect(instance.getCardDetails('41111')).toEqual(returnedObject);
+    });
   });
   // given
   describe('isAmex()', () => {
-    // when
-    beforeEach(() => {});
-
     // then
-    it('', () => {});
+    it('should return if card number type is equal amex', () => {
+      // @ts-ignore
+      expect(instance._isAmex('amex')).toEqual(true);
+      // @ts-ignore
+      expect(instance._isAmex('visa')).toEqual(false);
+    });
   });
   // given
   describe('_isFlippableCard()', () => {
-    // when
-    beforeEach(() => {});
-
     // then
-    it('', () => {});
+    it('should return false if card is equal amex', () => {});
   });
   // given
   describe('_returnThemeClass()', () => {
-    // when
-    beforeEach(() => {});
-
     // then
-    it('', () => {});
+    it('should return theme class', () => {
+      // @ts-ignore
+      expect(instance._returnThemeClass('someString')).toEqual(`st-animated-card__someString`);
+    });
   });
   // given
   describe('_setCardNumberDetails()', () => {
