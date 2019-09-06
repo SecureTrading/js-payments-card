@@ -20,10 +20,10 @@ jobs:
   include:
     - stage: "Docker build"
       script:
-        - docker pull "securetrading1/js-payments"
-        - docker build . --tag "securetrading1/js-payments:$DOCKER_BRANCH"
+        - docker pull "securetrading1/js-payments-card"
+        - docker build . --tag "securetrading1/js-payments-card:$DOCKER_BRANCH"
         - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-        - docker push "securetrading1/js-payments"
+        - docker push "securetrading1/js-payments-card"
         - cd js-payments-testing
         - git pull --ff-only origin master
         - git checkout -t origin/feature/ST-311-code-repo-env-variable
