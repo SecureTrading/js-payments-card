@@ -26,7 +26,6 @@ jobs:
         - docker push "securetrading1/js-payments-card"
         - cd js-payments-testing
         - git pull --ff-only origin master
-        - git checkout -t origin/feature/ST-311-code-repo-env-variable
         - docker build . --build-arg "CODE_REPO=js-payments-card" --build-arg "CODE_VERSION=$DOCKER_BRANCH" --tag "securetrading1/js-payments-testing:$DOCKER_BRANCH"
         - docker push "securetrading1/js-payments-testing"
     - stage: "Test"
