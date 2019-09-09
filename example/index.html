@@ -28,7 +28,7 @@
         <div class="merchants-form__field">
           <label for="st-card-number-input">Card number: </label>
           <input type="text" class="merchants-form__input" id="st-card-number-input" name="st-card-number-input" />
-          <div class="merchants-form__error" id="st-card-number-input-error"></div>
+          <div class="merchants-form__error" id="st-card-number-message"></div>
         </div>
 
         <div class="merchants-form__field">
@@ -39,13 +39,13 @@
             id="st-expiration-date-input"
             name="st-expiration-date-input"
           />
-          <div class="merchants-form__error" id="st-expiration-date-input-error"></div>
+          <div class="merchants-form__error" id="st-expiration-date-message"></div>
         </div>
 
         <div class="merchants-form__field">
           <label for="st-security-code-input">Security code: </label>
           <input type="text" class="merchants-form__input" id="st-security-code-input" name="st-security-code-input" />
-          <div class="merchants-form__error" id="st-security-code-input-error"></div>
+          <div class="merchants-form__error" id="st-security-code-message"></div>
         </div>
       </div>
 
@@ -64,9 +64,9 @@
               securityCode: 'st-security-code-input'
             },
             errors: {
-              cardNumber: 'st-card-number-input-error',
-              expirationDate: 'st-expiration-date-input-error',
-              securityCode: 'st-security-code-input-error'
+              cardNumber: 'st-card-number-message',
+              expirationDate: 'st-expiration-date-message',
+              securityCode: 'st-security-code-message'
             }
           },
           animatedCardContainer: 'st-animated-card'
