@@ -1,5 +1,5 @@
 import { BrandDetailsType } from '../imports/card/card-type';
-import Translator from '../models/Translation/Translation';
+import Translator from '../models/Translation';
 import BinLookup from './BinLookup';
 import Utils from './Utils';
 
@@ -66,6 +66,7 @@ class Validation {
 
   public luhnCheck(element: HTMLInputElement) {
     const { value } = element;
+    console.log(this._luhnAlgorithm(value));
     this._luhnAlgorithm(value) ? element.setCustomValidity('') : element.setCustomValidity('luhn');
   }
 
@@ -83,13 +84,6 @@ class Validation {
       }
     } else {
       this._removeError(element, errorContainer);
-    }
-  }
-
-  public preventNonDigits(event: KeyboardEvent) {
-    const { key } = event;
-    if (!this._isNumber(key)) {
-      event.preventDefault();
     }
   }
 

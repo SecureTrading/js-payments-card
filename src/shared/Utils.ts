@@ -1,29 +1,47 @@
-import { CARD_SELECTORS } from '../imports/card/card-selectors';
-import Translator from '../models/Translation/Translation';
+import Translator from '../models/Translation';
 
-export default class Utils {
-  public static ifCardWrapperExist() {
-    return document.getElementById(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR) as HTMLInputElement;
+/**
+ * Bunch of functions for manipulating data.
+ */
+class Utils {
+  /**
+   * Checks if given element exists in DOM.
+   * @param id
+   */
+  public static ifElementExists(id: string) {
+    return document.getElementById(id) as HTMLInputElement;
   }
 
+  /**
+   * ES5 replacement for includes()
+   * @param array
+   * @param item
+   */
   public static inArray<T>(array: ArrayLike<T>, item: T) {
     return Array.from(array).indexOf(item) >= 0;
   }
 
-  public static getLastElementOfArray = (array: number[]) => array && array.slice(-1).pop();
+  /**
+   * Returns last element of array.
+   * @param array
+   */
+  public static getLastElementOfArray = (array: number[]): number => array && array.slice(-1).pop();
 
+  /**
+   * Sets attributes for DOM element given in parameter.
+   * @param attributes
+   * @param element
+   */
   public static setElementAttributes(attributes: any, element: HTMLInputElement) {
     for (const attribute in attributes) {
-      if (attributes.hasOwnProperty(attribute)) {
-        const value = attributes[attribute];
-        if (Utils.inArray(['value'], attribute)) {
-          // @ts-ignore
-          element[attribute] = value;
-        } else if (value === false) {
-          element.removeAttribute(attribute);
-        } else {
-          element.setAttribute(attribute, value);
-        }
+      const value = attributes[attribute];
+      if (Utils.inArray(['value'], attribute)) {
+        // @ts-ignore
+        element[attribute] = value;
+      } else if (value === false) {
+        element.removeAttribute(attribute);
+      } else {
+        element.setAttribute(attribute, value);
       }
     }
   }
@@ -33,13 +51,21 @@ export default class Utils {
    * @param string
    * @param regex
    */
-  public static stripChars(string: string, regex: any) {
+  public static stripChars(string: string, regex?: any) {
+    let expression: any;
     if (typeof regex === 'undefined') {
-      regex = /[\D+]/g;
+      expression = /[\D+]/g;
+    } else {
+      expression = regex;
     }
-    return string.replace(regex, '');
+    return string.replace(expression, '');
   }
 
+  /**
+   * Function for seeking through supported brands.
+   * @param iterable
+   * @param callback
+   */
   public static forEachBreak<inputType, returnType>(
     iterable: ArrayLike<inputType>,
     callback: (item: inputType) => returnType
@@ -69,3 +95,5 @@ export default class Utils {
   protected toLower = (content: string | null) => (content ? content.toLowerCase() : content);
   protected clearContent = (id: string) => this.setContent(id, '');
 }
+
+export default Utils;

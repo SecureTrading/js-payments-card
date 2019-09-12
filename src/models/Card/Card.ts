@@ -5,7 +5,7 @@ import BinLookup from '../../shared/BinLookup';
 import DomMethods from '../../shared/DomMethods';
 import Formatter from '../../shared/Formatter';
 import Utils from '../../shared/Utils';
-import Translator from '../Translation/Translation';
+import Translator from '../Translation';
 import { ICardDetails } from './ICard';
 
 /**

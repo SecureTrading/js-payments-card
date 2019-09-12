@@ -16,7 +16,7 @@ class Formatter extends Validation {
     super(locale);
   }
 
-  public number(cardNumber: string, id?: string) {
+  public number(cardNumber: string, id: string) {
     super.cardNumber(cardNumber);
     const element: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
     const cardNumberCleaned: string = this.removeNonDigits(this.cardNumberValue);
