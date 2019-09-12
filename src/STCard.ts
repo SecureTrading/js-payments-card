@@ -7,6 +7,7 @@ import {
 } from './imports/card/card-properties';
 import Card from './models/Card/Card';
 import Validation from './shared/Validation';
+import { CARD_SELECTORS } from './imports/card/card-selectors';
 
 class STCard {
   private static MATCH_EXACTLY_THREE_DIGITS: string = '^[0-9]{3}$';
@@ -31,7 +32,7 @@ class STCard {
     this._addInputErrorLabels(errors);
     this._addAnimatedCardContainer(animatedCardContainer);
     this._validation = new Validation(locale);
-    if (Card.ifCardWrapperExist()) {
+    if (Card.ifElementExists(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR)) {
       this._card = new Card(config);
     }
   }
