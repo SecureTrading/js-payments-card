@@ -5,9 +5,9 @@ import {
   EXPIRATION_DATE_PROPERTIES,
   SECURITY_CODE_PROPERTIES
 } from './imports/card/card-properties';
+import { CARD_SELECTORS } from './imports/card/card-selectors';
 import Card from './models/Card/Card';
 import Validation from './shared/Validation';
-import { CARD_SELECTORS } from './imports/card/card-selectors';
 
 class STCard {
   private static MATCH_EXACTLY_THREE_DIGITS: string = '^[0-9]{3}$';
@@ -46,7 +46,7 @@ class STCard {
     this._cardNumberInput.addEventListener('input', (event: KeyboardEvent) => {
       callback(event);
       const { nonformat } = this._card.onCardNumberChanged(this._cardNumberInput.value);
-      this._changeSecurityCodePattern(this._cardNumberInput.value);
+      this._changeSecurityCodePattern(nonformat);
       this._validation.keepCursorAtSamePosition(this._cardNumberInput, nonformat);
     });
 

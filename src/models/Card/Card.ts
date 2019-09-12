@@ -114,11 +114,11 @@ class Card extends Utils {
    * @private
    */
   private _setCardNumberDetails(cardNumber: string): { type: string; nonformat: string } | null {
-    const type: string = this.toLower(this.getCardDetails(cardNumber).type);
     const { value, nonformat } = this._formatter.number(
       this.getContent(cardNumber, CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER),
       this._cardNumberId
     );
+    const type: string = this.toLower(this.getCardDetails(nonformat).type);
     this._cardDetails.cardNumber = value;
     this._cardDetails.type = type;
     this._cardDetails.flippable = this._isFlippableCard(type);
@@ -292,10 +292,12 @@ class Card extends Utils {
    * @private
    */
   private _removeLogo() {
-    DomMethods.removeChildFromDOM.apply(this, [
-      CARD_CLASSES.CLASS_LOGO_WRAPPER,
-      CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID
-    ]);
+    if (document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID)) {
+      DomMethods.removeChildFromDOM.apply(this, [
+        CARD_CLASSES.CLASS_LOGO_WRAPPER,
+        CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID
+      ]);
+    }
   }
 
   /**
