@@ -1,24 +1,24 @@
 import i18next from 'i18next';
 // @ts-ignore
-import cy_GB from '../../imports/translations/cy_GB.json';
+import cy_GB from '../imports/translations/cy_GB.json';
 // @ts-ignore
-import da_DK from '../../imports/translations/da_DK.json';
+import da_DK from '../imports/translations/da_DK.json';
 // @ts-ignore
-import de_DE from '../../imports/translations/de_DE.json';
+import de_DE from '../imports/translations/de_DE.json';
 // @ts-ignore
-import en_GB from '../../imports/translations/en_GB.json';
+import en_GB from '../imports/translations/en_GB.json';
 // @ts-ignore
-import en_US from '../../imports/translations/en_US.json';
+import en_US from '../imports/translations/en_US.json';
 // @ts-ignore
-import es_ES from '../../imports/translations/es_ES.json';
+import es_ES from '../imports/translations/es_ES.json';
 // @ts-ignore
-import fr_FR from '../../imports/translations/fr_FR.json';
+import fr_FR from '../imports/translations/fr_FR.json';
 // @ts-ignore
-import nl_NL from '../../imports/translations/nl_NL.json';
+import nl_NL from '../imports/translations/nl_NL.json';
 // @ts-ignore
-import no_NO from '../../imports/translations/no_NO.json';
+import no_NO from '../imports/translations/no_NO.json';
 // @ts-ignore
-import sv_SE from '../../imports/translations/sv_SE.json';
+import sv_SE from '../imports/translations/sv_SE.json';
 
 class Translator {
   private static _translations = {
