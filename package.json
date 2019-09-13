@@ -19,7 +19,7 @@
     "start": "webpack-dev-server --color --progress --config webpack.dev.js",
     "example": "ws --rewrite '/* -> /dist/$1' --https",
     "prod": "npm run build",
-    "snyk": "snyk test --dev --org=secure-trading",
+    "snyk": "snyk test --org=secure-trading",
     "test": "jest --watchAll",
     "coverage": "jest --coverage",
     "testdocker": "docker pull \"securetrading1/js-payments-testing:$DOCKER_BRANCH\" && docker run -d -p 8443:8443 -p 8760:8760 -it \"securetrading1/js-payments-testing:$DOCKER_BRANCH\"",
