@@ -97,7 +97,7 @@
     "joi-browser": "^13.4.0",
     "location-origin": "^1.1.4",
     "url-polyfill": "^1.1.7",
-    "validate": "^4.5.1",
+    "validate": "^5.0.0",
     "whatwg-fetch": "^3.0.0"
   },
   "snyk": true
