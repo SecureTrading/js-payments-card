@@ -81,7 +81,19 @@ describe('Formatter', () => {
     // then
     it('should return formatted date with slash between month and year', () => {
       // @ts-ignore
+      expect(instance._dateISO(['1', ''], ['11', ''])).toEqual('11');
+    });
+
+    // then
+    it('should return formatted date with slash between month and year', () => {
+      // @ts-ignore
       expect(instance._dateISO(['12', '1'], ['12', '19'])).toEqual('12/19');
+    });
+
+    // then
+    it('should return formatted date with slash between month and year', () => {
+      // @ts-ignore
+      expect(instance._dateISO(['12', '11'], ['12', '1'])).toEqual('12/1');
     });
   });
 
