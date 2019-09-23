@@ -40,6 +40,13 @@ describe('Validation', () => {
       // @ts-ignore
       expect(instance._selectionRangeEnd).toEqual(2);
     });
+
+    // then
+    it('should call setSelectionRange method', () => {
+      element.setSelectionRange = jest.fn();
+      instance.keepCursorAtSamePosition(element, '41111');
+      expect(element.setSelectionRange).toHaveBeenCalled();
+    });
   });
 
   // given
