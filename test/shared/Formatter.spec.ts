@@ -16,7 +16,26 @@ describe('Formatter', () => {
   // then
   describe('number()', () => {
     // then
-    it('should set standard format if cardDetails format is null', () => {
+    it('should set dedicated format if card number is specified and card details are also specified', () => {
+      // @ts-ignore
+      instance.getCardDetails = jest.fn().mockReturnValueOnce({
+        type: 'VISA',
+        luhn: true,
+        length: [16, 17],
+        cvcLength: [3],
+        format: '(\\d{1,4})(\\d{1,4})?(\\d{1,4})?(\\d+)?'
+      });
+      // @ts-ignore
+      instance.removeNonDigits = jest.fn().mockReturnValueOnce('411111');
+      Utils.stripChars = jest.fn().mockReturnValueOnce('411111');
+      expect(instance.number('411111', 'st-card-number-input')).toEqual({
+        // @ts-ignore
+        value: '4111 11',
+        nonformat: '411111'
+      });
+    });
+    // then
+    it('should set dedicated format if card number is specified and card details are null', () => {
       // @ts-ignore
       instance.getCardDetails = jest.fn().mockReturnValueOnce(null);
       // @ts-ignore
