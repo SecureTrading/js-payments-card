@@ -1,4 +1,8 @@
+import { CARD_DETAILS_PLACEHOLDERS } from '../../src/imports/card/card-type';
 import Formatter from '../../src/shared/Formatter';
+import Utils from '../../src/shared/Utils';
+
+jest.mock('./../../src/shared/Validation');
 
 // given
 describe('Formatter', () => {
@@ -10,10 +14,51 @@ describe('Formatter', () => {
   });
 
   // then
-  describe('number()', () => {});
+  describe('number()', () => {
+    // then
+    it('should set standard format if cardDetails format is null', () => {
+      // @ts-ignore
+      instance.getCardDetails = jest.fn().mockReturnValueOnce(null);
+      // @ts-ignore
+      instance.removeNonDigits = jest.fn().mockReturnValueOnce('411111');
+      Utils.stripChars = jest.fn().mockReturnValueOnce('411111');
+      expect(instance.number('411111', 'st-card-number-input')).toEqual({
+        // @ts-ignore
+        value: '4111 11',
+        nonformat: '411111'
+      });
+    });
+
+    // then
+    it('should set standard format if cardDetails format is null', () => {
+      // @ts-ignore
+      instance.getCardDetails = jest.fn().mockReturnValueOnce(null);
+      // @ts-ignore
+      instance.removeNonDigits = jest.fn().mockReturnValueOnce('');
+      Utils.stripChars = jest.fn().mockReturnValueOnce('');
+      expect(instance.number('', 'st-card-number-input')).toEqual({
+        // @ts-ignore
+        value: CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER,
+        nonformat: ''
+      });
+    });
+  });
 
   // then
-  describe('date()', () => {});
+  describe('date()', () => {
+    // then
+    it('should set standard format if cardDetails format is null', () => {
+      // @ts-ignore
+      instance.expirationDateValue = '';
+      expect(instance.date('', 'st-expiration-date-input')).toEqual('MM/YY');
+    });
+    // then
+    it('should set standard format if cardDetails format is null', () => {
+      // @ts-ignore
+      instance.expirationDateValue = '1222';
+      expect(instance.date('1222', 'st-expiration-date-input')).toEqual('12/22');
+    });
+  });
 
   // then
   describe('code()', () => {
