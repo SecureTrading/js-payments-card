@@ -26,26 +26,19 @@ describe('Validation', () => {
 
   // given
   describe('keepCursorAtSamePosition', () => {
-    beforeEach(() => {
+    // then
+    it('should set selection range when delete key is pressed', () => {
       // @ts-ignore
       instance._selectionRangeStart = 2;
       // @ts-ignore
       instance._selectionRangeEnd = 2;
       // @ts-ignore
-      // instance._isPressedKeyBackspace = jest.fn().mockReturnValueOnce(true);
+      instance._currentKeyCode = 33;
+      instance.keepCursorAtSamePosition(element, '41111');
       // @ts-ignore
-      // instance._isPressedKeyDelete = jest.fn().mockReturnValueOnce(true);
-    });
-
-    // then
-    it('should set selection range when delete key is pressed', () => {
+      expect(instance._selectionRangeStart).toEqual(2);
       // @ts-ignore
-      // instance._isPressedKeyDelete = jest.fn().mockReturnValueOnce(true);
-      // instance.keepCursorAtSamePosition(element, '411111');
-      // // @ts-ignore
-      // expect(instance._selectionRangeStart).toEqual(2);
-      // // @ts-ignore
-      // expect(instance._selectionRangeEnd).toEqual(2);
+      expect(instance._selectionRangeEnd).toEqual(2);
     });
   });
 
