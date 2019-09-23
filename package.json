@@ -92,7 +92,6 @@
     "@babel/polyfill": "^7.6.0",
     "@babel/runtime": "^7.6.0",
     "@types/joi": "^14.3.3",
-    "es6-promise": "^4.2.8",
     "i18next": "^17.0.14",
     "joi": "^14.3.1",
     "joi-browser": "^13.4.0",
