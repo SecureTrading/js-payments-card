@@ -267,18 +267,14 @@ describe('Card', () => {
       instance._getLogoURI = jest.fn();
       // @ts-ignore
       instance._addLogo = jest.fn();
-      // @ts-ignore
-      instance._setTheme();
     });
 
     // then
     it('should call _setThemeClasses, _getLogoURI and _addLogo methods', () => {
       // @ts-ignore
-      // expect(instance._setThemeClasses).toHaveBeenCalledTimes(1);
+      instance._setTheme();
       // @ts-ignore
-      // expect(instance._getLogoURI).toHaveBeenCalledTimes(1);
-      // @ts-ignore
-      expect(instance._addLogo).toBeCalled();
+      expect(instance._setThemeClasses).toHaveBeenCalled();
     });
   });
   // given
@@ -291,11 +287,45 @@ describe('Card', () => {
   });
   // given
   describe('_addLogo()', () => {
-    // when
-    beforeEach(() => {});
+    // then
+    it('should set logo if image exists and source is specified', () => {
+      // @ts-ignore
+      instance._addLogo();
+      expect(document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID).getAttribute('src')).toEqual(
+        '../../../images/visa.png'
+      );
+    });
 
     // then
-    it('', () => {});
+    it('should create logo if it is not exist', () => {
+      // @ts-ignore
+      instance._cardDetails = {
+        logo: null,
+        type: 'VISA'
+      };
+      // @ts-ignore
+      instance._setLogo = jest.fn();
+      // @ts-ignore
+      instance._addLogo();
+      // @ts-ignore
+      expect(instance._setLogo).toBeCalled();
+    });
+
+    // then
+    it('should create logo if it is not exist', () => {
+      document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID).setAttribute('src', 'someRandomID');
+      // @ts-ignore
+      instance._cardDetails = {
+        logo: null,
+        type: 'VISA'
+      };
+      // @ts-ignore
+      instance._setLogo = jest.fn();
+      // @ts-ignore
+      instance._addLogo();
+      // @ts-ignore
+      expect(instance._setLogo).toBeCalled();
+    });
   });
   // given
   describe('_createLogo()', () => {
