@@ -275,11 +275,18 @@ describe('Card', () => {
   });
   // given
   describe('_setSecurityCodePlaceholder()', () => {
+    const { instance } = CardFixture();
     // when
-    beforeEach(() => {});
+    beforeEach(() => {
+      // @ts-ignore
+      instance._setSecurityCodePlaceholder('plchldr');
+    });
 
     // then
-    it('', () => {});
+    it('should set given placeholder to security code when security code is empty or / and card number is indicated and card brand has changed.', () => {
+      // @ts-ignore
+      expect(instance._cardDetails.securityCode).toEqual('plchldr');
+    });
   });
   // given
   describe('_clearThemeClasses()', () => {
