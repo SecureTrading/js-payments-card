@@ -4,12 +4,10 @@ import each from 'jest-each';
 // given
 describe('Validation', () => {
   const { cardNumberTooLong, element, errorContainer, errorMessage, instance } = ValidationFixture();
-  // when
-  beforeEach(() => {});
-
   // given
   describe('setKeyDownProperties', () => {
     const event: any = { keyCode: '45' };
+    // when
     beforeEach(() => {
       instance.setKeyDownProperties(element, event);
     });
@@ -23,22 +21,33 @@ describe('Validation', () => {
       expect(instance._selectionRangeEnd).toEqual(0);
     });
   });
-
+  // given
+  describe('_isPressedKeyDelete', () => {
+    // then
+    it('should return false if pressed key is not Delete', () => {
+      // @ts-ignore
+      instance._currentKeyCode = 11;
+      // @ts-ignore
+      expect(instance._isPressedKeyDelete()).toEqual(false);
+    });
+    // then
+    it('should return true if pressed key is Delete', () => {
+      // @ts-ignore
+      instance._currentKeyCode = Validation.DELETE_KEY_CODE;
+      // @ts-ignore
+      expect(instance._isPressedKeyDelete()).toEqual(true);
+    });
+  });
   // given
   describe('keepCursorAtSamePosition', () => {
     // then
     it('should set selection range when delete key is pressed', () => {
+      element.setSelectionRange = jest.fn();
       // @ts-ignore
-      instance._selectionRangeStart = 2;
-      // @ts-ignore
-      instance._selectionRangeEnd = 2;
-      // @ts-ignore
-      instance._currentKeyCode = 33;
+      instance._isPressedKeyDelete = jest.fn().mockReturnValueOnce(true);
       instance.keepCursorAtSamePosition(element, '41111');
       // @ts-ignore
-      expect(instance._selectionRangeStart).toEqual(2);
-      // @ts-ignore
-      expect(instance._selectionRangeEnd).toEqual(2);
+      expect(element.setSelectionRange).toHaveBeenCalled();
     });
 
     // then
@@ -48,7 +57,6 @@ describe('Validation', () => {
       expect(element.setSelectionRange).toHaveBeenCalled();
     });
   });
-
   // given
   describe('luhnCheck', () => {
     // then
@@ -65,7 +73,6 @@ describe('Validation', () => {
       expect(element.validity.customError).toEqual(true);
     });
   });
-
   // given
   describe('validate', () => {
     // then
@@ -87,7 +94,6 @@ describe('Validation', () => {
       expect(errorContainer.textContent).toEqual('Value mismatch pattern');
     });
   });
-
   // given
   describe('onPaste', () => {
     const event = {
@@ -101,7 +107,6 @@ describe('Validation', () => {
       expect(event.preventDefault).toHaveBeenCalled();
     });
   });
-
   // given
   describe('cardNumber', () => {
     // then
@@ -132,7 +137,6 @@ describe('Validation', () => {
       expect(instance.cardNumberValue.length).toEqual(16);
     });
   });
-
   // given
   describe('expirationDate', () => {
     // then
@@ -143,7 +147,6 @@ describe('Validation', () => {
       expect(instance.expirationDateValue).toEqual('1234');
     });
   });
-
   // given
   describe('securityCode', () => {
     // when
@@ -162,7 +165,6 @@ describe('Validation', () => {
       expect(instance.securityCodeValue).toEqual('123');
     });
   });
-
   // given
   describe('_isPressedKeyBackspace', () => {
     // then
@@ -181,25 +183,6 @@ describe('Validation', () => {
       expect(instance._isPressedKeyBackspace()).toBe(true);
     });
   });
-
-  // given
-  describe('_isPressedKeyDelete', () => {
-    // then
-    it('should return false if pressed key is not Delete', () => {
-      // @ts-ignore
-      instance._currentKeyCode = 11;
-      // @ts-ignore
-      expect(instance._isPressedKeyDelete()).toEqual(false);
-    });
-    // then
-    it('should return true if pressed key is Delete', () => {
-      // @ts-ignore
-      instance._currentKeyCode = Validation.DELETE_KEY_CODE;
-      // @ts-ignore
-      expect(instance._isPressedKeyDelete()).toEqual(true);
-    });
-  });
-
   // given
   describe('limitLength', () => {
     // then
@@ -208,7 +191,6 @@ describe('Validation', () => {
       expect(instance.limitLength('123456789101112131415', 10)).toEqual('1234567891');
     });
   });
-
   // given
   describe('removeNonDigits', () => {
     // then
@@ -217,7 +199,6 @@ describe('Validation', () => {
       expect(instance.removeNonDigits('1234 fsdf5423')).toEqual('12345423');
     });
   });
-
   // given
   describe('_isNumber', () => {
     const arrayOfExamples: [
@@ -237,7 +218,14 @@ describe('Validation', () => {
       }
     );
   });
+  // given
+  describe('_luhnAlgorithm', () => {
+    // when
+    beforeEach(() => {});
 
+    // then
+    it('should', () => {});
+  });
   // given
   describe('_setError', () => {
     // when
@@ -255,7 +243,6 @@ describe('Validation', () => {
       expect(errorContainer.textContent).toEqual(errorMessage);
     });
   });
-
   // given
   describe('_removeError', () => {
     // when
