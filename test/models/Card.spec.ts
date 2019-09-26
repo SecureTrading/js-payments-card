@@ -1,6 +1,7 @@
 import Card from '../../src/models/Card/Card';
 import { CARD_CLASSES, CARD_SELECTORS } from '../../src/imports/card/card-selectors';
 import { cardsLogos } from '../../src/imports/card/card-logos';
+import { CARD_DETAILS_PLACEHOLDERS } from '../../src/imports/card/card-type';
 
 // given
 describe('Card', () => {
@@ -235,11 +236,26 @@ describe('Card', () => {
   });
   // given
   describe('_setSecurityCode()', () => {
+    const { instance } = CardFixture();
     // when
-    beforeEach(() => {});
+    beforeEach(() => {
+      // @ts-ignore
+      instance._setSecurityCodePlaceholder = jest.fn();
+      // @ts-ignore
+      instance._addSecurityCodeOnFront = jest.fn();
+      // @ts-ignore
+      instance._addSecurityCodeOnBack = jest.fn();
+    });
 
     // then
-    it('', () => {});
+    it('should set extended security code length and place code on front if its Amex', () => {
+      // @ts-ignore
+      instance._cardDetails.type = 'amex';
+      // @ts-ignore
+      instance._setSecurityCode();
+      // @ts-ignore
+      expect(instance._cardDetails.securityCode).toEqual(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED);
+    });
   });
   // given
   describe('_setSecurityCodePlaceholder()', () => {
