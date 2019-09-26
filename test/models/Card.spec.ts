@@ -248,13 +248,29 @@ describe('Card', () => {
     });
 
     // then
-    it('should set extended security code length and place code on front if its Amex', () => {
+    it('should call _setSecurityCodePlaceholder with extended placeholder and call _addSecurityCodeOnFront to set it on the front side of animated card', () => {
       // @ts-ignore
-      instance._cardDetails.type = 'amex';
+      instance._isAmex = jest.fn().mockReturnValueOnce(true);
       // @ts-ignore
       instance._setSecurityCode();
       // @ts-ignore
-      expect(instance._cardDetails.securityCode).toEqual(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED);
+      expect(instance._setSecurityCodePlaceholder).toHaveBeenCalledWith(
+        CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED
+      );
+      // @ts-ignore
+      expect(instance._addSecurityCodeOnFront).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call _setSecurityCodePlaceholder with standard length placeholder and call _addSecurityCodeOnBack to set it on the back side of animated card', () => {
+      // @ts-ignore
+      instance._isAmex = jest.fn().mockReturnValueOnce(false);
+      // @ts-ignore
+      instance._setSecurityCode();
+      // @ts-ignore
+      expect(instance._setSecurityCodePlaceholder).toHaveBeenCalledWith(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
+      // @ts-ignore
+      expect(instance._addSecurityCodeOnBack).toHaveBeenCalled();
     });
   });
   // given
