@@ -1,5 +1,5 @@
 import STCard from '../src/STCard';
-
+jest.mock('../src/models/Card/Card');
 // given
 describe('STCard', () => {
   // when
@@ -32,8 +32,14 @@ describe('STCard', () => {
 
   // given
   describe('_addInputErrorLabels', () => {
+    const { instance } = STCardFixture();
+
     // then
-    it('', () => {});
+    it('should set error containers for each field', () => {
+      expect(instance._cardNumberError.getAttribute('id')).toEqual('st-card-number-message');
+      expect(instance._expirationDateError.getAttribute('id')).toEqual('st-expiration-date-message');
+      expect(instance._securityCodeError.getAttribute('id')).toEqual('st-security-code-message');
+    });
   });
 
   // given
