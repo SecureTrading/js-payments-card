@@ -1,6 +1,5 @@
 import Card from '../../src/models/Card/Card';
 import { CARD_CLASSES, CARD_SELECTORS } from '../../src/imports/card/card-selectors';
-import { cardsLogos } from '../../src/imports/card/card-logos';
 import { CARD_DETAILS_PLACEHOLDERS } from '../../src/imports/card/card-type';
 
 // given
@@ -41,14 +40,6 @@ describe('Card', () => {
       instance.onCardNumberChanged(correctCardNumber);
       // @ts-ignore
       expect(instance._resetTheme).toHaveBeenCalled();
-    });
-
-    // then
-    it('should return non-format value', () => {
-      // @ts-ignore
-      instance._setCardNumberDetails = jest.fn().mockReturnValueOnce({ type: 'VISA', nonformat: '411111' });
-      instance.onCardNumberChanged(correctCardNumber);
-      // expect(instance.onCardNumberChanged('411111')).toEqual({ nonformat: '411111' });
     });
   });
   // given
@@ -95,9 +86,8 @@ describe('Card', () => {
   });
   // given
   describe('flipCard()', () => {
-    const { instance } = CardFixture();
     // when
-    beforeEach(() => {});
+    const { instance } = CardFixture();
 
     // then
     it('should flip card if its flippable', () => {
@@ -143,7 +133,6 @@ describe('Card', () => {
       luhn: true,
       type: 'VISA'
     };
-
     // then
     it('should return card details', () => {
       expect(instance.getCardDetails('41111')).toEqual(returnedObject);
@@ -162,8 +151,19 @@ describe('Card', () => {
   });
   // given
   describe('_isFlippableCard()', () => {
+    // when
+    const { instance } = CardFixture();
     // then
-    it('should return false if card is equal amex', () => {});
+    it('should return false if card is equal amex', () => {
+      // @ts-ignore
+      expect(instance._isFlippableCard('amex')).toEqual(false);
+    });
+
+    // then
+    it('should return true if card is not equal amex', () => {
+      // @ts-ignore
+      expect(instance._isFlippableCard('visa')).toEqual(true);
+    });
   });
   // given
   describe('_returnThemeClass()', () => {
@@ -173,14 +173,6 @@ describe('Card', () => {
       // @ts-ignore
       expect(instance._returnThemeClass('someString')).toEqual(`st-animated-card__someString`);
     });
-  });
-  // given
-  describe('_setCardNumberDetails()', () => {
-    // when
-    beforeEach(() => {});
-
-    // then
-    it('', () => {});
   });
   // given
   describe('_addSecurityCodeOnBack()', () => {
@@ -276,27 +268,45 @@ describe('Card', () => {
   // given
   describe('_setSecurityCodePlaceholder()', () => {
     const { instance } = CardFixture();
-    // when
-    beforeEach(() => {
-      // @ts-ignore
-      instance._setSecurityCodePlaceholder('plchldr');
-    });
 
     // then
-    it('should set given placeholder to security code when security code is empty or / and card number is indicated and card brand has changed.', () => {
+    it('should set given placeholder to security code when security code is empty', () => {
+      // @ts-ignore
+      instance._cardDetails.securityCode = '';
+      // @ts-ignore
+      instance._setSecurityCodePlaceholder('plchldr');
       // @ts-ignore
       expect(instance._cardDetails.securityCode).toEqual('plchldr');
     });
-  });
-  // given
-  describe('_clearThemeClasses()', () => {
-    // when
-    beforeEach(() => {});
+    // then
+    it('should set given placeholder to security code when security code is equal standard placeholder.', () => {
+      // @ts-ignore
+      instance._cardDetails.securityCode = CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE;
+      // @ts-ignore
+      instance._setSecurityCodePlaceholder('plchldr');
+      // @ts-ignore
+      expect(instance._cardDetails.securityCode).toEqual('plchldr');
+    });
+    // then
+    it('should set given placeholder to security code when security code is equal extended placeholder', () => {
+      // @ts-ignore
+      instance._cardDetails.securityCode = CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED;
+      // @ts-ignore
+      instance._setSecurityCodePlaceholder('plchldr');
+      // @ts-ignore
+      expect(instance._cardDetails.securityCode).toEqual('plchldr');
+    });
 
     // then
-    it('', () => {});
+    it('should set given value when givev value is not equal empty string, nor ne of the placeholders', () => {
+      // @ts-ignore
+      instance._cardDetails.securityCode = '4111111';
+      // @ts-ignore
+      instance._setSecurityCodePlaceholder('plchldr');
+      // @ts-ignore
+      expect(instance._cardDetails.securityCode).toEqual('4111111');
+    });
   });
-
   // given
   describe('_clearLogoClasses()', () => {
     const { instance } = CardFixture();
@@ -381,49 +391,49 @@ describe('Card', () => {
   });
   // given
   describe('_addLogo()', () => {
-    const { instance } = CardFixture();
-    // @ts-ignore
-    instance._cardDetails = {
-      logo: 'somelogourl.png',
-      type: 'VISA'
-    };
+    const { instance, testCardAttributes } = CardFixture();
+    beforeEach(() => {
+      // @ts-ignore
+      instance._setLogo = jest.fn();
+    });
     // then
     it('should set logo if image exists and source is specified', () => {
-      // expect(document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID).getAttribute('src')).toEqual(
-      //   // @ts-ignore
-      //   instance._cardDetails.logo
-      // );
+      // @ts-ignore
+      instance._cardDetails = testCardAttributes;
+      // @ts-ignore
+      instance._addLogo();
+      expect(document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID).getAttribute('src')).toEqual(
+        // @ts-ignore
+        instance._cardDetails.logo
+      );
     });
 
     // then
-    it('should create logo if it is not exist', () => {
+    it('should return logo property when image exists but logo is not specified', () => {
+      document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID).setAttribute('id', 'someRandomID');
       // @ts-ignore
       instance._cardDetails = {
         logo: null,
         type: 'VISA'
       };
       // @ts-ignore
-      instance._setLogo = jest.fn();
-      // @ts-ignore
-      instance._addLogo();
-      // @ts-ignore
-      // expect(instance._setLogo).toBeCalled();
+      expect(instance._addLogo()).toEqual(null);
+      document.getElementById('someRandomID').setAttribute('id', CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID);
     });
 
     // then
-    it('should create logo if it is not exist', () => {
-      document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID).setAttribute('src', 'someRandomID');
+    it('should return logo property when image exists but logo is not specified', () => {
+      document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID).setAttribute('id', 'someRandomID');
       // @ts-ignore
       instance._cardDetails = {
-        logo: null,
+        logo: '../../../images/visa.png',
         type: 'VISA'
       };
       // @ts-ignore
-      instance._setLogo = jest.fn();
-      // @ts-ignore
       instance._addLogo();
       // @ts-ignore
-      // expect(instance._setLogo).toBeCalled();
+      expect(instance._setLogo).toHaveBeenCalled();
+      document.getElementById('someRandomID').setAttribute('id', CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID);
     });
   });
   // given
@@ -436,13 +446,13 @@ describe('Card', () => {
     // then
     it('should return HTML logo', () => {
       // @ts-ignore
-      expect(instance._createLogo(logo, type).getAttribute('alt')).toEqual('MASTERCARD');
+      expect(instance._createLogo(logo, type).getAttribute('alt')).toEqual('VISA');
       // @ts-ignore
       expect(instance._createLogo(logo, type).getAttribute('class')).toEqual('st-animated-card__payment-logo-img');
       // @ts-ignore
       expect(instance._createLogo(logo, type).getAttribute('id')).toEqual('st-payment-logo');
       // @ts-ignore
-      expect(instance._createLogo(logo, type).getAttribute('src')).toEqual('../../../images/mastercard.png');
+      expect(instance._createLogo(logo, type).getAttribute('src')).toEqual('../../../images/visa.png');
     });
   });
   // given
@@ -450,8 +460,6 @@ describe('Card', () => {
     const { instance } = CardFixture();
     let { logo, type } = CardFixture().testCardAttributes;
     type = type.toLowerCase();
-    // @ts-ignore
-
     // then
     it('should return correct card logo', () => {
       // @ts-ignore
@@ -487,7 +495,7 @@ describe('Card', () => {
     it('should append logo to DOM', () => {
       const logoWrapper = document.getElementById(CARD_CLASSES.CLASS_LOGO_WRAPPER);
       const logo = document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID);
-      // expect(logoWrapper.children[0]).toEqual(logo);
+      expect(logoWrapper.children[0]).toEqual(logo);
     });
   });
 });
@@ -507,8 +515,8 @@ function CardFixture() {
   };
   const correctCardNumber: string = '41111111111111111';
   const testCardAttributes = {
-    logo: '../../../images/mastercard.png',
-    type: 'MASTERCARD'
+    logo: '../../../images/visa.png',
+    type: 'VISA'
   };
   const instance = new Card(config);
   return { correctCardNumber, instance, testCardAttributes };
