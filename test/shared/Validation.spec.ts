@@ -219,14 +219,6 @@ describe('Validation', () => {
     );
   });
   // given
-  describe('_luhnAlgorithm', () => {
-    // when
-    beforeEach(() => {});
-
-    // then
-    it('should', () => {});
-  });
-  // given
   describe('_setError', () => {
     // when
     beforeEach(() => {
