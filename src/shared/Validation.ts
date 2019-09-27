@@ -42,6 +42,7 @@ class Validation {
   public keepCursorAtSamePosition(element: HTMLInputElement, nonformat?: string) {
     const lengthNonFormat: number = nonformat ? nonformat.length : 0;
     const lengthFormatted: number = element.value.length;
+    let isLastCharSlash: boolean = element.value.charAt(lengthFormatted - 2) === '/';
 
     if (this._isPressedKeyDelete()) {
       element.setSelectionRange(this._selectionRangeStart, this._selectionRangeEnd);
@@ -50,7 +51,13 @@ class Validation {
         this._selectionRangeStart - Validation.CURSOR_SINGLE_SKIP,
         this._selectionRangeEnd - Validation.CURSOR_SINGLE_SKIP
       );
-    } else if (lengthFormatted - lengthNonFormat === this._cursorSkip) {
+    } else if (isLastCharSlash) {
+      ++this._cursorSkip;
+      element.setSelectionRange(
+        this._selectionRangeStart + Validation.CURSOR_DOUBLE_SKIP,
+        this._selectionRangeEnd + Validation.CURSOR_DOUBLE_SKIP
+      );
+    } else if (lengthFormatted - lengthNonFormat > 0) {
       ++this._cursorSkip;
       element.setSelectionRange(
         this._selectionRangeStart + Validation.CURSOR_DOUBLE_SKIP,
