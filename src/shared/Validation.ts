@@ -42,7 +42,7 @@ class Validation {
   public keepCursorAtSamePosition(element: HTMLInputElement, nonformat?: string) {
     const lengthNonFormat: number = nonformat ? nonformat.length : 0;
     const lengthFormatted: number = element.value.length;
-    let isLastCharSlash: boolean = element.value.charAt(lengthFormatted - 2) === '/';
+    const isLastCharSlash: boolean = element.value.charAt(lengthFormatted - 2) === '/';
 
     if (this._isPressedKeyDelete()) {
       element.setSelectionRange(this._selectionRangeStart, this._selectionRangeEnd);
