@@ -32,14 +32,40 @@ describe('STCard', () => {
 
   // given
   describe('onExpirationDateInput', () => {
+    const { instance } = STCardFixture();
+    // when
+    beforeEach(() => {
+      instance._validation.validate = jest.fn();
+      instance._expirationDateInput.addEventListener = jest.fn().mockImplementationOnce((event, callback) => {
+        callback();
+      });
+      instance.onExpirationDateInput('st-expiration-date-input', jest.fn());
+    });
+
     // then
-    it('', () => {});
+    it('should call luhn check and validation methods', () => {
+      expect(instance._validation.validate).toHaveBeenCalled();
+    });
   });
 
   // given
   describe('onSecurityCodeInput', () => {
+    const { instance } = STCardFixture();
+    // when
+    beforeEach(() => {
+      instance._validation.validate = jest.fn();
+      instance._card.flipCard = jest.fn();
+      instance._securityCodeInput.addEventListener = jest.fn().mockImplementationOnce((event, callback) => {
+        callback();
+      });
+      instance.onSecurityCodeInput('st-security-code-input', jest.fn());
+    });
+
     // then
-    it('', () => {});
+    it('should call luhn check and validation methods', () => {
+      expect(instance._validation.validate).toHaveBeenCalled();
+      expect(instance._card.flipCard).toHaveBeenCalled();
+    });
   });
 
   // given
