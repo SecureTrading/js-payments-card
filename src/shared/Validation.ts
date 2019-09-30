@@ -122,9 +122,8 @@ class Validation {
   protected securityCode(value: string) {
     this.securityCodeValue = this.removeNonDigits(value);
     const cardDetails = this.getCardDetails(this.cardNumberValue);
-    const length = cardDetails.type
-      ? Utils.getLastElementOfArray(cardDetails.cvcLength)
-      : Validation.SECURITY_CODE_DEFAULT_LENGTH;
+    const cardLength = Utils.getLastElementOfArray(cardDetails.cvcLength);
+    const length = cardDetails.type && cardLength ? cardLength : Validation.SECURITY_CODE_DEFAULT_LENGTH;
     this.securityCodeValue = this.limitLength(this.securityCodeValue, length);
   }
 
