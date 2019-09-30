@@ -2,6 +2,7 @@ import STCard from '../src/STCard';
 import Card from '../src/models/Card/Card';
 
 jest.mock('../src/models/Card/Card');
+jest.mock('../src/shared/Validation');
 
 // given
 describe('STCard', () => {
@@ -15,18 +16,52 @@ describe('STCard', () => {
 
     // when
     beforeEach(() => {
-      instance._validation.luhnCheck = jest.fn();
       instance._validation.validate = jest.fn();
-      instance._cardNumberInput.addEventListener = jest.fn().mockImplementationOnce((event, callback) => {
-        callback();
-      });
+      instance._validation.luhnCheck = jest.fn();
+      instance._validation.keepCursorAtSamePosition = jest.fn();
+      instance._validation.setKeyDownProperties = jest.fn();
+      instance._changeSecurityCodePattern = jest.fn();
+      instance._card.onCardNumberChanged = jest.fn().mockReturnValue({ nonformat: '' });
+      instance._cardNumberInput.addEventListener = jest
+        .fn()
+        .mockImplementationOnce((event, callback) => {
+          callback();
+        })
+        .mockImplementationOnce((event, callback) => {
+          callback();
+        })
+        .mockImplementationOnce((event, callback) => {
+          callback();
+        })
+        .mockImplementationOnce((event, callback) => {
+          callback();
+        });
       instance.onCardNumberInput('st-card-number-input', jest.fn());
     });
 
     // then
-    it('should call luhn check and validation methods', () => {
+    it('should call luhn check on blur', () => {
       expect(instance._validation.luhnCheck).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call validate on blur', () => {
       expect(instance._validation.validate).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call _changeSecurityCodePattern on input', () => {
+      expect(instance._changeSecurityCodePattern).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call keepCursorAtSamePosition on input', () => {
+      expect(instance._validation.keepCursorAtSamePosition).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call _validation.setKeyDownProperties on keydown', () => {
+      expect(instance._validation.setKeyDownProperties).toHaveBeenCalled();
     });
   });
 
@@ -36,15 +71,41 @@ describe('STCard', () => {
     // when
     beforeEach(() => {
       instance._validation.validate = jest.fn();
-      instance._expirationDateInput.addEventListener = jest.fn().mockImplementationOnce((event, callback) => {
-        callback();
-      });
+      instance._card.onExpirationDateChanged = jest.fn();
+      instance._validation.keepCursorAtSamePosition = jest.fn();
+      instance._validation.setKeyDownProperties = jest.fn();
+      instance._expirationDateInput.addEventListener = jest
+        .fn()
+        .mockImplementationOnce((event, callback) => {
+          callback();
+        })
+        .mockImplementationOnce((event, callback) => {
+          callback();
+        })
+        .mockImplementationOnce((event, callback) => {
+          callback();
+        });
       instance.onExpirationDateInput('st-expiration-date-input', jest.fn());
     });
 
     // then
-    it('should call luhn check and validation methods', () => {
+    it('should call validation.validate method on blur', () => {
       expect(instance._validation.validate).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call validation.keepCursorAtSamePosition method on input', () => {
+      expect(instance._validation.keepCursorAtSamePosition).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call _validation.setKeyDownProperties method on keydown', () => {
+      expect(instance._validation.setKeyDownProperties).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call _card.onExpirationDateChanged method on input', () => {
+      expect(instance._card.onExpirationDateChanged).toHaveBeenCalled();
     });
   });
 
@@ -55,16 +116,35 @@ describe('STCard', () => {
     beforeEach(() => {
       instance._validation.validate = jest.fn();
       instance._card.flipCard = jest.fn();
-      instance._securityCodeInput.addEventListener = jest.fn().mockImplementationOnce((event, callback) => {
-        callback();
-      });
+      instance._card.onSecurityCodeChanged = jest.fn();
+      instance._securityCodeInput.addEventListener = jest
+        .fn()
+        .mockImplementationOnce((event, callback) => {
+          callback();
+        })
+        .mockImplementationOnce((event, callback) => {
+          callback();
+        })
+        .mockImplementationOnce((event, callback) => {
+          callback();
+        });
       instance.onSecurityCodeInput('st-security-code-input', jest.fn());
     });
 
     // then
-    it('should call luhn check and validation methods', () => {
+    it('should call validate and flipCard on blur ', () => {
       expect(instance._validation.validate).toHaveBeenCalled();
       expect(instance._card.flipCard).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call flipCard on focus', () => {
+      expect(instance._card.flipCard).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call _card.onSecurityCodeChanged on input', () => {
+      expect(instance._card.onSecurityCodeChanged).toHaveBeenCalled();
     });
   });
 
