@@ -1,8 +1,12 @@
+import { CARD_DETAILS_PLACEHOLDERS } from '../../src/imports/card/card-type';
 import Formatter from '../../src/shared/Formatter';
+import Utils from '../../src/shared/Utils';
+
+jest.mock('./../../src/shared/Validation');
 
 // given
 describe('Formatter', () => {
-  const { instance } = FormatterFixture();
+  const { instance, cardDetails, cardNumber, cardNumberFormatted, date, dateFormatted } = FormatterFixture();
   // when
   beforeEach(() => {
     document.body.innerHTML =
@@ -10,22 +14,69 @@ describe('Formatter', () => {
   });
 
   // then
-  describe('number()', () => {});
+  describe('number()', () => {
+    // then
+    it('should set dedicated format if card number is specified and card details are also specified', () => {
+      // @ts-ignore
+      instance.getCardDetails = jest.fn().mockReturnValueOnce(cardDetails);
+      // @ts-ignore
+      instance.removeNonDigits = jest.fn().mockReturnValueOnce(cardNumber);
+      Utils.stripChars = jest.fn().mockReturnValueOnce(cardNumber);
+      expect(instance.number(cardNumber, 'st-card-number-input')).toEqual({
+        // @ts-ignore
+        value: cardNumberFormatted,
+        nonformat: cardNumber
+      });
+    });
+    // then
+    it('should set dedicated format if card number is specified and card details are null', () => {
+      // @ts-ignore
+      instance.getCardDetails = jest.fn().mockReturnValueOnce(null);
+      // @ts-ignore
+      instance.removeNonDigits = jest.fn().mockReturnValueOnce(cardNumber);
+      Utils.stripChars = jest.fn().mockReturnValueOnce(cardNumber);
+      expect(instance.number(cardNumber, 'st-card-number-input')).toEqual({
+        // @ts-ignore
+        value: cardNumberFormatted,
+        nonformat: cardNumber
+      });
+    });
+
+    // then
+    it('should set standard format if cardDetails format is null', () => {
+      // @ts-ignore
+      instance.getCardDetails = jest.fn().mockReturnValueOnce(null);
+      // @ts-ignore
+      instance.removeNonDigits = jest.fn().mockReturnValueOnce('');
+      Utils.stripChars = jest.fn().mockReturnValueOnce('');
+      expect(instance.number('', 'st-card-number-input')).toEqual({
+        // @ts-ignore
+        value: CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER,
+        nonformat: ''
+      });
+    });
+  });
 
   // then
-  describe('date()', () => {});
+  describe('date()', () => {
+    // then
+    it('should set placeholder format if cardDetails format is null and value is empty', () => {
+      // @ts-ignore
+      instance.expirationDateValue = '';
+      expect(instance.date('', 'st-expiration-date-input')).toEqual('MM/YY');
+    });
+    // then
+    it('should set standard format if cardDetails format is null', () => {
+      // @ts-ignore
+      instance.expirationDateValue = date;
+      expect(instance.date(date, 'st-expiration-date-input')).toEqual(dateFormatted);
+    });
+  });
 
   // then
   describe('code()', () => {
-    // when
-    beforeEach(() => {
-      instance.code('111', 'st-security-code-input');
-    });
     // then
-    it('should set security code on specified element', () => {});
-
-    // then
-    it('should return security code value', () => {
+    it('should return security code value and set security code on specified element', () => {
       // @ts-ignore
       expect(instance.code('111', 'st-security-code-input')).toEqual(instance.securityCodeValue);
     });
@@ -34,9 +85,21 @@ describe('Formatter', () => {
   // then
   describe('_dateISO()', () => {
     // then
+    it('should return only month digits if first two digits are specified', () => {
+      // @ts-ignore
+      expect(instance._dateISO(['1', ''], ['11', ''])).toEqual('11');
+    });
+
+    // then
     it('should return formatted date with slash between month and year', () => {
       // @ts-ignore
       expect(instance._dateISO(['12', '1'], ['12', '19'])).toEqual('12/19');
+    });
+
+    // then
+    it('should return month digits and first digit of year separated by slash when last digit has been deleted', () => {
+      // @ts-ignore
+      expect(instance._dateISO(['12', '11'], ['12', '1'])).toEqual('12/1');
     });
   });
 
@@ -45,13 +108,24 @@ describe('Formatter', () => {
     // then
     it('should return formatted date with slash between month and year', () => {
       // @ts-ignore
-      expect(instance._dateFixed('1219')).toEqual('12/19');
+      expect(instance._dateFixed(date)).toEqual(dateFormatted);
     });
   });
 });
 
 function FormatterFixture() {
   const locale: string = 'en_GB';
+  const cardNumber: string = '411111';
+  const cardNumberFormatted: string = '4111 11';
+  const date: string = '1219';
+  const dateFormatted: string = '12/19';
+  const cardDetails = {
+    type: 'VISA',
+    luhn: true,
+    length: [16, 17],
+    cvcLength: [3],
+    format: '(\\d{1,4})(\\d{1,4})?(\\d{1,4})?(\\d+)?'
+  };
   const instance = new Formatter(locale);
-  return { instance };
+  return { instance, cardDetails, cardNumber, cardNumberFormatted, date, dateFormatted };
 }
