@@ -27,7 +27,6 @@ class Formatter extends Validation {
     let value = previousValue;
     let selectEnd = element.selectionEnd;
     let selectStart = element.selectionStart;
-
     if (format && value.length > 0) {
       value = Utils.stripChars(value, undefined);
       let matches = value.match(new RegExp(format, '')).slice(1);

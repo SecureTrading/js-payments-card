@@ -33,7 +33,7 @@ class Utils {
    * @param element
    */
   public static setElementAttributes(attributes: any, element: HTMLInputElement) {
-    // tslint:disable-next-line:forin
+    // tslint:disable-next-line: forin
     for (const attribute in attributes) {
       const value = attributes[attribute];
       if (Utils.inArray(['value'], attribute)) {

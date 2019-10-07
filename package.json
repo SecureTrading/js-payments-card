@@ -14,13 +14,18 @@
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
+    "build:automated": "webpack --config webpack.test.js",
+    "start:automated": "webpack-dev-server --color --progress --config webpack.test.js",
     "start": "webpack-dev-server --color --progress --config webpack.dev.js",
     "example": "ws --rewrite '/* -> /dist/$1' --https",
-    "export:translations": "cross-env-shell i18next-conv -l '$npm_package_config_locale' -s ./src/imports/translations/$npm_package_config_locale.json -t ./translations/$npm_package_config_locale.po",
-    "import:translations": "cross-env-shell i18next-conv -l '$npm_package_config_locale' -s ./translations/$npm_package_config_locale.po -t ./src/imports/translations/$npm_package_config_locale.json",
     "prod": "npm run build",
+    "snyk": "snyk test --org=secure-trading",
     "test": "jest --watchAll",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "testdocker": "docker pull \"securetrading1/js-payments-testing:$DOCKER_BRANCH\" && docker run -d -p 8443:8443 -p 8760:8760 -it \"securetrading1/js-payments-testing:$DOCKER_BRANCH\"",
+    "behave": "npm run testdocker && cd js-payments-testing &&",
+    "export:translations": "cross-env-shell i18next-conv -l '$npm_package_config_locale' -s ./src/core/translations/$npm_package_config_locale.json -t ./translations/$npm_package_config_locale.po",
+    "import:translations": "cross-env-shell i18next-conv -l '$npm_package_config_locale' -s ./translations/$npm_package_config_locale.po -t ./src/core/translations/$npm_package_config_locale.json"
   },
   "repository": {
     "type": "git",
@@ -93,6 +98,7 @@
     "@babel/polyfill": "^7.6.0",
     "@babel/runtime": "^7.6.2",
     "@types/joi": "^14.3.3",
+    "@types/promise-polyfill": "^6.0.3",
     "i18next": "^17.0.18",
     "joi": "^14.3.1",
     "joi-browser": "^13.4.0",
@@ -102,5 +108,5 @@
     "validate": "^5.0.0",
     "whatwg-fetch": "^3.0.0"
   },
-  "snyk": true
+  "snyk": false
 }
