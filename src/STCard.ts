@@ -1,4 +1,3 @@
-import 'promise-polyfill/src/polyfill';
 // @ts-ignore
 import template from './card.html';
 import {
@@ -6,9 +5,9 @@ import {
   EXPIRATION_DATE_PROPERTIES,
   SECURITY_CODE_PROPERTIES
 } from './imports/card/card-properties';
+import { CARD_SELECTORS } from './imports/card/card-selectors';
 import Card from './models/Card/Card';
 import Validation from './shared/Validation';
-import { CARD_SELECTORS } from './imports/card/card-selectors';
 
 class STCard {
   private static MATCH_EXACTLY_THREE_DIGITS: string = '^[0-9]{3}$';
