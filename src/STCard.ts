@@ -7,8 +7,8 @@ import {
 } from './imports/card/card-properties';
 import { CARD_SELECTORS } from './imports/card/card-selectors';
 import Card from './models/Card/Card';
-import Validation from './shared/Validation';
 import Utils from './shared/Utils';
+import Validation from './shared/Validation';
 
 class STCard {
   private static MATCH_EXACTLY_THREE_DIGITS: string = '^[0-9]{3}$';
@@ -53,7 +53,7 @@ class STCard {
       callback(event);
       const { nonformat } = this._card.onCardNumberChanged(this._cardNumberInput.value);
       this._changeSecurityCodePattern(nonformat);
-      if (this._cardNumberInput == document.activeElement) {
+      if (this._cardNumberInput === document.activeElement) {
         this._validation.keepCursorAtSamePosition(this._cardNumberInput, nonformat);
       }
     });
@@ -67,7 +67,7 @@ class STCard {
       // @ts-ignore
       this._card.onCardNumberChanged(value);
       this._changeSecurityCodePattern(this._cardNumberInput.value);
-      if (this._cardNumberInput == document.activeElement) {
+      if (this._cardNumberInput === document.activeElement) {
         this._validation.keepCursorAtSamePosition(this._cardNumberInput);
       }
     });
@@ -86,7 +86,7 @@ class STCard {
     this._expirationDateInput.addEventListener('input', event => {
       callback(event);
       this._card.onExpirationDateChanged(this._expirationDateInput.value);
-      if (this._expirationDateInput == document.activeElement) {
+      if (this._expirationDateInput === document.activeElement) {
         this._validation.keepCursorAtSamePosition(this._expirationDateInput);
       }
     });
