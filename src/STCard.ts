@@ -41,7 +41,6 @@ class STCard {
   public onCardNumberInput(id: string, callback: any) {
     this._cardNumberInput.addEventListener('blur', () => {
       this._cardNumberInput.blur();
-      console.log('nuber blur');
       this._validation.luhnCheck(this._cardNumberInput);
       this._validation.validate(this._cardNumberInput, this._cardNumberError);
     });
@@ -51,7 +50,6 @@ class STCard {
     });
 
     this._cardNumberInput.addEventListener('input', (event: KeyboardEvent) => {
-      console.log('nuber input');
       callback(event);
       const { nonformat } = this._card.onCardNumberChanged(this._cardNumberInput.value);
       this._changeSecurityCodePattern(nonformat);
@@ -61,7 +59,6 @@ class STCard {
     });
 
     this._cardNumberInput.addEventListener('keydown', (event: any) => {
-      console.log('nuber keydown');
       this._validation.setKeyDownProperties(this._cardNumberInput, event);
     });
 
@@ -79,7 +76,6 @@ class STCard {
   public onExpirationDateInput(id: string, callback: any) {
     this._expirationDateInput.addEventListener('blur', () => {
       this._expirationDateInput.blur();
-      console.log('exp blru');
       this._validation.validate(this._expirationDateInput, this._expirationDateError);
     });
 
@@ -88,7 +84,6 @@ class STCard {
     });
 
     this._expirationDateInput.addEventListener('input', event => {
-      console.log('exp input');
       callback(event);
       this._card.onExpirationDateChanged(this._expirationDateInput.value);
       if (this._expirationDateInput == document.activeElement) {
@@ -97,7 +92,6 @@ class STCard {
     });
 
     this._expirationDateInput.addEventListener('keydown', (event: any) => {
-      console.log('exp keydown');
       this._validation.setKeyDownProperties(this._expirationDateInput, event);
     });
   }
@@ -105,19 +99,16 @@ class STCard {
   public onSecurityCodeInput(id: string, callback: any) {
     this._securityCodeInput.addEventListener('blur', () => {
       this._securityCodeInput.blur();
-      console.log('sekjurity code blur');
       this._validation.validate(this._securityCodeInput, this._securityCodeError);
       this._card.flipCard();
     });
 
     this._securityCodeInput.addEventListener('focus', () => {
       this._securityCodeInput.focus();
-      console.log('sekjurity code focus');
       this._card.flipCard();
     });
 
     this._securityCodeInput.addEventListener('input', event => {
-      console.log('sekjurity code input');
       callback(event);
       this._card.onSecurityCodeChanged(this._securityCodeInput.value);
     });
