@@ -40,6 +40,7 @@ class Validation {
   }
 
   public keepCursorAtSamePosition(element: HTMLInputElement, nonformat?: string) {
+    console.log(element);
     const lengthNonFormat: number = nonformat ? nonformat.length : 0;
     const lengthFormatted: number = element.value.length;
     const isLastCharSlash: boolean = element.value.charAt(lengthFormatted - 2) === '/';
