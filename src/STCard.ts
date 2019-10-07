@@ -1,4 +1,3 @@
-import Promise from 'promise-polyfill';
 // @ts-ignore
 import template from './card.html';
 import {
