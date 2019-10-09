@@ -89,7 +89,15 @@ body {
 
 header {
   display: flex;
-  margin: 2rem -3.4rem 4rem -3.4rem;
+}
+
+@media screen and (max-width: 70rem) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
 }
 
 @-webkit-keyframes autofill {
@@ -106,9 +114,6 @@ input:-webkit-autofill.error-field {
 }
 
 .merchants-form {
-  padding: 10rem;
-  width: 100%;
-  max-width: 100rem;
   margin: auto;
 
   &__header {
