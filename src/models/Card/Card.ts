@@ -252,6 +252,7 @@ class Card extends Utils {
     const ifImageExists: boolean = !!document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID);
     if (ifImageExists && !!logo) {
       DomMethods.setProperty.apply(this, ['src', logo, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
+      DomMethods.setProperty.apply(this, ['alt', type, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
     } else if (!ifImageExists && !!logo) {
       this._setLogo(logo, type);
     } else {

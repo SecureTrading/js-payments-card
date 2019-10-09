@@ -84,6 +84,9 @@ describe('STCard', () => {
         })
         .mockImplementationOnce((event, callback) => {
           callback();
+        })
+        .mockImplementationOnce((event, callback) => {
+          callback();
         });
       instance.onExpirationDateInput('st-expiration-date-input', jest.fn());
     });
