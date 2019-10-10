@@ -54,7 +54,7 @@ class STCard {
       const { nonformat } = this._card.onCardNumberChanged(this._cardNumberInput.value);
       this._changeSecurityCodePattern(nonformat);
       if (this._cardNumberInput === document.activeElement) {
-        this._validation.keepCursorAtSamePosition(this._cardNumberInput, nonformat);
+        this._validation.keepCursorAtSamePosition(this._cardNumberInput);
       }
     });
 
