@@ -45,7 +45,7 @@ describe('Validation', () => {
       element.setSelectionRange = jest.fn();
       // @ts-ignore
       instance._isPressedKeyDelete = jest.fn().mockReturnValueOnce(true);
-      instance.keepCursorAtSamePosition(element, '41111');
+      instance.keepCursorAtSamePosition(element);
       // @ts-ignore
       expect(element.setSelectionRange).toHaveBeenCalled();
     });
@@ -53,7 +53,7 @@ describe('Validation', () => {
     // then
     it('should call setSelectionRange method', () => {
       element.setSelectionRange = jest.fn();
-      instance.keepCursorAtSamePosition(element, '41111');
+      instance.keepCursorAtSamePosition(element);
       expect(element.setSelectionRange).toHaveBeenCalled();
     });
   });
