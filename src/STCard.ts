@@ -1,4 +1,3 @@
-import 'promise-polyfill/src/polyfill';
 // @ts-ignore
 import template from './card.html';
 import {
@@ -6,9 +5,10 @@ import {
   EXPIRATION_DATE_PROPERTIES,
   SECURITY_CODE_PROPERTIES
 } from './imports/card/card-properties';
-import Card from './models/Card/Card';
-import Validation from './shared/Validation';
 import { CARD_SELECTORS } from './imports/card/card-selectors';
+import Card from './models/Card/Card';
+import Utils from './shared/Utils';
+import Validation from './shared/Validation';
 
 class STCard {
   private static MATCH_EXACTLY_THREE_DIGITS: string = '^[0-9]{3}$';
@@ -33,22 +33,29 @@ class STCard {
     this._addInputErrorLabels(errors);
     this._addAnimatedCardContainer(animatedCardContainer);
     this._validation = new Validation(locale);
-    if (Card.ifElementExists(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR)) {
+    if (Utils.ifElementExists(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR)) {
       this._card = new Card(config);
     }
   }
 
   public onCardNumberInput(id: string, callback: any) {
     this._cardNumberInput.addEventListener('blur', () => {
+      this._cardNumberInput.blur();
       this._validation.luhnCheck(this._cardNumberInput);
       this._validation.validate(this._cardNumberInput, this._cardNumberError);
+    });
+
+    this._cardNumberInput.addEventListener('focus', () => {
+      this._cardNumberInput.focus();
     });
 
     this._cardNumberInput.addEventListener('input', (event: KeyboardEvent) => {
       callback(event);
       const { nonformat } = this._card.onCardNumberChanged(this._cardNumberInput.value);
-      this._changeSecurityCodePattern(this._cardNumberInput.value);
-      this._validation.keepCursorAtSamePosition(this._cardNumberInput, nonformat);
+      this._changeSecurityCodePattern(nonformat);
+      if (this._cardNumberInput === document.activeElement) {
+        this._validation.keepCursorAtSamePosition(this._cardNumberInput);
+      }
     });
 
     this._cardNumberInput.addEventListener('keydown', (event: any) => {
@@ -60,19 +67,28 @@ class STCard {
       // @ts-ignore
       this._card.onCardNumberChanged(value);
       this._changeSecurityCodePattern(this._cardNumberInput.value);
-      this._validation.keepCursorAtSamePosition(this._cardNumberInput);
+      if (this._cardNumberInput === document.activeElement) {
+        this._validation.keepCursorAtSamePosition(this._cardNumberInput);
+      }
     });
   }
 
   public onExpirationDateInput(id: string, callback: any) {
     this._expirationDateInput.addEventListener('blur', () => {
+      this._expirationDateInput.blur();
       this._validation.validate(this._expirationDateInput, this._expirationDateError);
+    });
+
+    this._expirationDateInput.addEventListener('focus', () => {
+      this._expirationDateInput.focus();
     });
 
     this._expirationDateInput.addEventListener('input', event => {
       callback(event);
       this._card.onExpirationDateChanged(this._expirationDateInput.value);
-      this._validation.keepCursorAtSamePosition(this._expirationDateInput);
+      if (this._expirationDateInput === document.activeElement) {
+        this._validation.keepCursorAtSamePosition(this._expirationDateInput);
+      }
     });
 
     this._expirationDateInput.addEventListener('keydown', (event: any) => {
@@ -82,11 +98,13 @@ class STCard {
 
   public onSecurityCodeInput(id: string, callback: any) {
     this._securityCodeInput.addEventListener('blur', () => {
+      this._securityCodeInput.blur();
       this._validation.validate(this._securityCodeInput, this._securityCodeError);
       this._card.flipCard();
     });
 
     this._securityCodeInput.addEventListener('focus', () => {
+      this._securityCodeInput.focus();
       this._card.flipCard();
     });
 

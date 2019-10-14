@@ -39,34 +39,29 @@ class Validation {
     this._selectionRangeEnd = element.selectionEnd;
   }
 
-  public keepCursorAtSamePosition(element: HTMLInputElement, nonformat?: string) {
-    const lengthNonFormat: number = nonformat.length;
+  public keepCursorAtSamePosition(element: HTMLInputElement) {
     const lengthFormatted: number = element.value.length;
+    const isLastCharSlash: boolean = element.value.charAt(lengthFormatted - 2) === '/';
+    const start: number = this._selectionRangeStart;
+    const end: number = this._selectionRangeEnd;
 
     if (this._isPressedKeyDelete()) {
-      element.setSelectionRange(this._selectionRangeStart, this._selectionRangeEnd);
+      element.setSelectionRange(start, end);
     } else if (this._isPressedKeyBackspace()) {
-      element.setSelectionRange(
-        this._selectionRangeStart - Validation.CURSOR_SINGLE_SKIP,
-        this._selectionRangeEnd - Validation.CURSOR_SINGLE_SKIP
-      );
-    } else if (lengthFormatted - lengthNonFormat === this._cursorSkip) {
+      element.setSelectionRange(start - Validation.CURSOR_SINGLE_SKIP, end - Validation.CURSOR_SINGLE_SKIP);
+    } else if (isLastCharSlash) {
       ++this._cursorSkip;
-      element.setSelectionRange(
-        this._selectionRangeStart + Validation.CURSOR_DOUBLE_SKIP,
-        this._selectionRangeEnd + Validation.CURSOR_DOUBLE_SKIP
-      );
+      element.setSelectionRange(start + Validation.CURSOR_DOUBLE_SKIP, end + Validation.CURSOR_DOUBLE_SKIP);
+    } else if (element.value.charAt(end) === ' ') {
+      ++this._cursorSkip;
+      element.setSelectionRange(start + Validation.CURSOR_DOUBLE_SKIP, end + Validation.CURSOR_DOUBLE_SKIP);
     } else {
-      element.setSelectionRange(
-        this._selectionRangeStart + Validation.CURSOR_SINGLE_SKIP,
-        this._selectionRangeEnd + Validation.CURSOR_SINGLE_SKIP
-      );
+      element.setSelectionRange(start + Validation.CURSOR_SINGLE_SKIP, end + Validation.CURSOR_SINGLE_SKIP);
     }
   }
 
   public luhnCheck(element: HTMLInputElement) {
     const { value } = element;
-    console.log(this._luhnAlgorithm(value));
     this._luhnAlgorithm(value) ? element.setCustomValidity('') : element.setCustomValidity('luhn');
   }
 
@@ -116,9 +111,8 @@ class Validation {
   protected securityCode(value: string) {
     this.securityCodeValue = this.removeNonDigits(value);
     const cardDetails = this.getCardDetails(this.cardNumberValue);
-    const length = cardDetails.type
-      ? Utils.getLastElementOfArray(cardDetails.cvcLength)
-      : Validation.SECURITY_CODE_DEFAULT_LENGTH;
+    const cardLength = Utils.getLastElementOfArray(cardDetails.cvcLength);
+    const length = cardDetails.type && cardLength ? cardLength : Validation.SECURITY_CODE_DEFAULT_LENGTH;
     this.securityCodeValue = this.limitLength(this.securityCodeValue, length);
   }
 

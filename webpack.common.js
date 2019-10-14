@@ -7,7 +7,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: {
@@ -54,11 +53,11 @@ module.exports = {
     ]),
 
     new StyleLintPlugin(),
-    new BundleAnalyzerPlugin(),
     new FriendlyErrorsWebpackPlugin(),
     new webpack.DefinePlugin({
       HOST: JSON.stringify(process.env.npm_package_config_host)
-    })
+    }),
+    new webpack.ProvidePlugin({ Promise: 'es6-promise-promise' })
   ],
   module: {
     rules: [
@@ -92,7 +91,7 @@ module.exports = {
           {
             loader: 'tslint-loader',
             options: {
-              emitErrors: false
+              emitErrors: true
             }
           }
         ],
