@@ -104,6 +104,7 @@ class Card extends Utils {
 
   public getCardDetails = (value: string) => this._binLookup.binLookup(value);
   private _isAmex = (content: string): boolean => content === CARD_TYPES.AMEX;
+  private _isPiba = (content: string): boolean => content === CARD_TYPES.PIBA;
   private _isFlippableCard = (type: string): boolean => !Card.NOT_FLIPPED_CARDS.includes(type);
   private _returnThemeClass = (theme: string): string => `${CARD_COMPONENT_CLASS}__${theme}`;
 
@@ -156,13 +157,24 @@ class Card extends Utils {
    * @private
    */
   private _setSecurityCode() {
+    this._enableSecurityCode();
     if (this._isAmex(this._cardDetails.type)) {
       this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED);
       this._addSecurityCodeOnFront();
+    } else if (this._isPiba(this._cardDetails.type)) {
+      this._disableSecurityCode();
     } else {
       this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
       this._addSecurityCodeOnBack();
     }
+  }
+
+  private _disableSecurityCode() {
+    DomMethods.setProperty('disabled', 'disabled', this._securityCodeId);
+  }
+
+  private _enableSecurityCode() {
+    document.getElementById(this._securityCodeId).removeAttribute('disabled');
   }
 
   /**
