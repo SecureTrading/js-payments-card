@@ -5,6 +5,7 @@ import BinLookup from '../../shared/BinLookup';
 import DomMethods from '../../shared/DomMethods';
 import Formatter from '../../shared/Formatter';
 import Utils from '../../shared/Utils';
+import Validation from '../../shared/Validation';
 import Translator from '../Translation';
 import { ICardDetails } from './ICard';
 
@@ -27,6 +28,7 @@ class Card extends Utils {
   private readonly _cardNumberId: string;
   private readonly _expirationDateId: string;
   private readonly _securityCodeId: string;
+  private readonly _securityCodeErrorId: string;
   private _translator: Translator;
   private _formatter: Formatter;
   private readonly _locale: string;
@@ -34,11 +36,12 @@ class Card extends Utils {
   constructor(config: any) {
     super();
     const {
-      fields: { inputs }
+      fields: { inputs, errors }
     } = config;
     this._cardNumberId = inputs.cardNumber;
     this._expirationDateId = inputs.expirationDate;
     this._securityCodeId = inputs.securityCode;
+    this._securityCodeErrorId = errors.securityCode;
     this._locale = config.locale;
     this._binLookup = new BinLookup();
     this._translator = new Translator(this._locale);
@@ -163,6 +166,7 @@ class Card extends Utils {
       this._addSecurityCodeOnFront();
     } else if (this._isPiba(this._cardDetails.type)) {
       this._disableSecurityCode();
+      this._clearFieldValidation();
     } else {
       this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
       this._addSecurityCodeOnBack();
@@ -175,6 +179,11 @@ class Card extends Utils {
 
   private _enableSecurityCode() {
     document.getElementById(this._securityCodeId).removeAttribute('disabled');
+  }
+
+  private _clearFieldValidation() {
+    document.getElementById(this._securityCodeId).classList.remove('error');
+    document.getElementById(this._securityCodeErrorId).textContent = '';
   }
 
   /**
