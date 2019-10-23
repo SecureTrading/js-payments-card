@@ -1,4 +1,3 @@
-import { describe } from 'joi';
 import Card from '../../src/models/Card/Card';
 import { CARD_CLASSES, CARD_SELECTORS } from '../../src/imports/card/card-selectors';
 import { CARD_DETAILS_PLACEHOLDERS } from '../../src/imports/card/card-type';
@@ -7,22 +6,28 @@ import { CARD_DETAILS_PLACEHOLDERS } from '../../src/imports/card/card-type';
 describe('Card', () => {
   // given
   describe('_clearFieldValidationData', () => {
-    const { instance, config } = CardFixture();
+    const { config } = CardFixture();
     const { cardNumber, expirationDate, securityCode } = config.fields.inputs;
-    const cardNumberMessage = error.fields.inputs.cardNumber;
-    const expirationDateMessage = error.fields.inputs.expirationDate;
-    const securityCodeMessage = error.fields.inputs.securityCode;
+    const cardNumberMessage = config.fields.errors.cardNumber;
+    const expirationDateMessage = config.fields.errors.expirationDate;
+    const securityCodeMessage = config.fields.errors.securityCode;
     // when
     beforeEach(() => {
-      instance._clearFieldValidationData(cardNumber, cardNumberMessage);
-      instance._clearFieldValidationData(expirationDate, expirationDateMessage);
-      instance._clearFieldValidationData(securityCode, securityCodeMessage);
+      // @ts-ignore
+      Card._clearFieldValidationData(cardNumber, cardNumberMessage);
+      // @ts-ignore
+      Card._clearFieldValidationData(expirationDate, expirationDateMessage);
+      // @ts-ignore
+      Card._clearFieldValidationData(securityCode, securityCodeMessage);
     });
 
     // then
     it('should remove error class from given input', () => {
+      // @ts-ignore
       expect(document.getElementById(cardNumber).classList.contains(Card.ERROR_CLASS)).toEqual(false);
+      // @ts-ignore
       expect(document.getElementById(expirationDate).classList.contains(Card.ERROR_CLASS)).toEqual(false);
+      // @ts-ignore
       expect(document.getElementById(securityCode).classList.contains(Card.ERROR_CLASS)).toEqual(false);
     });
 
@@ -553,5 +558,5 @@ function CardFixture() {
     type: 'VISA'
   };
   const instance = new Card(config);
-  return { correctCardNumber, instance, testCardAttributes };
+  return { config, correctCardNumber, instance, testCardAttributes };
 }
