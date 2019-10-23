@@ -5,7 +5,6 @@ import BinLookup from '../../shared/BinLookup';
 import DomMethods from '../../shared/DomMethods';
 import Formatter from '../../shared/Formatter';
 import Utils from '../../shared/Utils';
-import Validation from '../../shared/Validation';
 import Translator from '../Translation';
 import { ICardDetails } from './ICard';
 
@@ -15,9 +14,9 @@ import { ICardDetails } from './ICard';
  * Extends Utils class which has bunch of common methods.
  */
 class Card extends Utils {
-  private static NOT_FLIPPED_CARDS: string[] = [CARD_TYPES.AMEX];
   private static DISABLED_ATTRIBUTE: string = 'disabled';
   private static ERROR_CLASS: string = 'error';
+  private static NOT_FLIPPED_CARDS: string[] = [CARD_TYPES.AMEX];
 
   /**
    * Clears validation message and error classes (input field, error message).
@@ -184,7 +183,7 @@ class Card extends Utils {
   }
 
   /**
-   * Sets proper security code placeholder and security code value, depends on if card number is Amex or not
+   * Sets proper security code placeholder and security code value, depends on if card number is AMEX or not
    * (generally if it's "flippable" or not). List of "non-flippable" cards is defined in this class
    * `${NOT_FLIPPED_CARDS}.
    * @private
@@ -219,12 +218,12 @@ class Card extends Utils {
   }
 
   /**
-   *
+   * Toggles between dedicated logo class (eg. Visa or MasterCard) to default one or inversely.
    * @param toRemove
    * @param toAdd
    * @private
    */
-  private _clearLogoClasses(toRemove: string, toAdd: string) {
+  private _toggleLogoClasses(toRemove: string, toAdd: string) {
     DomMethods.removeClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${toRemove}`);
     DomMethods.addClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${toAdd}`);
   }
@@ -253,7 +252,7 @@ class Card extends Utils {
    * @private
    */
   private _resetTheme() {
-    this._clearLogoClasses(CARD_CLASSES.CLASS_LOGO, CARD_CLASSES.CLASS_LOGO_DEFAULT);
+    this._toggleLogoClasses(CARD_CLASSES.CLASS_LOGO, CARD_CLASSES.CLASS_LOGO_DEFAULT);
     this._clearThemeClasses();
     this.clearContent(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_BACK_ID);
     this._removeLogo();
@@ -275,7 +274,7 @@ class Card extends Utils {
    * @private
    */
   private _setThemeClasses() {
-    this._clearLogoClasses(CARD_CLASSES.CLASS_LOGO_DEFAULT, CARD_CLASSES.CLASS_LOGO);
+    this._toggleLogoClasses(CARD_CLASSES.CLASS_LOGO_DEFAULT, CARD_CLASSES.CLASS_LOGO);
     this._clearThemeClasses();
     DomMethods.addClass(
       this.getElement(CARD_SELECTORS.ANIMATED_CARD_SIDE_FRONT),
