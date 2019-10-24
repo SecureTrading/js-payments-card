@@ -39,25 +39,6 @@ describe('Validation', () => {
     });
   });
   // given
-  describe('keepCursorAtSamePosition', () => {
-    // then
-    it('should set selection range when delete key is pressed', () => {
-      element.setSelectionRange = jest.fn();
-      // @ts-ignore
-      instance._isPressedKeyDelete = jest.fn().mockReturnValueOnce(true);
-      instance.keepCursorAtSamePosition(element);
-      // @ts-ignore
-      expect(element.setSelectionRange).toHaveBeenCalled();
-    });
-
-    // then
-    it('should call setSelectionRange method', () => {
-      element.setSelectionRange = jest.fn();
-      instance.keepCursorAtSamePosition(element);
-      expect(element.setSelectionRange).toHaveBeenCalled();
-    });
-  });
-  // given
   describe('luhnCheck', () => {
     // then
     it('should set custom validity if luhn check returns falsy', () => {
@@ -181,6 +162,44 @@ describe('Validation', () => {
       instance._currentKeyCode = 8;
       // @ts-ignore
       expect(instance._isPressedKeyBackspace()).toBe(true);
+    });
+  });
+
+  // given
+  describe('keepCursorAtSamePosition', () => {
+    // then
+    it('should set selection range when delete key is pressed', () => {
+      element.setSelectionRange = jest.fn();
+      // @ts-ignore
+      instance._isPressedKeyDelete = jest.fn().mockReturnValueOnce(true);
+      instance.keepCursorAtSamePosition(element);
+      // @ts-ignore
+      expect(element.setSelectionRange).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call setSelectionRange method', () => {
+      element.setSelectionRange = jest.fn();
+      instance.keepCursorAtSamePosition(element);
+      expect(element.setSelectionRange).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call setSelectionRange method', () => {
+      element.setSelectionRange = jest.fn();
+      // @ts-ignore
+      instance._selectionRangeStart = 1;
+      // @ts-ignore
+      instance._selectionRangeEnd = 1;
+      // @ts-ignore
+      instance._isPressedKeyBackspace = jest.fn().mockReturnValueOnce(true);
+      instance.keepCursorAtSamePosition(element);
+      expect(element.setSelectionRange).toHaveBeenCalledWith(
+        // @ts-ignore
+        instance._selectionRangeStart - Validation.CURSOR_SINGLE_SKIP,
+        // @ts-ignore
+        instance._selectionRangeEnd - Validation.CURSOR_SINGLE_SKIP
+      );
     });
   });
   // given
