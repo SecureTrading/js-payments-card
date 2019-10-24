@@ -539,7 +539,7 @@ describe('Card', () => {
       // @ts-ignore
       expect(instance._createLogo(logo, type).getAttribute('id')).toEqual('st-payment-logo');
       // @ts-ignore
-      expect(instance._createLogo(logo, type).getAttribute('src')).toEqual('../../../images/visa.png');
+      expect(instance._createLogo(logo, type).getAttribute('src')).toEqual('./images/visa.png');
     });
   });
   // given
@@ -607,7 +607,7 @@ function CardFixture() {
   };
   const correctCardNumber: string = '41111111111111111';
   const testCardAttributes = {
-    logo: '../../../images/visa.png',
+    logo: './images/visa.png',
     type: 'VISA'
   };
   const instance = new Card(config);
