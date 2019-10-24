@@ -1,6 +1,7 @@
 import Card from '../../src/models/Card/Card';
 import { CARD_CLASSES, CARD_SELECTORS } from '../../src/imports/card/card-selectors';
 import { CARD_DETAILS_PLACEHOLDERS } from '../../src/imports/card/card-type';
+import DomMethods from '../../src/shared/DomMethods';
 
 // given
 describe('Card', () => {
@@ -30,9 +31,39 @@ describe('Card', () => {
       // @ts-ignore
       expect(document.getElementById(securityCode).classList.contains(Card.ERROR_CLASS)).toEqual(false);
     });
+  });
 
-    // // then
-    // it('should clear text from message container', () => {});
+  // given
+  describe('_disableInput', () => {
+    // when
+    beforeEach(() => {
+      // @ts-ignore
+      DomMethods.setProperty = jest.fn();
+      // @ts-ignore
+      Card._disableInput('some-id');
+    });
+
+    // then
+    it('should call _disableInput with Card.DISABLED_ATTRIBUTE,Card.DISABLED_ATTRIBUTE and input ID', () => {
+      // @ts-ignore
+      expect(DomMethods.setProperty).toHaveBeenCalledWith(Card.DISABLED_ATTRIBUTE, Card.DISABLED_ATTRIBUTE, 'some-id');
+    });
+  });
+
+  // given
+  describe('_enableInput', () => {
+    // when
+    beforeEach(() => {
+      document.getElementById('st-card-number-input').setAttribute('disabled', 'disabled');
+      // @ts-ignore
+      Card._enableInput('st-card-number-input');
+    });
+
+    // then
+    it('should set Card.DISABLED_ATTRIBUTE on given input', () => {
+      // @ts-ignore
+      expect(document.getElementById('st-card-number-input').getAttribute('disabled')).toEqual(null);
+    });
   });
 
   // given
@@ -268,6 +299,10 @@ describe('Card', () => {
       instance._addSecurityCodeOnFront = jest.fn();
       // @ts-ignore
       instance._addSecurityCodeOnBack = jest.fn();
+      // @ts-ignore
+      Card._clearFieldValidationData = jest.fn();
+      // @ts-ignore
+      Card._disableInput = jest.fn();
     });
 
     // then
@@ -294,6 +329,23 @@ describe('Card', () => {
       expect(instance._setSecurityCodePlaceholder).toHaveBeenCalledWith(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
       // @ts-ignore
       expect(instance._addSecurityCodeOnBack).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call _clearFieldValidationData and disable security code input when recognized card is PIBA ', () => {
+      // @ts-ignore
+      instance._isPiba = jest.fn().mockReturnValueOnce(true);
+      // @ts-ignore
+      instance._setSecurityCode();
+      // @ts-ignore
+      expect(Card._clearFieldValidationData).toHaveBeenCalledWith(
+        // @ts-ignore
+        instance._securityCodeId,
+        // @ts-ignore
+        instance._securityCodeMessageId
+      );
+      // @ts-ignore
+      expect(Card._disableInput).toHaveBeenCalledWith(instance._securityCodeId);
     });
   });
   // given
@@ -364,14 +416,15 @@ describe('Card', () => {
     beforeEach(() => {
       // @ts-ignore
       instance._removeLogo = jest.fn();
-      // @ts-ignore
-      instance._resetTheme();
     });
 
     // then
     it('should call _removeLogo', () => {
       // @ts-ignore
+      instance._resetTheme();
+      // @ts-ignore
       expect(instance._removeLogo).toHaveBeenCalled();
+      document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID);
     });
   });
   // given
