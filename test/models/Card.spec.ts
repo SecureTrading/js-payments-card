@@ -1,6 +1,8 @@
 import Card from '../../src/models/Card/Card';
 import { CARD_CLASSES, CARD_SELECTORS } from '../../src/imports/card/card-selectors';
 import { CARD_DETAILS_PLACEHOLDERS } from '../../src/imports/card/card-type';
+// @ts-ignore
+import visa from '../../src/images/visa.png';
 
 // given
 describe('Card', () => {
@@ -452,7 +454,7 @@ describe('Card', () => {
       // @ts-ignore
       expect(instance._createLogo(logo, type).getAttribute('id')).toEqual('st-payment-logo');
       // @ts-ignore
-      expect(instance._createLogo(logo, type).getAttribute('src')).toEqual('./images/visa.png');
+      expect(instance._createLogo(logo, type).getAttribute('src')).toEqual(visa);
     });
   });
   // given
@@ -515,7 +517,7 @@ function CardFixture() {
   };
   const correctCardNumber: string = '41111111111111111';
   const testCardAttributes = {
-    logo: './images/visa.png',
+    logo: visa,
     type: 'VISA'
   };
   const instance = new Card(config);
