@@ -1,15 +1,36 @@
+// @ts-ignore
+import amex from '../../images/amex.png';
+// @ts-ignore
+import applePay from './../../images/apple-pay.png';
+// @ts-ignore
+import astropaycard from './../../images/astropay.png';
+// @ts-ignore
+import diners from './../../images/diners.png';
+// @ts-ignore
+import discover from './../../images/discover.png';
+// @ts-ignore
+import jcb from './../../images/jcb.png';
+// @ts-ignore
+import maestro from './../../images/maestro.png';
+// @ts-ignore
+import mastercard from './../../images/mastercard.png';
+// @ts-ignore
+import piba from './../../images/piba.png';
+// @ts-ignore
+import visa from './../../images/visa.png';
+
 const cardsLogos: { [brandName: string]: string } = {
-  amex: './images/amex.png',
-  applePay: './images/apple-pay.png',
-  astropaycard: './images/astropay.png',
-  default: './images/chip.png',
-  diners: './images/diners.png',
-  discover: './images/discover.png',
-  jcb: './images/jcb.png',
-  maestro: './images/maestro.png',
-  mastercard: './images/mastercard.png',
-  piba: './images/piba.png',
-  visa: './images/visa.png'
+  amex,
+  applePay,
+  astropaycard,
+  default: '',
+  diners,
+  discover,
+  jcb,
+  maestro,
+  mastercard,
+  piba,
+  visa
 };
 
 export { cardsLogos };
