@@ -65,10 +65,6 @@ jobs:
       if: env(TESTS_TYPE)=fullTest OR branch = env(BRANCH_WITH_FULL_TESTS)
       script:
         - npm run behave -- mvn install -DLOCAL=true -Dos=Windows -Dos_version=8.1 -Dbrowser=Firefox -Dbrowser_version=67.0 -Dresolution=1920x1080 -Dcucumber.options="--tags $TEST_TAG"
-    - name: 'Behavioural test: firefox 68, Windows 7'
-      if: env(TESTS_TYPE)=fullTest OR branch = env(BRANCH_WITH_FULL_TESTS)
-      script:
-        - npm run behave -- mvn install -DLOCAL=true -Dos=Windows -Dos_version=7 -Dbrowser=Firefox -Dbrowser_version=68.0 -Dresolution=1920x1080 -Dcucumber.options="--tags $TEST_TAG"
     - name: 'Behavioural test: firefox 68, OS X Mojave'
       if: env(TESTS_TYPE)=fullTest OR branch = env(BRANCH_WITH_FULL_TESTS)
       script:
@@ -85,10 +81,6 @@ jobs:
       if: env(TESTS_TYPE)=fullTest OR env(TESTS_TYPE)=smokeTest OR branch = env(BRANCH_WITH_FULL_TESTS)
       script:
         - npm run behave -- mvn install -DLOCAL=true -Dos=Windows -Dos_version=10 -Dbrowser=IE -Dbrowser_version=11.0 -Dresolution=1920x1080 -Dcucumber.options="--tags $TEST_TAG"
-    - name: 'Behavioural test: ie 10, Windows 8'
-      if: env(TESTS_TYPE)=fullTest OR branch = env(BRANCH_WITH_FULL_TESTS)
-      script:
-        - npm run behave -- mvn install -DLOCAL=true -Dos=Windows -Dos_version=8 -Dbrowser=IE -Dbrowser_version=10.0 -Dresolution=1920x1080 -Dcucumber.options="--tags $TEST_TAG"
     - name: 'Behavioural test: edge 18, Windows 10'
       if: env(TESTS_TYPE)=fullTest OR branch = env(BRANCH_WITH_FULL_TESTS)
       script:
@@ -105,10 +97,6 @@ jobs:
       if: env(TESTS_TYPE)=fullTest OR branch = env(BRANCH_WITH_FULL_TESTS)
       script:
         - npm run behave -- mvn install -DLOCAL=true -Dos="OS X" -Dos_version="High Sierra" -Dbrowser=Safari -Dbrowser_version=11.1 -Dresolution=1920x1080 -Dcucumber.options="--tags $TEST_TAG"
-    - name: 'Behavioural test: safari 10.1, OS X Sierra'
-      if: env(TESTS_TYPE)=fullTest OR branch = env(BRANCH_WITH_FULL_TESTS)
-      script:
-        - npm run behave -- mvn install -DLOCAL=true -Dos="OS X" -Dos_version=Sierra -Dbrowser=Safari -Dbrowser_version=10.1 -Dresolution=1920x1080 -Dcucumber.options="--tags $TEST_TAG"
     - name: 'Behavioural test: Samsung Galaxy Note 9, Android 8.1'
       if: env(TESTS_TYPE)=fullTest OR branch = env(BRANCH_WITH_FULL_TESTS)
       script:
@@ -141,10 +129,6 @@ jobs:
       if: env(TESTS_TYPE)=fullTest OR branch = env(BRANCH_WITH_FULL_TESTS)
       script:
         - npm run behave -- mvn install -DLOCAL=true -Ddevice="Google Pixel" -Dos_version=8.0 -Dreal_mobile=true -Dcucumber.options="--tags $TEST_TAG"
-    - name: 'Behavioural test: Google Pixel, Android 7.1'
-      if: env(TESTS_TYPE)=fullTest OR branch = env(BRANCH_WITH_FULL_TESTS)
-      script:
-        - npm run behave -- mvn install -DLOCAL=true -Ddevice="Google Pixel" -Dos_version=7.1 -Dreal_mobile=true -Dcucumber.options="--tags $TEST_TAG"
     - name: 'Behavioural test: Google Nexus 6, Android 6.0'
       if: env(TESTS_TYPE)=fullTest OR branch = env(BRANCH_WITH_FULL_TESTS)
       script:
