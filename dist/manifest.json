@@ -1,0 +1,20 @@
+{
+  "example.css": "example.css",
+  "example.js": "example.js",
+  "stcard.js": "stcard.js",
+  "stcardstyle.css": "stcardstyle.css",
+  "stcardstyle.js": "stcardstyle.js",
+  "images/amex.png": "images/amex.png",
+  "images/apple-pay.png": "images/apple-pay.png",
+  "images/astropay.png": "images/astropay.png",
+  "images/diners.png": "images/diners.png",
+  "images/discover.png": "images/discover.png",
+  "images/favicon.ico": "images/favicon.ico",
+  "images/jcb.png": "images/jcb.png",
+  "images/maestro.png": "images/maestro.png",
+  "images/mastercard.png": "images/mastercard.png",
+  "images/piba.png": "images/piba.png",
+  "images/st.png": "images/st.png",
+  "images/visa.png": "images/visa.png",
+  "index.html": "index.html"
+}
