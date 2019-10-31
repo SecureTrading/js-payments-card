@@ -1,6 +1,6 @@
 {
   "name": "@securetrading/js-payments-card",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "TypeScript Payment Card",
   "private": false,
   "browserslist": [
@@ -46,7 +46,7 @@
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-typescript": "^7.6.0",
     "@types/jest": "^24.0.19",
-    "@types/jest-each": "^0.3.4",
+    "@types/jest-each": "^24.3.0",
     "@types/jest-matchers": "^20.0.2",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
@@ -102,7 +102,7 @@
     "@types/joi": "^14.3.3",
     "@types/promise-polyfill": "^6.0.3",
     "es6-promise-promise": "^1.0.0",
-    "i18next": "^17.3.0",
+    "i18next": "^19.0.0",
     "joi": "^14.3.1",
     "joi-browser": "^13.4.0",
     "location-origin": "^1.1.4",
