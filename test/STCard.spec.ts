@@ -35,6 +35,9 @@ describe('STCard', () => {
         })
         .mockImplementationOnce((event, callback) => {
           callback();
+        })
+        .mockImplementationOnce((event, callback) => {
+          callback();
         });
       instance.onCardNumberInput('st-card-number-input', jest.fn());
     });

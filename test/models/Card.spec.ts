@@ -1,11 +1,73 @@
 import Card from '../../src/models/Card/Card';
 import { CARD_CLASSES, CARD_SELECTORS } from '../../src/imports/card/card-selectors';
 import { CARD_DETAILS_PLACEHOLDERS } from '../../src/imports/card/card-type';
+import DomMethods from '../../src/shared/DomMethods';
 // @ts-ignore
 import visa from '../../src/images/visa.png';
 
 // given
 describe('Card', () => {
+  // given
+  describe('_clearFieldValidationData', () => {
+    const { config } = CardFixture();
+    const { cardNumber, expirationDate, securityCode } = config.fields.inputs;
+    const cardNumberMessage = config.fields.errors.cardNumber;
+    const expirationDateMessage = config.fields.errors.expirationDate;
+    const securityCodeMessage = config.fields.errors.securityCode;
+    // when
+    beforeEach(() => {
+      // @ts-ignore
+      Card._clearFieldValidationData(cardNumber, cardNumberMessage);
+      // @ts-ignore
+      Card._clearFieldValidationData(expirationDate, expirationDateMessage);
+      // @ts-ignore
+      Card._clearFieldValidationData(securityCode, securityCodeMessage);
+    });
+
+    // then
+    it('should remove error class from given input', () => {
+      // @ts-ignore
+      expect(document.getElementById(cardNumber).classList.contains(Card.ERROR_CLASS)).toEqual(false);
+      // @ts-ignore
+      expect(document.getElementById(expirationDate).classList.contains(Card.ERROR_CLASS)).toEqual(false);
+      // @ts-ignore
+      expect(document.getElementById(securityCode).classList.contains(Card.ERROR_CLASS)).toEqual(false);
+    });
+  });
+
+  // given
+  describe('_disableInput', () => {
+    // when
+    beforeEach(() => {
+      // @ts-ignore
+      DomMethods.setProperty = jest.fn();
+      // @ts-ignore
+      Card._disableInput('some-id');
+    });
+
+    // then
+    it('should call _disableInput with Card.DISABLED_ATTRIBUTE,Card.DISABLED_ATTRIBUTE and input ID', () => {
+      // @ts-ignore
+      expect(DomMethods.setProperty).toHaveBeenCalledWith(Card.DISABLED_ATTRIBUTE, Card.DISABLED_ATTRIBUTE, 'some-id');
+    });
+  });
+
+  // given
+  describe('_enableInput', () => {
+    // when
+    beforeEach(() => {
+      document.getElementById('st-card-number-input').setAttribute('disabled', 'disabled');
+      // @ts-ignore
+      Card._enableInput('st-card-number-input');
+    });
+
+    // then
+    it('should set Card.DISABLED_ATTRIBUTE on given input', () => {
+      // @ts-ignore
+      expect(document.getElementById('st-card-number-input').getAttribute('disabled')).toEqual(null);
+    });
+  });
+
   // given
   describe('onCardNumberChanged()', () => {
     const { correctCardNumber, instance } = CardFixture();
@@ -239,6 +301,10 @@ describe('Card', () => {
       instance._addSecurityCodeOnFront = jest.fn();
       // @ts-ignore
       instance._addSecurityCodeOnBack = jest.fn();
+      // @ts-ignore
+      Card._clearFieldValidationData = jest.fn();
+      // @ts-ignore
+      Card._disableInput = jest.fn();
     });
 
     // then
@@ -265,6 +331,23 @@ describe('Card', () => {
       expect(instance._setSecurityCodePlaceholder).toHaveBeenCalledWith(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
       // @ts-ignore
       expect(instance._addSecurityCodeOnBack).toHaveBeenCalled();
+    });
+
+    // then
+    it('should call _clearFieldValidationData and disable security code input when recognized card is PIBA ', () => {
+      // @ts-ignore
+      instance._isPiba = jest.fn().mockReturnValueOnce(true);
+      // @ts-ignore
+      instance._setSecurityCode();
+      // @ts-ignore
+      expect(Card._clearFieldValidationData).toHaveBeenCalledWith(
+        // @ts-ignore
+        instance._securityCodeId,
+        // @ts-ignore
+        instance._securityCodeMessageId
+      );
+      // @ts-ignore
+      expect(Card._disableInput).toHaveBeenCalledWith(instance._securityCodeId);
     });
   });
   // given
@@ -310,14 +393,14 @@ describe('Card', () => {
     });
   });
   // given
-  describe('_clearLogoClasses()', () => {
+  describe('_toggleLogoClasses()', () => {
     const { instance } = CardFixture();
     const classToAdd: string = 'some-test-class';
     // when
     beforeEach(() => {
       document.getElementById(CARD_CLASSES.CLASS_LOGO_WRAPPER).classList.add('test-class-to-remove');
       // @ts-ignore
-      instance._clearLogoClasses('test-class-to-remove', classToAdd);
+      instance._toggleLogoClasses('test-class-to-remove', classToAdd);
     });
 
     // then
@@ -335,14 +418,15 @@ describe('Card', () => {
     beforeEach(() => {
       // @ts-ignore
       instance._removeLogo = jest.fn();
-      // @ts-ignore
-      instance._resetTheme();
     });
 
     // then
     it('should call _removeLogo', () => {
       // @ts-ignore
+      instance._resetTheme();
+      // @ts-ignore
       expect(instance._removeLogo).toHaveBeenCalled();
+      document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID);
     });
   });
   // given
@@ -376,7 +460,7 @@ describe('Card', () => {
     // when
     beforeEach(() => {
       // @ts-ignore
-      instance._clearLogoClasses = jest.fn();
+      instance._toggleLogoClasses = jest.fn();
       // @ts-ignore
       instance._clearThemeClasses = jest.fn();
       // @ts-ignore
@@ -386,7 +470,10 @@ describe('Card', () => {
     // then
     it('should clear logo classes and theme classes', () => {
       // @ts-ignore
-      expect(instance._clearLogoClasses).toHaveBeenCalledWith(CARD_CLASSES.CLASS_LOGO_DEFAULT, CARD_CLASSES.CLASS_LOGO);
+      expect(instance._toggleLogoClasses).toHaveBeenCalledWith(
+        CARD_CLASSES.CLASS_LOGO_DEFAULT,
+        CARD_CLASSES.CLASS_LOGO
+      );
       // @ts-ignore
       expect(instance._clearThemeClasses).toHaveBeenCalled();
     });
@@ -406,7 +493,7 @@ describe('Card', () => {
       instance._addLogo();
       expect(document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID).getAttribute('src')).toEqual(
         // @ts-ignore
-        instance._cardDetails.logo
+        './images/visa.png'
       );
     });
 
@@ -428,7 +515,7 @@ describe('Card', () => {
       document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID).setAttribute('id', 'someRandomID');
       // @ts-ignore
       instance._cardDetails = {
-        logo: '../../../images/visa.png',
+        logo: './images/visa.png',
         type: 'VISA'
       };
       // @ts-ignore
@@ -503,17 +590,22 @@ describe('Card', () => {
 });
 
 function CardFixture() {
-  document.body.innerHTML = `<form id="st-form" class="merchants-form" autocomplete="off" novalidate=""> <header> <img src="https://www.securetrading.com/wp-content/uploads/2018/08/st-logo.svg" alt="Online Payment Partners" id="logo" height="54" width="300"> <h2>Secure Trading Animated Card Example</h2> </header> <div class="merchants-form__fields"> <div class="merchants-form__field"> <label for="st-card-number-input">Card number: </label> <input type="text" class="merchants-form__input error" id="st-card-number-input" name="st-card-number-input" ariainvalid="false" ariarequired="true" autocorrect="off" required="required" spellcheck="false" arialabel="Expiration date" ariaplaceholder="MM / YY" inputmode="numeric" placeholder="XXXX XXXX XXXX XXXX"> <div class="merchants-form__error" id="st-card-number-input-error">Value mismatch pattern</div> </div> <div class="merchants-form__field"> <label for="st-expiration-date-input">Expiration date: </label> <input type="text" class="merchants-form__input" id="st-expiration-date-input" name="st-expiration-date-input" ariainvalid="false" ariarequired="true" autocorrect="off" required="required" spellcheck="false" arialabel="Expiration date" ariaplaceholder="MM / YY" inputmode="numeric" pattern="^(0[1-9]|1[0-2])/([0-9]{2})$" placeholder="MM / YY"> <div class="merchants-form__error" id="st-expiration-date-input-error"></div> </div> <div class="merchants-form__field"> <label for="st-security-code-input">Security code: </label> <input type="text" class="merchants-form__input" id="st-security-code-input" name="st-security-code-input" ariainvalid="false" ariarequired="true" autocorrect="off" required="required" spellcheck="false" arialabel="Security code" ariaplaceholder="XXX" inputmode="numeric" pattern="^[0-9]{3}$" placeholder="XXX"> <div class="merchants-form__error" id="st-security-code-input-error"></div> </div> </div> <div id="st-animated-card" class="st-animated-card-wrapper"><div class="st-animated-card" id="st-animated-card"> <div class="st-animated-card__content"> <div class="st-animated-card__side st-animated-card__front st-animated-card__visa" id="st-animated-card-side-front"> <div class="st-animated-card__logos"> <div class="st-animated-card__chip-logo"> <img class="st-animated-card__chip-logo-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAArCAYAAAAtxEsrAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjEuNv1OCegAAAU8SURBVGhD3ZnHSjRBFIX/1xLUhaKgqLhRXIhiWohi2JjBHBYi5uxCFCMqigkVzBHFnLMLX6P+PgUlt2puz3SPrmbxUdO3qnvON52qe/4JIQIathhIsMVAgi2atLa2ip2dHXF5eSnu7u5Y7u/vHfHw8OCVx8dHr2AbyDE3NycSExOteHxmBVtULCwsyA1yQk5Q6yq5v4L+EAcHB1ZUPj9gi+Di4oLduCnhhJOTE9Hf3y+amppki2XUb29vfwW2AVm0MTExVmxPD48CsJOjqPC+mJ+fF6GhoaKwsFA0NzfLNjIyUoyOjsp+LrhbIInW9AAeBXVYusGUUgwNDYmgoCBxfHwsvr6+xPv7u2z39/dlfWpqShtvBncDJHd3dy0F3UdbAJyAUxBStcvLyyIqKkqcnp7Kc4WKYBkXCkguLS1pfYAT8AXWg2R8fLylYSPY1tbmEdpfkpOTxcTEhIecAvXx8XE5juuncEIcEMQ2qZMmuLe3x4Z1y8zMjLyEv729yWUuNHh9fRUJCQlyPNdvwklR8F1nZ2eWio3g1dWV/BUADeyWvLw8+UuadS705OSkyMnJYfu8YSeIljppgkpOCfoje3NzI8LDw4W3KzENinFhYWHi+vpaq/sCIqqlgshLnWwFTcyQdszOzoq0tDRX66Snpzs+TO34taDCDGdSWVkp+vr62D47uru7RXV1tfzMhXcK1kdG6qQJ4kvcUFVV5UFGRobo6enRBHwxNjYmz8O6ujpJbW2tX2Dd+vp6S8VGsLe3V7gFMqoFRUVFckrGidjR0tIiA66vr2usra25AutsbGxYKjaCmGn8BtwWVldXRWZmJitiR0pKigz49PTkFdw7vYExz8/PloqNIAaZ55xbcLLjKoqrIpY5Icr5+bkcr84hJ5jnnkL1UycPQSXpryzWw1UUUzWzj4ZUYDKelZXF9jnBFMT3UCdW0MQM6ov8/HwxPT3tUTfDgeHhYVFaWsr2OeXXghQzNAduFYODg2wfBYEGBgbkeBr4N2C71Mm1oMIMSykpKREjIyNsnwkeqSoqKtiw/oBtUie/BSlmaNzT8M7ErHNgzlpcXPyzzIV2C3X6E0EFAqJNSkoSm5ubP6G9gXtXamqqVuNCOwXrU6c/FQR4wI2IiJD3IxraDqyjJudcP+BEvEGd/lwQD7kFBQVajQtNyc7OZq+6JpyMCcZRJ00Q8ziFmhe6BbOYrq4uTdCXKK64eIY055beqKmpYUEfddIE1XwSYIZPPzslNzdXBuYEFaYgLjQQxA/jlM7Ozp+Wghp10gQ/Pz+FHR8fH47o6OgQjY2NrBgHBBsaGgTennPzW6dgHqw+UydN0JzccnAhKdvb2/I9C9dnB8ZvbW3Jz+bedQvOQ+qkCWKizEnZYQYFLy8vIi4uTv6XwfWb4F1mbGysXE/VuOBOwXsl6qQJHh4esiLeQCDVKvDgi0OV1uzAeYPxXB8n4Au8GaROmiBCmQJuQCi0+O8hOjpavoAyQ1PQj/8UMJ7rN+GETNrb2y0VG0FghvYHvO8sLy+XtxsuqAK3lbKyMu3wdAInpjB9tAWA5zgutFuwd0JCQuQtQNVoSLyYwrnnay/7gsotLi5aCrqPtqDA0zgN6w/YK5iuQRLnGWoqFPZscHCwfAuNMTSwP0AO/3WYHsCjoPgrSVyZ8cSOvUVbHMZuD007zCsnhS0qVlZW2OBugMj397d8R4M3XmixDDn0c4HdwB2WFLZoginY0dGR3BumgFMgilkGWq5fwUlQcM7ib2tc8c2cHGwxkGCLgQRbDBzEv/+fMNX6EnMcrwAAAABJRU5ErkJggg==" alt=""> </div> <div class="st-animated-card__payment-logo" id="st-animated-card-payment-logo"><img alt="visa" class="st-animated-card__payment-logo-img" id="st-payment-logo" src="../../../images/visa.png"></div> </div> <div class="st-animated-card__pan"> <label class="st-animated-card__label" id="st-animated-card-card-number-label">Card number</label> <div class="st-animated-card__value" id="st-animated-card-number">4554 3543 5435</div> </div> <div class="st-animated-card__expiration-date-and-security-code"> <div class="st-animated-card__expiration-date"> <label class="st-animated-card__label" id="st-animated-card-expiration-date-label">Expiration date</label> <div class="st-animated-card__value" id="st-animated-card-expiration-date">MM/YY</div> </div> <div class="st-animated-card__security-code st-animated-card__security-code--front st-animated-card__security-code--front-hidden" id="st-animated-card-security-code-front"> <label class="st-animated-card__label" id="st-animated-card-security-code-label">Security code</label> <div class="st-animated-card__value" id="st-animated-card-security-code-front-field"></div> </div> </div> </div> <div class="st-animated-card__side st-animated-card__back st-animated-card__visa" id="st-animated-card-side-back"> <div class="st-animated-card__signature"></div> <div class="st-animated-card__security-code" id="st-animated-card-security-code">∙∙∙</div> </div> </div> </div> </div> </form>`;
+  document.body.innerHTML = `<form id="st-form" class="merchants-form" autocomplete="off" novalidate=""> <header> <img src="https://www.securetrading.com/wp-content/uploads/2018/08/st-logo.svg" alt="Online Payment Partners" id="logo" height="54" width="300"> <h2>Secure Trading Animated Card Example</h2> </header> <div class="merchants-form__fields"> <div class="merchants-form__field"> <label for="st-card-number-input">Card number: </label> <input type="text" class="merchants-form__input error" id="st-card-number-input" name="st-card-number-input" ariainvalid="false" ariarequired="true" autocorrect="off" required="required" spellcheck="false" arialabel="Expiration date" ariaplaceholder="MM / YY" inputmode="numeric" placeholder="XXXX XXXX XXXX XXXX"> <div class="merchants-form__error" id="st-card-number-message">Field is required</div> </div> <div class="merchants-form__field"> <label for="st-expiration-date-input">Expiration date: </label> <input type="text" class="merchants-form__input error" id="st-expiration-date-input" name="st-expiration-date-input" ariainvalid="false" ariarequired="true" autocorrect="off" required="required" spellcheck="false" arialabel="Expiration date" ariaplaceholder="MM / YY" inputmode="numeric" pattern="^(0[1-9]|1[0-2])/([0-9]{2})$" placeholder="MM / YY"> <div class="merchants-form__error" id="st-expiration-date-message">Field is required</div> </div> <div class="merchants-form__field"> <label for="st-security-code-input">Security code: </label> <input type="text" class="merchants-form__input error" id="st-security-code-input" name="st-security-code-input" ariainvalid="false" ariarequired="true" autocorrect="off" required="required" spellcheck="false" arialabel="Security code" ariaplaceholder="XXX" inputmode="numeric" pattern="^[0-9]{3}$" placeholder="XXX"> <div class="merchants-form__error" id="st-security-code-message">Field is required</div> </div> </div> <div id="st-animated-card" class="st-animated-card-wrapper"><div class="st-animated-card" id="st-animated-card"> <div class="st-animated-card__content"> <div class="st-animated-card__side st-animated-card__front" id="st-animated-card-side-front"> <div class="st-animated-card__logos"> <div class="st-animated-card__chip-logo"> <img class="st-animated-card__chip-logo-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAArCAYAAAAtxEsrAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjEuNv1OCegAAAU8SURBVGhD3ZnHSjRBFIX/1xLUhaKgqLhRXIhiWohi2JjBHBYi5uxCFCMqigkVzBHFnLMLX6P+PgUlt2puz3SPrmbxUdO3qnvON52qe/4JIQIathhIsMVAgi2atLa2ip2dHXF5eSnu7u5Y7u/vHfHw8OCVx8dHr2AbyDE3NycSExOteHxmBVtULCwsyA1yQk5Q6yq5v4L+EAcHB1ZUPj9gi+Di4oLduCnhhJOTE9Hf3y+amppki2XUb29vfwW2AVm0MTExVmxPD48CsJOjqPC+mJ+fF6GhoaKwsFA0NzfLNjIyUoyOjsp+LrhbIInW9AAeBXVYusGUUgwNDYmgoCBxfHwsvr6+xPv7u2z39/dlfWpqShtvBncDJHd3dy0F3UdbAJyAUxBStcvLyyIqKkqcnp7Kc4WKYBkXCkguLS1pfYAT8AXWg2R8fLylYSPY1tbmEdpfkpOTxcTEhIecAvXx8XE5juuncEIcEMQ2qZMmuLe3x4Z1y8zMjLyEv729yWUuNHh9fRUJCQlyPNdvwklR8F1nZ2eWio3g1dWV/BUADeyWvLw8+UuadS705OSkyMnJYfu8YSeIljppgkpOCfoje3NzI8LDw4W3KzENinFhYWHi+vpaq/sCIqqlgshLnWwFTcyQdszOzoq0tDRX66Snpzs+TO34taDCDGdSWVkp+vr62D47uru7RXV1tfzMhXcK1kdG6qQJ4kvcUFVV5UFGRobo6enRBHwxNjYmz8O6ujpJbW2tX2Dd+vp6S8VGsLe3V7gFMqoFRUVFckrGidjR0tIiA66vr2usra25AutsbGxYKjaCmGn8BtwWVldXRWZmJitiR0pKigz49PTkFdw7vYExz8/PloqNIAaZ55xbcLLjKoqrIpY5Icr5+bkcr84hJ5jnnkL1UycPQSXpryzWw1UUUzWzj4ZUYDKelZXF9jnBFMT3UCdW0MQM6ov8/HwxPT3tUTfDgeHhYVFaWsr2OeXXghQzNAduFYODg2wfBYEGBgbkeBr4N2C71Mm1oMIMSykpKREjIyNsnwkeqSoqKtiw/oBtUie/BSlmaNzT8M7ErHNgzlpcXPyzzIV2C3X6E0EFAqJNSkoSm5ubP6G9gXtXamqqVuNCOwXrU6c/FQR4wI2IiJD3IxraDqyjJudcP+BEvEGd/lwQD7kFBQVajQtNyc7OZq+6JpyMCcZRJ00Q8ziFmhe6BbOYrq4uTdCXKK64eIY055beqKmpYUEfddIE1XwSYIZPPzslNzdXBuYEFaYgLjQQxA/jlM7Ozp+Wghp10gQ/Pz+FHR8fH47o6OgQjY2NrBgHBBsaGgTennPzW6dgHqw+UydN0JzccnAhKdvb2/I9C9dnB8ZvbW3Jz+bedQvOQ+qkCWKizEnZYQYFLy8vIi4uTv6XwfWb4F1mbGysXE/VuOBOwXsl6qQJHh4esiLeQCDVKvDgi0OV1uzAeYPxXB8n4Au8GaROmiBCmQJuQCi0+O8hOjpavoAyQ1PQj/8UMJ7rN+GETNrb2y0VG0FghvYHvO8sLy+XtxsuqAK3lbKyMu3wdAInpjB9tAWA5zgutFuwd0JCQuQtQNVoSLyYwrnnay/7gsotLi5aCrqPtqDA0zgN6w/YK5iuQRLnGWoqFPZscHCwfAuNMTSwP0AO/3WYHsCjoPgrSVyZ8cSOvUVbHMZuD007zCsnhS0qVlZW2OBugMj397d8R4M3XmixDDn0c4HdwB2WFLZoginY0dGR3BumgFMgilkGWq5fwUlQcM7ib2tc8c2cHGwxkGCLgQRbDBzEv/+fMNX6EnMcrwAAAABJRU5ErkJggg==" alt=""> </div> <div class="st-animated-card__payment-logo st-animated-card__payment-logo--default" id="st-animated-card-payment-logo"><img alt="visa" class="st-animated-card__payment-logo-img" id="st-payment-logo" src="./images/visa.png"></div> </div> <div class="st-animated-card__pan"> <label class="st-animated-card__label" id="st-animated-card-card-number-label">Card number</label> <div class="st-animated-card__value" id="st-animated-card-number">∙∙∙∙ ∙∙∙∙ ∙∙∙∙ ∙∙∙∙</div> </div> <div class="st-animated-card__expiration-date-and-security-code"> <div class="st-animated-card__expiration-date"> <label class="st-animated-card__label" id="st-animated-card-expiration-date-label">Expiration date</label> <div class="st-animated-card__value" id="st-animated-card-expiration-date">MM/YY</div> </div> <div class="st-animated-card__security-code st-animated-card__security-code--front st-animated-card__security-code--front-hidden" id="st-animated-card-security-code-front"> <label class="st-animated-card__label" id="st-animated-card-security-code-label">Security code</label> <div class="st-animated-card__value" id="st-animated-card-security-code-front-field"></div> </div> </div> </div> <div class="st-animated-card__side st-animated-card__back" id="st-animated-card-side-back"> <div class="st-animated-card__signature"></div> <div class="st-animated-card__security-code" id="st-animated-card-security-code">∙∙∙</div> </div> </div> </div> </div> </form>`;
   const config = {
-    locale: 'en_GB',
+    animatedCardContainer: 'st-animated-card',
     fields: {
+      errors: {
+        cardNumber: 'st-card-number-message',
+        expirationDate: 'st-expiration-date-message',
+        securityCode: 'st-security-code-message'
+      },
       inputs: {
         cardNumber: 'st-card-number-input',
         expirationDate: 'st-expiration-date-input',
         securityCode: 'st-security-code-input'
       }
     },
-    animatedCardContainer: 'st-animated-card'
+    locale: 'en_GB'
   };
   const correctCardNumber: string = '41111111111111111';
   const testCardAttributes = {
@@ -521,5 +613,5 @@ function CardFixture() {
     type: 'VISA'
   };
   const instance = new Card(config);
-  return { correctCardNumber, instance, testCardAttributes };
+  return { config, correctCardNumber, instance, testCardAttributes };
 }

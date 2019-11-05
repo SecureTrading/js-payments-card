@@ -14,7 +14,37 @@ import { ICardDetails } from './ICard';
  * Extends Utils class which has bunch of common methods.
  */
 class Card extends Utils {
+  private static DISABLED_ATTRIBUTE: string = 'disabled';
+  private static ERROR_CLASS: string = 'error';
   private static NOT_FLIPPED_CARDS: string[] = [CARD_TYPES.AMEX];
+
+  /**
+   * Clears validation message and error classes (input field, error message).
+   * @private
+   */
+  private static _clearFieldValidationData(inputId: string, messageId: string) {
+    document.getElementById(inputId).classList.remove(Card.ERROR_CLASS);
+    document.getElementById(messageId).textContent = '';
+  }
+
+  /**
+   * Set disable attribute to given input.
+   * @param inputId
+   * @private
+   */
+  private static _disableInput(inputId: string) {
+    DomMethods.setProperty(Card.DISABLED_ATTRIBUTE, Card.DISABLED_ATTRIBUTE, inputId);
+  }
+
+  /**
+   * Remove disable attribute to given input.
+   * @param inputId
+   * @private
+   */
+  private static _enableInput(inputId: string) {
+    document.getElementById(inputId).removeAttribute(Card.DISABLED_ATTRIBUTE);
+  }
+
   private _binLookup: BinLookup;
   private _cardDetails: ICardDetails = {
     cardNumber: CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER,
@@ -27,6 +57,7 @@ class Card extends Utils {
   private readonly _cardNumberId: string;
   private readonly _expirationDateId: string;
   private readonly _securityCodeId: string;
+  private readonly _securityCodeMessageId: string;
   private _translator: Translator;
   private _formatter: Formatter;
   private readonly _locale: string;
@@ -34,11 +65,12 @@ class Card extends Utils {
   constructor(config: any) {
     super();
     const {
-      fields: { inputs }
+      fields: { inputs, errors }
     } = config;
     this._cardNumberId = inputs.cardNumber;
     this._expirationDateId = inputs.expirationDate;
     this._securityCodeId = inputs.securityCode;
+    this._securityCodeMessageId = errors.securityCode;
     this._locale = config.locale;
     this._binLookup = new BinLookup();
     this._translator = new Translator(this._locale);
@@ -104,6 +136,7 @@ class Card extends Utils {
 
   public getCardDetails = (value: string) => this._binLookup.binLookup(value);
   private _isAmex = (content: string): boolean => content === CARD_TYPES.AMEX;
+  private _isPiba = (content: string): boolean => content === CARD_TYPES.PIBA;
   private _isFlippableCard = (type: string): boolean => !Card.NOT_FLIPPED_CARDS.includes(type);
   private _returnThemeClass = (theme: string): string => `${CARD_COMPONENT_CLASS}__${theme}`;
 
@@ -150,15 +183,19 @@ class Card extends Utils {
   }
 
   /**
-   * Sets proper security code placeholder and security code value, depends on if card number is Amex or not
+   * Sets proper security code placeholder and security code value, depends on if card number is AMEX or not
    * (generally if it's "flippable" or not). List of "non-flippable" cards is defined in this class
    * `${NOT_FLIPPED_CARDS}.
    * @private
    */
   private _setSecurityCode() {
+    Card._enableInput(this._securityCodeId);
     if (this._isAmex(this._cardDetails.type)) {
       this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED);
       this._addSecurityCodeOnFront();
+    } else if (this._isPiba(this._cardDetails.type)) {
+      Card._clearFieldValidationData(this._securityCodeId, this._securityCodeMessageId);
+      Card._disableInput(this._securityCodeId);
     } else {
       this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
       this._addSecurityCodeOnBack();
@@ -180,7 +217,13 @@ class Card extends Utils {
     }
   }
 
-  private _clearLogoClasses(toRemove: string, toAdd: string) {
+  /**
+   * Toggles between dedicated logo class (eg. Visa or MasterCard) to default one or inversely.
+   * @param toRemove
+   * @param toAdd
+   * @private
+   */
+  private _toggleLogoClasses(toRemove: string, toAdd: string) {
     DomMethods.removeClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${toRemove}`);
     DomMethods.addClass(this.getElement(CARD_CLASSES.CLASS_LOGO_WRAPPER), `${toAdd}`);
   }
@@ -209,7 +252,7 @@ class Card extends Utils {
    * @private
    */
   private _resetTheme() {
-    this._clearLogoClasses(CARD_CLASSES.CLASS_LOGO, CARD_CLASSES.CLASS_LOGO_DEFAULT);
+    this._toggleLogoClasses(CARD_CLASSES.CLASS_LOGO, CARD_CLASSES.CLASS_LOGO_DEFAULT);
     this._clearThemeClasses();
     this.clearContent(CARD_SELECTORS.ANIMATED_CARD_SECURITY_CODE_BACK_ID);
     this._removeLogo();
@@ -231,7 +274,7 @@ class Card extends Utils {
    * @private
    */
   private _setThemeClasses() {
-    this._clearLogoClasses(CARD_CLASSES.CLASS_LOGO_DEFAULT, CARD_CLASSES.CLASS_LOGO);
+    this._toggleLogoClasses(CARD_CLASSES.CLASS_LOGO_DEFAULT, CARD_CLASSES.CLASS_LOGO);
     this._clearThemeClasses();
     DomMethods.addClass(
       this.getElement(CARD_SELECTORS.ANIMATED_CARD_SIDE_FRONT),
