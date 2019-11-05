@@ -493,7 +493,7 @@ describe('Card', () => {
       instance._addLogo();
       expect(document.getElementById(CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID).getAttribute('src')).toEqual(
         // @ts-ignore
-        instance._cardDetails.logo
+        './images/visa.png'
       );
     });
 
