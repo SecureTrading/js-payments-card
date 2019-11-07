@@ -70,7 +70,6 @@ class Card extends Utils {
     const {
       fields: { inputs, errors }
     } = config;
-    console.log(inputs, errors);
     if (inputs) {
       this._cardNumberId = inputs.cardNumber;
       this._expirationDateId = inputs.expirationDate;

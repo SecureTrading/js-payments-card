@@ -45,13 +45,11 @@ module.exports = {
     }),
     new CopyPlugin([
       {
-        from: 'src/images',
-        to: 'images',
-        test: /([^/]+)\/(.+)\.(png|jpg|jpeg|gif|ico|svg|webp)$/,
+        from: 'dist/stcardstyle.css',
+        to: '',
         force: true
       }
     ]),
-
     new StyleLintPlugin(),
     new FriendlyErrorsWebpackPlugin(),
     new webpack.DefinePlugin({
@@ -96,7 +94,7 @@ module.exports = {
           {
             loader: 'tslint-loader',
             options: {
-              emitErrors: false
+              emitErrors: true
             }
           }
         ],
