@@ -58,6 +58,9 @@ class Card extends Utils {
   private readonly _expirationDateId: string;
   private readonly _securityCodeId: string;
   private readonly _securityCodeMessageId: string;
+  private _cardNumber: string;
+  private _expirationDate: string;
+  private _securityCode: string;
   private _translator: Translator;
   private _formatter: Formatter;
   private readonly _locale: string;
@@ -67,10 +70,17 @@ class Card extends Utils {
     const {
       fields: { inputs, errors }
     } = config;
-    this._cardNumberId = inputs.cardNumber;
-    this._expirationDateId = inputs.expirationDate;
-    this._securityCodeId = inputs.securityCode;
-    this._securityCodeMessageId = errors.securityCode;
+    console.log(inputs, errors);
+    if (inputs) {
+      this._cardNumberId = inputs.cardNumber;
+      this._expirationDateId = inputs.expirationDate;
+      this._securityCodeId = inputs.securityCode;
+      this._securityCodeMessageId = errors.securityCode;
+    } else {
+      this._cardDetails.cardNumber = this._cardNumber;
+      this._cardDetails.expirationDate = this._expirationDate;
+      this._cardDetails.securityCode = this._securityCode;
+    }
     this._locale = config.locale;
     this._binLookup = new BinLookup();
     this._translator = new Translator(this._locale);

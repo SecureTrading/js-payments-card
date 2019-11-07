@@ -19,7 +19,7 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     library: 'Card',
     libraryExport: 'default',
-    libraryTarget: 'var',
+    libraryTarget: 'umd',
     publicPath: ''
   },
   optimization: {
@@ -96,7 +96,7 @@ module.exports = {
           {
             loader: 'tslint-loader',
             options: {
-              emitErrors: true
+              emitErrors: false
             }
           }
         ],

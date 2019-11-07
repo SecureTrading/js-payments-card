@@ -24,13 +24,17 @@ class STCard {
   private _validation: Validation;
 
   constructor(config: any) {
-    const {
-      fields: { inputs, errors },
-      animatedCardContainer,
-      locale
-    } = config;
-    this._addInputs(inputs);
-    this._addInputErrorLabels(errors);
+    const { animatedCardContainer, locale, fields } = config;
+    let inputs: {};
+    let errors: {};
+    if (fields) {
+      inputs = fields.inputs;
+      errors = fields.errors;
+    }
+    if (inputs) {
+      this._addInputs(inputs);
+      this._addInputErrorLabels(errors);
+    }
     this._addAnimatedCardContainer(animatedCardContainer);
     this._validation = new Validation(locale);
     if (Utils.ifElementExists(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR)) {
