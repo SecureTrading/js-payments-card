@@ -7,8 +7,6 @@ jest.mock('../src/shared/Validation');
 // given
 describe('STCard', () => {
   Card.ifElementExists = jest.fn().mockReturnValue(true);
-  // when
-  beforeEach(() => {});
 
   // given
   describe('onCardNumberInput', () => {
