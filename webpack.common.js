@@ -1,25 +1,25 @@
-const path = require("path");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const StyleLintPlugin = require("stylelint-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: {
-    example: "./example/index.ts",
-    stcard: "./src/STCard.ts",
-    stcardstyle: "./src/styles/card.scss"
+    example: './example/index.ts',
+    stcard: './src/STCard.ts',
+    stcardstyle: './src/styles/card.scss'
   },
   output: {
-    filename: "[name].js",
-    path: path.join(__dirname, "dist"),
-    library: "Card",
-    libraryExport: "default",
-    libraryTarget: "umd",
-    publicPath: ""
+    filename: '[name].js',
+    path: path.join(__dirname, 'dist'),
+    library: 'Card',
+    libraryExport: 'default',
+    libraryTarget: 'umd',
+    publicPath: ''
   },
   optimization: {
     minimizer: [
@@ -34,20 +34,20 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      filename: "index.html",
-      template: "./example/index.html",
-      chunks: ["example"]
+      filename: 'index.html',
+      template: './example/index.html',
+      chunks: ['example']
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css"
+      filename: '[name].css',
+      chunkFilename: '[id].css'
     }),
     new StyleLintPlugin(),
     new FriendlyErrorsWebpackPlugin(),
     new webpack.DefinePlugin({
       HOST: JSON.stringify(process.env.npm_package_config_host)
     }),
-    new webpack.ProvidePlugin({ Promise: "es6-promise-promise" })
+    new webpack.ProvidePlugin({ Promise: 'es6-promise-promise' })
   ],
   module: {
     rules: [
@@ -56,13 +56,13 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               importLoaders: 1
             }
           },
-          "postcss-loader",
-          "sass-loader"
+          'postcss-loader',
+          'sass-loader'
         ]
       },
 
@@ -70,21 +70,21 @@ module.exports = {
         test: /\.(png|svg|jpg|gif)$/,
         use: [
           {
-            loader: "url-loader"
+            loader: 'url-loader'
           }
         ]
       },
       {
         test: /\.tsx?|js$/,
-        use: "babel-loader",
-        include: [path.join(__dirname, "src"), path.join(__dirname, "test"), path.join(__dirname, "example")]
+        use: 'babel-loader',
+        include: [path.join(__dirname, 'src'), path.join(__dirname, 'test'), path.join(__dirname, 'example')]
       },
       {
         test: /\.ts$/,
-        enforce: "pre",
+        enforce: 'pre',
         use: [
           {
-            loader: "tslint-loader",
+            loader: 'tslint-loader',
             options: {
               emitErrors: true
             }
@@ -95,11 +95,11 @@ module.exports = {
       {
         test: /\.html$/,
         exclude: /node_modules/,
-        use: { loader: "html-loader" }
+        use: { loader: 'html-loader' }
       }
     ]
   },
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: ['.ts', '.js']
   }
 };
