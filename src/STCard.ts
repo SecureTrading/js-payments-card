@@ -135,7 +135,9 @@ class STCard {
 
   private _addAnimatedCardContainer(animatedCardContainer: string) {
     this._animatedCardTargetContainer = document.getElementById(animatedCardContainer) as HTMLDivElement;
-    this._animatedCardTargetContainer.innerHTML = template;
+    if (this._animatedCardTargetContainer) {
+      this._animatedCardTargetContainer.innerHTML = template;
+    }
   }
 
   private _setInputsAttributes(attributes: any, element: HTMLInputElement) {

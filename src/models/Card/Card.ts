@@ -67,14 +67,16 @@ class Card extends Utils {
 
   constructor(config: any) {
     super();
-    const {
-      fields: { inputs, errors }
-    } = config;
-    if (inputs) {
-      this._cardNumberId = inputs.cardNumber;
-      this._expirationDateId = inputs.expirationDate;
-      this._securityCodeId = inputs.securityCode;
-      this._securityCodeMessageId = errors.securityCode;
+    if (config.fields) {
+      const {
+        fields: { inputs, errors }
+      } = config;
+      if (inputs) {
+        this._cardNumberId = inputs.cardNumber;
+        this._expirationDateId = inputs.expirationDate;
+        this._securityCodeId = inputs.securityCode;
+        this._securityCodeMessageId = errors.securityCode;
+      }
     } else {
       this._cardDetails.cardNumber = this._cardNumber;
       this._cardDetails.expirationDate = this._expirationDate;
