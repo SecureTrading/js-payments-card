@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.3
+
+### Fixed
+
+- Minor fixes in configuration init (preparations for synchronizing card with js-payments library).
+
 ## 1.0.1
 
 ### Added
