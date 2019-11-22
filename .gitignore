@@ -63,5 +63,5 @@ typings/
 # Webstorm .idea files
 .idea/
 
-# Webpack generated files
-*hot-update*
+# Generated files folder
+dist/

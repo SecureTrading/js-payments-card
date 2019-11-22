@@ -18,15 +18,26 @@
     "start:automated": "webpack-dev-server --color --progress --config webpack.test.js",
     "start": "webpack-dev-server --color --progress --config webpack.dev.js",
     "example": "ws --rewrite '/* -> /dist/$1' --https",
-    "prod": "npm run build",
+    "prod": "npm run build && npm run copy",
     "snyk": "snyk test --org=secure-trading",
     "test": "jest --watchAll",
     "coverage": "jest --coverage",
+    "copy": "copy-files-from-to",
     "testdocker": "docker pull \"securetrading1/js-payments-testing:$DOCKER_BRANCH\" && docker run -d -p 8443:8443 -p 8760:8760 -it \"securetrading1/js-payments-testing:$DOCKER_BRANCH\"",
     "behave": "npm run testdocker && cd js-payments-testing &&",
     "export:translations": "cross-env-shell i18next-conv -l '$npm_package_config_locale' -s ./src/core/translations/$npm_package_config_locale.json -t ./translations/$npm_package_config_locale.po",
     "import:translations": "cross-env-shell i18next-conv -l '$npm_package_config_locale' -s ./translations/$npm_package_config_locale.po -t ./src/core/translations/$npm_package_config_locale.json"
   },
+  "copyFiles": [
+    {
+      "from": "dist/stcard.js",
+      "to": "stcard.js"
+    },
+    {
+      "from": "dist/stcardstyle.css",
+      "to": "stcardstyle.css"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SecureTrading/js-payments-card.git"
@@ -75,7 +86,7 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "postcss-scss": "^2.0.0",
-    "prettier": "1.18.2",
+    "prettier": "1.19.1",
     "sass-loader": "^7.3.1",
     "snyk": "^1.237.1",
     "source-map-loader": "^0.2.4",
@@ -101,6 +112,7 @@
     "@babel/runtime": "^7.6.3",
     "@types/joi": "^14.3.3",
     "@types/promise-polyfill": "^6.0.3",
+    "copy-files-from-to": "^2.1.0",
     "es6-promise-promise": "^1.0.0",
     "i18next": "^19.0.0",
     "joi": "^14.3.1",

@@ -7,8 +7,6 @@ jest.mock('../src/shared/Validation');
 // given
 describe('STCard', () => {
   Card.ifElementExists = jest.fn().mockReturnValue(true);
-  // when
-  beforeEach(() => {});
 
   // given
   describe('onCardNumberInput', () => {
@@ -24,6 +22,9 @@ describe('STCard', () => {
       instance._card.onCardNumberChanged = jest.fn().mockReturnValue({ nonformat: '' });
       instance._cardNumberInput.addEventListener = jest
         .fn()
+        .mockImplementationOnce((event, callback) => {
+          callback();
+        })
         .mockImplementationOnce((event, callback) => {
           callback();
         })

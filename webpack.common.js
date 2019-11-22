@@ -5,7 +5,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
@@ -19,7 +18,7 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     library: 'Card',
     libraryExport: 'default',
-    libraryTarget: 'var',
+    libraryTarget: 'umd',
     publicPath: ''
   },
   optimization: {
@@ -43,15 +42,6 @@ module.exports = {
       filename: '[name].css',
       chunkFilename: '[id].css'
     }),
-    new CopyPlugin([
-      {
-        from: 'src/images',
-        to: 'images',
-        test: /([^/]+)\/(.+)\.(png|jpg|jpeg|gif|ico|svg|webp)$/,
-        force: true
-      }
-    ]),
-
     new StyleLintPlugin(),
     new FriendlyErrorsWebpackPlugin(),
     new webpack.DefinePlugin({
