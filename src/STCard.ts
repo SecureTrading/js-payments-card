@@ -41,7 +41,17 @@ class STCard {
       this._card = new Card(config);
     }
   }
+  public onCardNumberChange(value: string) {
+    this._card.onCardNumberChanged(value);
+  }
 
+  public onExpirationDateChange(value: string) {
+    this._card.onExpirationDateChanged(value);
+  }
+
+  public onSecurityCodeChange(value: string) {
+    this._card.onSecurityCodeChanged(value);
+  }
   public onCardNumberInput(id: string, callback: any) {
     this._cardNumberInput.addEventListener('blur', () => {
       this._cardNumberInput.blur();
