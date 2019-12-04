@@ -42,16 +42,17 @@ class STCard {
     }
   }
 
-  public onCardNumberChange(value: string) {
-    this._card.onCardNumberChanged(value);
+  public onCardNumberChange(value: string, outsideValue: boolean) {
+    this._card.onCardNumberChanged(value, outsideValue);
   }
 
-  public onExpirationDateChange(value: string) {
-    this._card.onExpirationDateChanged(value);
+  public onExpirationDateChange(value: string, outsideValue: boolean) {
+    this._card.onExpirationDateChanged(value, outsideValue);
   }
 
-  public onSecurityCodeChange(value: string) {
-    this._card.onSecurityCodeChanged(value);
+  public onSecurityCodeChange(value: string, outsideValue: boolean) {
+    this._card.onSecurityCodeChanged(value, outsideValue);
+    this._card.flipCard();
   }
 
   public onFieldFocus() {

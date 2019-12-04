@@ -18,15 +18,19 @@ class Formatter extends Validation {
 
   public number(cardNumber: string, id: string) {
     super.cardNumber(cardNumber);
+    let selectEnd;
+    let selectStart;
     const element: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
     const cardNumberCleaned: string = this.removeNonDigits(this.cardNumberValue);
-    element.value = cardNumberCleaned;
+    if (element) {
+      element.value = cardNumberCleaned;
+      selectEnd = element.selectionEnd;
+      selectStart = element.selectionStart;
+    }
     const cardDetails = this.getCardDetails(cardNumberCleaned);
     const format = cardDetails ? cardDetails.format : Formatter.STANDARD_FORMAT_PATTERN;
     const previousValue = cardNumberCleaned;
     let value = previousValue;
-    let selectEnd = element.selectionEnd;
-    let selectStart = element.selectionStart;
     if (format && value.length > 0) {
       value = Utils.stripChars(value, undefined);
       let matches = value.match(new RegExp(format, '')).slice(1);
@@ -42,7 +46,7 @@ class Formatter extends Validation {
       }
     }
 
-    if (value !== previousValue) {
+    if (value !== previousValue && element) {
       Utils.setElementAttributes({ value }, element);
       element.setSelectionRange(selectStart, selectEnd);
     }
@@ -52,9 +56,8 @@ class Formatter extends Validation {
     return { value, nonformat: this.cardNumberValue };
   }
 
-  public date(value: string, id?: string) {
+  public date(value: string, id?: string, outsideValue?: boolean) {
     super.expirationDate(value);
-    const element: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
     let result: string = '';
 
     this._blocks.forEach(length => {
@@ -66,15 +69,20 @@ class Formatter extends Validation {
       }
     });
     let fixedDate = this._dateFixed(result);
-    element.value = fixedDate;
+    if (!outsideValue) {
+      const element: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
+      element.value = fixedDate;
+    }
     fixedDate = fixedDate ? fixedDate : CARD_DETAILS_PLACEHOLDERS.EXPIRATION_DATE;
     return fixedDate;
   }
 
-  public code(value: string, id?: string) {
+  public code(value: string, id?: string, outsideValue?: boolean) {
     super.securityCode(value);
-    const element: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
-    element.value = this.securityCodeValue;
+    if (!outsideValue) {
+      const element: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
+      element.value = this.securityCodeValue;
+    }
     return this.securityCodeValue;
   }
 

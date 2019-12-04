@@ -67,18 +67,18 @@ class Card extends Utils {
 
   constructor(config: any) {
     super();
-    const {
-      fields: { inputs, errors }
-    } = config;
+    const { fields } = config;
+    let inputs: { cardNumber: string; expirationDate: string; securityCode: string };
+    let errors: { securityCode: string };
+    if (fields) {
+      inputs = fields.inputs;
+      errors = fields.errors;
+    }
     if (inputs) {
       this._cardNumberId = inputs.cardNumber;
       this._expirationDateId = inputs.expirationDate;
       this._securityCodeId = inputs.securityCode;
       this._securityCodeMessageId = errors.securityCode;
-    } else {
-      this._cardDetails.cardNumber = this._cardNumber;
-      this._cardDetails.expirationDate = this._expirationDate;
-      this._cardDetails.securityCode = this._securityCode;
     }
     this._locale = config.locale;
     this._binLookup = new BinLookup();
@@ -97,11 +97,11 @@ class Card extends Utils {
    * Input field on which it's triggered is specified by id given by merchant in configuration object.
    * @param cardNumber
    */
-  public onCardNumberChanged(cardNumber: string) {
+  public onCardNumberChanged(cardNumber: string, outsideValue?: boolean) {
     const { type, nonformat } = this._setCardNumberDetails(cardNumber);
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_CREDIT_CARD_ID, this._cardDetails.cardNumber);
     type ? this._setTheme() : this._resetTheme();
-    this._setSecurityCode();
+    this._setSecurityCode(outsideValue);
     return { nonformat };
   }
 
@@ -110,10 +110,11 @@ class Card extends Utils {
    * Input field on which it's triggered is specified by id given by merchant in configuration object.
    * @param expirationDate
    */
-  public onExpirationDateChanged(expirationDate: string) {
+  public onExpirationDateChanged(expirationDate: string, outsideValue?: boolean) {
     this._cardDetails.expirationDate = this._formatter.date(
       this.getContent(expirationDate, CARD_DETAILS_PLACEHOLDERS.EXPIRATION_DATE),
-      this._expirationDateId
+      this._expirationDateId,
+      outsideValue
     );
     this.setContent(CARD_SELECTORS.ANIMATED_CARD_EXPIRATION_DATE_ID, this._cardDetails.expirationDate);
   }
@@ -123,9 +124,9 @@ class Card extends Utils {
    * Input field on which it's triggered is specified by id given by merchant in configuration object.
    * @param securityCode
    */
-  public onSecurityCodeChanged(securityCode: string) {
-    this._cardDetails.securityCode = this._formatter.code(securityCode, this._securityCodeId);
-    this._setSecurityCode();
+  public onSecurityCodeChanged(securityCode: string, outsideValue?: boolean) {
+    this._cardDetails.securityCode = this._formatter.code(securityCode, this._securityCodeId, outsideValue);
+    this._setSecurityCode(outsideValue);
   }
 
   /**
@@ -197,8 +198,10 @@ class Card extends Utils {
    * `${NOT_FLIPPED_CARDS}.
    * @private
    */
-  private _setSecurityCode() {
-    Card._enableInput(this._securityCodeId);
+  private _setSecurityCode(outsideValue: boolean) {
+    if (!outsideValue) {
+      Card._enableInput(this._securityCodeId);
+    }
     if (this._isAmex(this._cardDetails.type)) {
       this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED);
       this._addSecurityCodeOnFront();
