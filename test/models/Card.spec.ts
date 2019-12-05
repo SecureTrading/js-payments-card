@@ -15,11 +15,11 @@ describe('Card', () => {
     // then
     it('should set _cardDetails', () => {
       // @ts-ignore
-      expect(alternativeInstance._cardDetails.cardNumber).toEqual(undefined);
+      expect(alternativeInstance._cardDetails.cardNumber).toEqual(CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER);
       // @ts-ignore
-      expect(alternativeInstance._cardDetails.expirationDate).toEqual(undefined);
+      expect(alternativeInstance._cardDetails.expirationDate).toEqual(CARD_DETAILS_PLACEHOLDERS.EXPIRATION_DATE);
       // @ts-ignore
-      expect(alternativeInstance._cardDetails.securityCode).toEqual(undefined);
+      expect(alternativeInstance._cardDetails.securityCode).toEqual(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
     });
 
     const { instance } = CardFixture();
