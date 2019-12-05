@@ -29,9 +29,11 @@ All notable changes to this project will be documented in this file.
 
 ## 1.0.1-rc.1
 
-## Added
+## Changed
 
-- New way of serving images of cards logos.
+- Location of bundled files (stcardstyle.css, stcard.js).
+- Library target from var to umd.
+- Changed .png logos to base64 images.
 
 ### Fixed
 
