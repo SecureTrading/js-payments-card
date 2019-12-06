@@ -7,39 +7,67 @@ import {
 } from './imports/card/card-properties';
 import { CARD_SELECTORS } from './imports/card/card-selectors';
 import Card from './models/Card/Card';
+import { IConfig, IErrorContainers, IFields, IInputContainers } from './models/STCard/ISTCard';
 import Utils from './shared/Utils';
 import Validation from './shared/Validation';
 
 class STCard {
-  private static MATCH_EXACTLY_THREE_DIGITS: string = '^[0-9]{3}$';
+  private static FOUR_DIGITS_CARDS: string[] = ['AMEX'];
   private static MATCH_EXACTLY_FOUR_DIGITS: string = '^[0-9]{4}$';
+  private static MATCH_EXACTLY_THREE_DIGITS: string = '^[0-9]{3}$';
+  private static SECURITY_CODE_PLACEHOLDER: string = 'XXX';
+  private static SECURITY_CODE_EXTENDED_PLACEHOLDER: string = 'XXXX';
   private _animatedCardTargetContainer: HTMLDivElement;
+  private _card: Card;
   private _cardNumberError: HTMLElement;
   private _cardNumberInput: HTMLInputElement;
   private _expirationDateError: HTMLElement;
   private _expirationDateInput: HTMLInputElement;
   private _securityCodeError: HTMLElement;
   private _securityCodeInput: HTMLInputElement;
-  private _card: Card;
   private _validation: Validation;
 
-  constructor(config: any) {
+  constructor(config: IConfig) {
     const { animatedCardContainer, locale, fields } = config;
-    let inputs: {};
-    let errors: {};
-    if (fields) {
-      inputs = fields.inputs;
-      errors = fields.errors;
-    }
-    if (inputs) {
-      this._addInputs(inputs);
-      this._addInputErrorLabels(errors);
-    }
-    this._addAnimatedCardContainer(animatedCardContainer);
-    this._validation = new Validation(locale);
-    if (Utils.ifElementExists(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR)) {
-      this._card = new Card(config);
-    }
+    this._init(fields, animatedCardContainer, locale, config);
+  }
+
+  /**
+   * Method called when card number event from outside of js-payments-card has been received.
+   * It refers to the same methods in Card class and that's why we need outsideValue
+   * to distinguish local and remote events.
+   * @param value
+   * @param outsideValue
+   */
+  public onCardNumberChange(value: string, outsideValue: boolean) {
+    this._card.onCardNumberChanged(value, outsideValue);
+  }
+
+  /**
+   * Method called when expiration date event from outside of js-payments-card has been received.
+   * It refers to the same methods in Card class and that's why we need outsideValue
+   * to distinguish local and remote events.
+   * @param value
+   * @param outsideValue
+   */
+  public onExpirationDateChange(value: string, outsideValue: boolean) {
+    this._card.onExpirationDateChanged(value, outsideValue);
+  }
+
+  /**
+   * Method called when security code event from outside of js-payments-card has been received.
+   * It refers to the same methods in Card class and that's why we need outsideValue
+   * to distinguish local and remote events.
+   * @param value
+   * @param outsideValue
+   */
+  public onSecurityCodeChange(value: string, outsideValue: boolean) {
+    this._card.onSecurityCodeChanged(value, outsideValue);
+    this._card.flipCard();
+  }
+
+  public onFieldFocusOrBlur(focused: boolean) {
+    this._card.onFieldFocusOrBlur(focused);
   }
 
   public onCardNumberInput(id: string, callback: any) {
@@ -118,7 +146,7 @@ class STCard {
     });
   }
 
-  private _addInputs(inputs: any) {
+  private _addInputs(inputs: IInputContainers) {
     this._cardNumberInput = document.getElementById(inputs.cardNumber) as HTMLInputElement;
     this._expirationDateInput = document.getElementById(inputs.expirationDate) as HTMLInputElement;
     this._securityCodeInput = document.getElementById(inputs.securityCode) as HTMLInputElement;
@@ -127,7 +155,7 @@ class STCard {
     this._setInputsAttributes(SECURITY_CODE_PROPERTIES, this._securityCodeInput);
   }
 
-  private _addInputErrorLabels(errors: any) {
+  private _addInputErrorLabels(errors: IErrorContainers) {
     this._cardNumberError = document.getElementById(errors.cardNumber) as HTMLInputElement;
     this._expirationDateError = document.getElementById(errors.expirationDate) as HTMLInputElement;
     this._securityCodeError = document.getElementById(errors.securityCode) as HTMLInputElement;
@@ -140,20 +168,44 @@ class STCard {
     }
   }
 
+  private _changeSecurityCodePattern(value: string) {
+    if (STCard.FOUR_DIGITS_CARDS.includes(this._card.getCardDetails(value).type)) {
+      this._securityCodeInput.setAttribute('pattern', STCard.MATCH_EXACTLY_FOUR_DIGITS);
+      this._securityCodeInput.setAttribute('placeholder', STCard.SECURITY_CODE_EXTENDED_PLACEHOLDER);
+    } else {
+      this._securityCodeInput.setAttribute('pattern', STCard.MATCH_EXACTLY_THREE_DIGITS);
+      this._securityCodeInput.setAttribute('placeholder', STCard.SECURITY_CODE_PLACEHOLDER);
+    }
+  }
+
+  private _init(fields: IFields, animatedCardContainer: string, locale: string, config: IConfig) {
+    this._validation = new Validation(locale);
+    this._setInputsAndErrorsTargets(fields);
+    this._addAnimatedCardContainer(animatedCardContainer);
+    this._setCardConfig(config);
+  }
+
+  private _setCardConfig(config: IConfig) {
+    if (Utils.ifElementExists(CARD_SELECTORS.ANIMATED_CARD_INPUT_SELECTOR)) {
+      this._card = new Card(config);
+    } else {
+      throw new Error('Animated card input does not exist');
+    }
+  }
+
+  private _setInputsAndErrorsTargets(fields: { inputs: IInputContainers; errors: IErrorContainers }) {
+    if (fields) {
+      if (fields.inputs && fields.errors) {
+        this._addInputs(fields.inputs);
+        this._addInputErrorLabels(fields.errors);
+      }
+    }
+  }
+
   private _setInputsAttributes(attributes: any, element: HTMLInputElement) {
     Object.keys(attributes).map(item => {
       element.setAttribute(item, attributes[item]);
     });
-  }
-
-  private _changeSecurityCodePattern(value: string) {
-    if (this._card.getCardDetails(value).type === 'AMEX') {
-      this._securityCodeInput.setAttribute('pattern', STCard.MATCH_EXACTLY_FOUR_DIGITS);
-      this._securityCodeInput.setAttribute('placeholder', 'XXXX');
-    } else {
-      this._securityCodeInput.setAttribute('pattern', STCard.MATCH_EXACTLY_THREE_DIGITS);
-      this._securityCodeInput.setAttribute('placeholder', 'XXX');
-    }
   }
 }
 
