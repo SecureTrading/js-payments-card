@@ -1,6 +1,6 @@
 {
   "name": "@securetrading/js-payments-card",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "TypeScript Payment Card",
   "private": false,
   "browserslist": [
