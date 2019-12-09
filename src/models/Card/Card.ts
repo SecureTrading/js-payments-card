@@ -232,8 +232,11 @@ class Card extends Utils {
       this._addSecurityCodeOnFront();
     } else if (this._isPiba(this._cardDetails.type) && !outsideValue) {
       Card._clearInputValue(this._securityCodeId);
+      this._clearSecurityCodeValue();
       Card._clearFieldValidationData(this._securityCodeId, this._securityCodeMessageId);
       Card._disableInput(this._securityCodeId);
+      this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
+      this._addSecurityCodeOnBack();
     } else {
       this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
       this._addSecurityCodeOnBack();
@@ -391,6 +394,10 @@ class Card extends Utils {
   private _setLogo(logo: string, type: string) {
     DomMethods.appendChildIntoDOM(CARD_CLASSES.CLASS_LOGO_WRAPPER, this._createLogo(logo, type));
     DomMethods.setProperty.apply(this, ['src', logo, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
+  }
+
+  private _clearSecurityCodeValue() {
+    this._cardDetails.securityCode = '';
   }
 }
 
