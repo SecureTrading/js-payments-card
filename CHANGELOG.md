@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.5
+
+### Fixed
+
+- Flipping card malfunction.
+- CVV input value clear after indicating PremierInn card number.
+- Flipping card when PremierInn card is indicated.
+- Styling issue - change of min-width on mobile devices.
+
 ## 1.0.4
 
 ### Added

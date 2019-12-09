@@ -63,7 +63,6 @@ class STCard {
    */
   public onSecurityCodeChange(value: string, outsideValue: boolean) {
     this._card.onSecurityCodeChanged(value, outsideValue);
-    this._card.flipCard();
   }
 
   public onFieldFocusOrBlur(focused: boolean) {

@@ -14,7 +14,6 @@ body {
   border: 0;
   overflow: hidden;
   min-height: 30rem;
-  min-width: 37rem;
 }
 
 .st-animated-card {
@@ -32,12 +31,13 @@ body {
     max-height: 23rem;
     height: 100%;
     max-width: 36rem;
+    min-width: 33rem;
     width: 100%;
     margin: 1rem;
     transform-style: preserve-3d;
   }
 
-  @media screen and (max-width: 22rem) {
+  @media all and (max-width: 22rem) {
     &__content {
       max-height: 20.5rem;
       max-width: 32rem;
@@ -48,7 +48,7 @@ body {
     }
   }
 
-  @media screen and (max-width: 19rem) {
+  @media all and (max-width: 19rem) {
     &__content {
       max-height: 17rem;
       max-width: 27rem;
@@ -59,7 +59,7 @@ body {
     }
   }
 
-  @media screen and (max-width: 16rem) {
+  @media all and (max-width: 16rem) {
     &__content {
       max-height: 15.5rem;
       max-width: 24rem;
@@ -243,7 +243,7 @@ body {
     align-items: center;
   }
 
-  @media screen and (max-width: 22rem) {
+  @media all and (max-width: 22rem) {
     &__payment-logo {
       width: 10rem;
       height: 10rem;
@@ -255,7 +255,7 @@ body {
     }
   }
 
-  @media screen and (max-width: 19rem) {
+  @media all and (max-width: 19rem) {
     &__payment-logo {
       width: 9rem;
       height: 9rem;
@@ -267,7 +267,7 @@ body {
     }
   }
 
-  @media screen and (max-width: 16rem) {
+  @media all and (max-width: 16rem) {
     &__payment-logo {
       width: 8rem;
       height: 8rem;
@@ -299,7 +299,7 @@ body {
     align-items: center;
   }
 
-  @media screen and (max-width: 22rem) {
+  @media all and (max-width: 22rem) {
     &__value {
       font-size: 1.4rem;
       margin-top: 0;
@@ -310,7 +310,7 @@ body {
     }
   }
 
-  @media screen and (max-width: 19rem) {
+  @media all and (max-width: 19rem) {
     &__value {
       font-size: 1.3rem;
       margin-top: 0;
@@ -321,7 +321,7 @@ body {
     }
   }
 
-  @media screen and (max-width: 16rem) {
+  @media all and (max-width: 16rem) {
     &__value {
       font-size: 1.2rem;
       margin-top: 0;
@@ -376,20 +376,20 @@ body {
     }
   }
 
-  @media screen and (max-width: 22rem) {
+  @media all and (max-width: 22rem) {
     &__security-code {
       width: 20rem;
     }
   }
 
-  @media screen and (max-width: 19rem) {
+  @media all and (max-width: 19rem) {
     &__security-code {
       width: 16rem;
       height: 3rem;
     }
   }
 
-  @media screen and (max-width: 16rem) {
+  @media all and (max-width: 16rem) {
     &__security-code {
       width: 13rem;
       height: 3rem;
