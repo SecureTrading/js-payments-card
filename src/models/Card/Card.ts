@@ -18,7 +18,11 @@ class Card extends Utils {
   private static DEFAULT_LANGUAGE: string = 'en_GB';
   private static DISABLED_ATTRIBUTE: string = 'disabled';
   private static ERROR_CLASS: string = 'error';
-  private static NOT_FLIPPED_CARDS: string[] = [CARD_TYPES.AMEX];
+  private static NOT_FLIPPED_CARDS: string[] = [CARD_TYPES.AMEX, CARD_TYPES.PIBA];
+
+  private static _clearInputValue(id: string) {
+    (document.getElementById(id) as HTMLInputElement).value = '';
+  }
 
   /**
    * Clears validation message and error classes (input field, error message).
@@ -112,14 +116,12 @@ class Card extends Utils {
   }
 
   public onFieldFocusOrBlur(focused: boolean) {
-    if (this._isFlippableCard(this._cardDetails.type)) {
+    if (this._isFlippableCard(this._cardDetails.type) && this._animatedCardContainer) {
       if (focused) {
         this._animatedCardContainer.classList.add(CARD_CLASSES.CLASS_FOR_ANIMATION);
       } else {
         this._animatedCardContainer.classList.remove(CARD_CLASSES.CLASS_FOR_ANIMATION);
       }
-    } else {
-      this._animatedCardContainer.classList.remove(CARD_CLASSES.CLASS_FOR_ANIMATION);
     }
   }
 
@@ -228,9 +230,13 @@ class Card extends Utils {
     if (this._isAmex(this._cardDetails.type)) {
       this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE_EXTENDED);
       this._addSecurityCodeOnFront();
-    } else if (this._isPiba(this._cardDetails.type)) {
+    } else if (this._isPiba(this._cardDetails.type) && !outsideValue) {
+      Card._clearInputValue(this._securityCodeId);
+      this._clearSecurityCodeValue();
       Card._clearFieldValidationData(this._securityCodeId, this._securityCodeMessageId);
       Card._disableInput(this._securityCodeId);
+      this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
+      this._addSecurityCodeOnBack();
     } else {
       this._setSecurityCodePlaceholder(CARD_DETAILS_PLACEHOLDERS.SECURITY_CODE);
       this._addSecurityCodeOnBack();
@@ -388,6 +394,15 @@ class Card extends Utils {
   private _setLogo(logo: string, type: string) {
     DomMethods.appendChildIntoDOM(CARD_CLASSES.CLASS_LOGO_WRAPPER, this._createLogo(logo, type));
     DomMethods.setProperty.apply(this, ['src', logo, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
+  }
+
+  /**
+   * Clears security code value in _cardDetails - necessary when user copy-paste card number with four digits CVV
+   * and then copy-paste another one with three digits CVV.
+   * @private
+   */
+  private _clearSecurityCodeValue() {
+    this._cardDetails.securityCode = '';
   }
 }
 
