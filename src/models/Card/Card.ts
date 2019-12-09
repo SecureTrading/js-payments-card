@@ -396,6 +396,11 @@ class Card extends Utils {
     DomMethods.setProperty.apply(this, ['src', logo, CARD_SELECTORS.ANIMATED_CARD_PAYMENT_LOGO_ID]);
   }
 
+  /**
+   * Clears security code value in _cardDetails - necessary when user copy-paste card number with four digits CVV
+   * and then copy-paste another one with three digits CVV.
+   * @private
+   */
   private _clearSecurityCodeValue() {
     this._cardDetails.securityCode = '';
   }
