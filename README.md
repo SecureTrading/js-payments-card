@@ -7,7 +7,7 @@ npm install
 npm start
 ```
 
-Then open address `https://localhost:8444` in your web browser.
+Then open address `https://localhost:8443` in your web browser.
 
 ## Technology Stack:
 
