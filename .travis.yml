@@ -28,6 +28,7 @@ jobs:
         - npm run snyk
     - name: Build docker
       before_script: skip
+      script:
         - docker build . --tag "securetrading1/js-payments-card:$DOCKER_BRANCH"
         - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
         - docker push "securetrading1/js-payments-card:$DOCKER_BRANCH"
