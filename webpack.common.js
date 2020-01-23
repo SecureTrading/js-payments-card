@@ -94,7 +94,10 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        exclude: /node_modules/,
+        exclude: [
+          /index\.html$/,
+          /node_modules/,
+        ],
         use: { loader: 'html-loader' }
       }
     ]
