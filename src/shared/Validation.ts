@@ -1,7 +1,9 @@
-import { BrandDetailsType } from '../imports/card/card-type';
 import Translator from '../models/Translation';
-import BinLookup from './BinLookup';
 import Utils from './Utils';
+// @ts-ignore
+import { PaymentsUtils } from '@securetrading/js-payments-utils';
+// @ts-ignore
+import { BrandDetailsType } from '@securetrading/js-payments-utils/types';
 
 class Validation {
   protected static STANDARD_FORMAT_PATTERN: string = '(\\d{1,4})(\\d{1,4})?(\\d{1,4})?(\\d+)?';
@@ -16,7 +18,6 @@ class Validation {
   private static CURSOR_SINGLE_SKIP: number = 1;
   private static CURSOR_DOUBLE_SKIP: number = 2;
 
-  protected binLookup: BinLookup;
   protected cardNumberValue: string;
   protected expirationDateValue: string;
   protected securityCodeValue: string;
@@ -28,7 +29,6 @@ class Validation {
   private _cursorSkip: number = 0;
 
   constructor(locale: string) {
-    this.binLookup = new BinLookup();
     this._translator = new Translator(locale);
     this._matchDigitsRegexp = new RegExp(Validation.MATCH_DIGITS);
   }
@@ -117,7 +117,7 @@ class Validation {
   }
 
   protected getCardDetails(cardNumber: string = ''): BrandDetailsType {
-    return this.binLookup.binLookup(cardNumber);
+    return PaymentsUtils.iinLookup.lookup(cardNumber);
   }
 
   protected _isPressedKeyBackspace(): boolean {
