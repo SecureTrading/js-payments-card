@@ -20,6 +20,7 @@ describe('STCard', () => {
       instance._validation.setKeyDownProperties = jest.fn();
       instance._changeSecurityCodePattern = jest.fn();
       instance._card.onCardNumberChanged = jest.fn().mockReturnValue({ nonformat: '' });
+      instance._isActive = jest.fn().mockReturnValue(true);
       instance._cardNumberInput.addEventListener = jest
         .fn()
         .mockImplementationOnce((event, callback) => {
@@ -75,6 +76,7 @@ describe('STCard', () => {
       instance._card.onExpirationDateChanged = jest.fn();
       instance._validation.keepCursorAtSamePosition = jest.fn();
       instance._validation.setKeyDownProperties = jest.fn();
+      instance._isActive = jest.fn().mockReturnValue(true);
       instance._expirationDateInput.addEventListener = jest
         .fn()
         .mockImplementationOnce((event, callback) => {
