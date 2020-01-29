@@ -7,8 +7,7 @@ import Utils from '../../shared/Utils';
 import { IConfig, IFields } from '../STCard/ISTCard';
 import Translator from '../Translation';
 import { ICardDetails } from './ICard';
-// @ts-ignore
-import { PaymentsUtils } from '@securetrading/js-payments-utils';
+import { iinLookup } from '@securetrading/ts-iin-lookup';
 
 /**
  * Represents html structure and basic behaviour of animated card.
@@ -139,7 +138,7 @@ class Card extends Utils {
     }
   }
 
-  public getCardDetails = (value: string) => PaymentsUtils.iinLookup.lookup(value);
+  public getCardDetails = (value: string) => iinLookup.lookup(value);
   private _isAmex = (content: string): boolean => content === CARD_TYPES.AMEX;
   private _isPiba = (content: string): boolean => content === CARD_TYPES.PIBA;
   private _isFlippableCard = (type: string): boolean => !Card.NOT_FLIPPED_CARDS.includes(type);

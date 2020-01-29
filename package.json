@@ -109,7 +109,8 @@
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
     "@babel/runtime": "^7.6.3",
-    "@securetrading/js-payments-utils": "^0.0.6",
+    "@securetrading/ts-iin-lookup": "^0.0.3",
+    "@securetrading/ts-luhn-check": "^0.0.3",
     "@types/joi": "^14.3.3",
     "@types/promise-polyfill": "^6.0.3",
     "copy-files-from-to": "^2.1.0",

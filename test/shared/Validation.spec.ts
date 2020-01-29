@@ -254,25 +254,6 @@ describe('Validation', () => {
     });
   });
   // given
-  describe('_isNumber', () => {
-    const arrayOfExamples: [
-      [string, boolean],
-      [string, boolean],
-      [string, boolean],
-      [string, boolean],
-      [string, boolean]
-    ] = [['54', true], ['abcd', false], ['   ', false], ['^&&*%', false], ['dsad^&~~||1561', false]];
-    // then
-    // @ts-ignore
-    each(arrayOfExamples).test(
-      'should return boolean with check if given string matches number or not',
-      (given: string, expected: boolean) => {
-        // @ts-ignore
-        expect(instance._isNumber(given)).toEqual(expected);
-      }
-    );
-  });
-  // given
   describe('_setError', () => {
     // when
     beforeEach(() => {
