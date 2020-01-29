@@ -5,7 +5,7 @@ env:
     - TESTS_TYPE=${TESTS_TYPE}
     - TEST_TAG=${TEST_TAG}
     - BRANCH_WITH_FULL_TESTS=master
-    - APP_REPO=js-payments
+    - APP_REPO=js-payments-card
     - APP_BRANCH=$DOCKER_BRANCH
 language: node_js
 node_js:
