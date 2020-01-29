@@ -82,12 +82,25 @@ describe('Validation', () => {
       preventDefault: jest.fn(),
       clipboardData: { getData: jest.fn() }
     };
+    // @ts-ignore
+    window.clipboardData = { getData: jest.fn() };
     // then
     it('should call preventDefault clipboardData', () => {
       // @ts-ignore
       instance.onPaste(event);
       expect(event.preventDefault).toHaveBeenCalled();
+      expect(event.clipboardData.getData).toHaveBeenCalled();
     });
+    // then
+    it('should call preventDefault clipboardData with undefined', () => {
+      event.clipboardData = undefined;
+      // @ts-ignore
+      instance.onPaste(event);
+      expect(event.preventDefault).toHaveBeenCalled();
+      // @ts-ignore
+      expect(window.clipboardData.getData).toHaveBeenCalled();
+    });
+
   });
   // given
   describe('cardNumber', () => {
