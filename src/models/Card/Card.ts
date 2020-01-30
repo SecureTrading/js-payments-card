@@ -1,13 +1,13 @@
 import { cardsLogos } from '../../imports/card/card-logos';
 import { CARD_CLASSES, CARD_COMPONENT_CLASS, CARD_SELECTORS } from '../../imports/card/card-selectors';
 import { CARD_DETAILS_PLACEHOLDERS, CARD_TYPES } from '../../imports/card/card-type';
-import BinLookup from '../../shared/BinLookup';
 import DomMethods from '../../shared/DomMethods';
 import Formatter from '../../shared/Formatter';
 import Utils from '../../shared/Utils';
 import { IConfig, IFields } from '../STCard/ISTCard';
 import Translator from '../Translation';
 import { ICardDetails } from './ICard';
+import { iinLookup } from '@securetrading/ts-iin-lookup';
 
 /**
  * Represents html structure and basic behaviour of animated card.
@@ -52,7 +52,6 @@ class Card extends Utils {
   }
 
   private _animatedCardContainer: HTMLInputElement;
-  private _binLookup: BinLookup;
   private _cardDetails: ICardDetails = {
     cardNumber: CARD_DETAILS_PLACEHOLDERS.CARD_NUMBER,
     expirationDate: CARD_DETAILS_PLACEHOLDERS.EXPIRATION_DATE,
@@ -139,7 +138,7 @@ class Card extends Utils {
     }
   }
 
-  public getCardDetails = (value: string) => this._binLookup.binLookup(value);
+  public getCardDetails = (value: string) => iinLookup.lookup(value);
   private _isAmex = (content: string): boolean => content === CARD_TYPES.AMEX;
   private _isPiba = (content: string): boolean => content === CARD_TYPES.PIBA;
   private _isFlippableCard = (type: string): boolean => !Card.NOT_FLIPPED_CARDS.includes(type);
@@ -147,7 +146,6 @@ class Card extends Utils {
 
   private _init(fields: IFields, config: IConfig) {
     this._locale = config.locale ? config.locale : Card.DEFAULT_LANGUAGE;
-    this._binLookup = new BinLookup();
     this._translator = new Translator(this._locale);
     this._formatter = new Formatter(this._locale);
     this._setInputsAndErrors(fields);

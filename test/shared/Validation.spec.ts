@@ -82,12 +82,25 @@ describe('Validation', () => {
       preventDefault: jest.fn(),
       clipboardData: { getData: jest.fn() }
     };
+    // @ts-ignore
+    window.clipboardData = { getData: jest.fn() };
     // then
     it('should call preventDefault clipboardData', () => {
       // @ts-ignore
       instance.onPaste(event);
       expect(event.preventDefault).toHaveBeenCalled();
+      expect(event.clipboardData.getData).toHaveBeenCalled();
     });
+    // then
+    it('should call preventDefault clipboardData with undefined', () => {
+      event.clipboardData = undefined;
+      // @ts-ignore
+      instance.onPaste(event);
+      expect(event.preventDefault).toHaveBeenCalled();
+      // @ts-ignore
+      expect(window.clipboardData.getData).toHaveBeenCalled();
+    });
+
   });
   // given
   describe('cardNumber', () => {
@@ -252,25 +265,6 @@ describe('Validation', () => {
       // @ts-ignore
       expect(instance.removeNonDigits('1234 fsdf5423')).toEqual('12345423');
     });
-  });
-  // given
-  describe('_isNumber', () => {
-    const arrayOfExamples: [
-      [string, boolean],
-      [string, boolean],
-      [string, boolean],
-      [string, boolean],
-      [string, boolean]
-    ] = [['54', true], ['abcd', false], ['   ', false], ['^&&*%', false], ['dsad^&~~||1561', false]];
-    // then
-    // @ts-ignore
-    each(arrayOfExamples).test(
-      'should return boolean with check if given string matches number or not',
-      (given: string, expected: boolean) => {
-        // @ts-ignore
-        expect(instance._isNumber(given)).toEqual(expected);
-      }
-    );
   });
   // given
   describe('_setError', () => {

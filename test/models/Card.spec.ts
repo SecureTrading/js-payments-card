@@ -185,6 +185,30 @@ describe('Card', () => {
     });
   });
   // given
+  describe('onFieldFocusOrBlur()', () => {
+    const { instance } = CardFixture();
+    const container = document.createElement('div');
+    // when
+    beforeEach(() => {
+      // @ts-ignore
+      instance._animatedCardContainer = container;
+    });
+
+    // then
+    it('should add class for animation', () => {
+      instance.onFieldFocusOrBlur(true)
+      // @ts-ignore
+      expect(container.classList[0]).toEqual('st-animated-card__flip-card');
+    });
+    // then
+    it('should remove class for animation', () => {
+      container.classList.add('st-animated-card__flip-card');
+      instance.onFieldFocusOrBlur(false);
+      // @ts-ignore
+      expect(container.classList.length).toEqual(0);
+    });
+  });
+  // given
   describe('flipCard()', () => {
     // when
     const { instance } = CardFixture();
