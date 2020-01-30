@@ -84,7 +84,7 @@ class STCard {
       callback(event);
       const { nonformat } = this._card.onCardNumberChanged(this._cardNumberInput.value);
       this._changeSecurityCodePattern(nonformat);
-      if (this._cardNumberInput === document.activeElement) {
+      if (this._isActive(this._cardNumberInput)) {
         this._validation.keepCursorAtSamePosition(this._cardNumberInput);
       }
     });
@@ -98,7 +98,7 @@ class STCard {
       // @ts-ignore
       this._card.onCardNumberChanged(value);
       this._changeSecurityCodePattern(this._cardNumberInput.value);
-      if (this._cardNumberInput === document.activeElement) {
+      if (this._isActive(this._cardNumberInput)) {
         this._validation.keepCursorAtSamePosition(this._cardNumberInput);
       }
     });
@@ -117,7 +117,7 @@ class STCard {
     this._expirationDateInput.addEventListener('input', event => {
       callback(event);
       this._card.onExpirationDateChanged(this._expirationDateInput.value);
-      if (this._expirationDateInput === document.activeElement) {
+      if (this._isActive(this._expirationDateInput)) {
         this._validation.keepCursorAtSamePosition(this._expirationDateInput);
       }
     });
@@ -205,6 +205,10 @@ class STCard {
     Object.keys(attributes).map(item => {
       element.setAttribute(item, attributes[item]);
     });
+  }
+
+  private _isActive(element: HTMLElement) {
+    return element === document.activeElement;
   }
 }
 
