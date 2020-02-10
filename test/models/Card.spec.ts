@@ -196,7 +196,7 @@ describe('Card', () => {
 
     // then
     it('should add class for animation', () => {
-      instance.onFieldFocusOrBlur(true)
+      instance.onFieldFocusOrBlur(true);
       // @ts-ignore
       expect(container.classList[0]).toEqual('st-animated-card__flip-card');
     });

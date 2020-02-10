@@ -23,7 +23,6 @@ Then open address `https://localhost:8443` in your web browser.
 - [Stylelint](https://stylelint.io/)
 - [TSLint](https://palantir.github.io/tslint/)
 - [ESLint](https://eslint.org/)
-- [TypeDoc](https://typedoc.org/)
 
 ##### QA:
 

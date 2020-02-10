@@ -100,7 +100,6 @@ describe('Validation', () => {
       // @ts-ignore
       expect(window.clipboardData.getData).toHaveBeenCalled();
     });
-
   });
   // given
   describe('cardNumber', () => {
