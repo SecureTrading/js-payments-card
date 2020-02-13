@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.8
+
+### Fixed
+
+- Animated card styling issues.
+
 ## 1.0.7
 
 ### Fixed
