@@ -1,72 +1,69 @@
 @import 'variables';
 
+html {
+  font-size: 62.5%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 html,
 body {
-  display: flex !important;
-  flex: 1;
-  height: 100%;
-  width: 100%;
+  display: block;
 }
 
 .st-animated-card-wrapper {
-  height: 8.1rem;
-  width: 100%;
-  border: 0;
-  overflow: hidden;
-  min-height: 30rem;
+  display: flex;
+  justify-content: center;
 }
 
 .st-animated-card {
-  min-height: 30rem;
   display: flex;
-  width: 100%;
-  perspective: 100rem;
-  height: 100%;
+  width: 360px;
+  height: 230px;
+  perspective: 1000px;
   justify-content: center;
   align-items: center;
+  padding: 16px;
 
   &__content {
     display: flex;
     flex-direction: column;
-    max-height: 23rem;
     height: 100%;
-    max-width: 36rem;
-    min-width: 33rem;
     width: 100%;
-    margin: 1rem;
+    margin: 10px;
     transform-style: preserve-3d;
   }
 
-  @media all and (max-width: 22rem) {
+  @media all and (max-width: 350px) {
     &__content {
-      max-height: 20.5rem;
-      max-width: 32rem;
+      max-height: 205px;
+      max-width: 320px;
     }
 
     &__chip-logo {
-      max-width: 4rem;
+      max-width: 40px;
     }
   }
 
-  @media all and (max-width: 19rem) {
+  @media all and (max-width: 270px) {
     &__content {
-      max-height: 17rem;
-      max-width: 27rem;
+      max-height: 150px;
+      max-width: 270px;
     }
 
     &__chip-logo {
-      max-width: 4rem;
+      max-width: 40px;
     }
   }
 
-  @media all and (max-width: 16rem) {
+  @media all and (max-width: 255px) {
     &__content {
-      max-height: 15.5rem;
-      max-width: 24rem;
+      max-height: 150px;
+      max-width: 240px;
     }
 
     &__chip-logo {
-      max-width: 3rem;
+      max-width: 30px;
     }
   }
 
@@ -86,11 +83,11 @@ body {
     left: 0;
     background: $default-gradient;
     backface-visibility: hidden;
-    border-radius: 1.5rem;
-    box-shadow: 0 0 2rem 0 rgba(0, 0, 0, 0.24);
+    border-radius: 15px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.24);
     box-sizing: border-box;
     z-index: 2;
-    padding: 1.5rem 2.5rem;
+    padding: 15px 25px;
   }
 
   &__amex,
@@ -102,11 +99,11 @@ body {
   &__mastercard,
   &__piba,
   &__visa {
-    border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
+    border-radius: 15px;
   }
 
   .st-animated-card__payment-logo-img {
-    @include centerLogo(2rem, 1rem);
+    @include centerLogo(20px, 10px);
   }
 
   @mixin cardType($bgr) {
@@ -175,19 +172,19 @@ body {
     }
 
     &::after {
-      height: 21rem;
-      width: 12rem;
+      height: 210px;
+      width: 120px;
       bottom: 0;
       left: 0;
-      border-radius: 0 79rem 41rem 4rem;
+      border-radius: 0 790px 410px 40px;
     }
 
     &::before {
-      height: 24rem;
-      width: 38rem;
-      border-radius: 238rem 98rem 38rem 5rem;
-      left: 3rem;
-      top: 9rem;
+      height: 240px;
+      width: 380px;
+      border-radius: 2380px 980px 380px 50px;
+      left: 30px;
+      top: 90px;
     }
   }
 
@@ -231,51 +228,51 @@ body {
 
   &__payment-logo {
     align-self: flex-start;
-    height: 12rem;
+    height: 120px;
     position: absolute;
     top: 0;
     right: 0;
     background-color: #fff;
-    border-radius: 0 0 0 10rem;
-    width: 12rem;
+    border-radius: 0 0 0 100px;
+    width: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  @media all and (max-width: 22rem) {
+  @media all and (max-width: 350px) {
     &__payment-logo {
-      width: 10rem;
-      height: 10rem;
-      border-radius: 0 0 0 9rem;
+      width: 100px;
+      height: 100px;
+      border-radius: 0 0 0 90px;
     }
 
     &__payment-logo-img {
-      max-width: 6rem;
+      max-width: 60px;
     }
   }
 
-  @media all and (max-width: 19rem) {
+  @media all and (max-width: 270px) {
     &__payment-logo {
-      width: 9rem;
-      height: 9rem;
-      border-radius: 0 0 0 7rem;
+      width: 90px;
+      height: 90px;
+      border-radius: 0 0 0 70px;
     }
 
     &__payment-logo-img {
-      max-width: 6rem;
+      max-width: 60px;
     }
   }
 
-  @media all and (max-width: 16rem) {
+  @media all and (max-width: 255px) {
     &__payment-logo {
-      width: 8rem;
-      height: 8rem;
-      border-radius: 0 0 0 7rem;
+      width: 80px;
+      height: 80px;
+      border-radius: 0 0 0 70px;
     }
 
     &__payment-logo-img {
-      max-width: 5rem;
+      max-width: 50px;
     }
   }
 
@@ -285,7 +282,7 @@ body {
     font-weight: bold;
     color: $card-label-font-color;
     text-transform: uppercase;
-    line-height: 1.1rem;
+    line-height: 11px;
   }
 
   &__value {
@@ -293,48 +290,51 @@ body {
     font-size: $card-value-font-size;
     font-weight: bold;
     color: $card-value-font-color;
-    text-shadow: -0.1rem 0.1rem 0.4rem rgba(0, 0, 0, 0.5);
+    text-shadow: -1px 1px 5px rgba(0, 0, 0, 0.5);
     display: flex;
-    height: 2.75rem;
+    height: 27.5px;
     align-items: center;
   }
 
-  @media all and (max-width: 22rem) {
+  @media all and (max-width: 350px) {
     &__value {
-      font-size: 1.4rem;
+      font-size: 9px;
       margin-top: 0;
+      height: 18.5px;
     }
 
     &__label {
-      font-size: 0.9rem;
+      font-size: 8px;
     }
   }
 
-  @media all and (max-width: 19rem) {
+  @media all and (max-width: 270px) {
     &__value {
-      font-size: 1.3rem;
+      font-size: 9px;
       margin-top: 0;
+      height: 18.5px;
     }
 
     &__label {
-      font-size: 0.8rem;
+      font-size: 7px;
     }
   }
 
-  @media all and (max-width: 16rem) {
+  @media all and (max-width: 255px) {
     &__value {
-      font-size: 1.2rem;
+      font-size: 8px;
       margin-top: 0;
+      height: 18.5px;
     }
 
     &__label {
-      font-size: 0.7rem;
+      font-size: 6px;
     }
   }
 
   &__pan {
-    height: 4rem;
-    margin-bottom: 1.25rem;
+    height: 40px;
+    margin-bottom: 12.5px;
   }
 
   &__expiration-date-and-security-code {
@@ -343,22 +343,22 @@ body {
   }
 
   &__signature {
-    height: 10rem;
+    height: 100px;
     width: 100%;
     background-color: $signature-field-color;
-    border-radius: 1rem;
-    margin-bottom: 2rem;
+    border-radius: 10px;
+    margin-bottom: 20px;
   }
 
   &__security-code {
     background-color: $security-code-field-color;
-    height: 4rem;
-    width: 23rem;
+    height: 40px;
+    width: 230px;
     font-family: $card-font;
-    border-radius: 1rem;
+    border-radius: 10px;
     display: flex;
     align-items: center;
-    padding-right: 2rem;
+    padding-right: 20px;
     justify-content: flex-end;
 
     &--front {
@@ -376,23 +376,23 @@ body {
     }
   }
 
-  @media all and (max-width: 22rem) {
+  @media all and (max-width: 350px) {
     &__security-code {
-      width: 20rem;
+      width: 155px;
     }
   }
 
-  @media all and (max-width: 19rem) {
+  @media all and (max-width: 270px) {
     &__security-code {
-      width: 16rem;
-      height: 3rem;
+      width: 140px;
+      height: 30px;
     }
   }
 
-  @media all and (max-width: 16rem) {
+  @media all and (max-width: 255px) {
     &__security-code {
-      width: 13rem;
-      height: 3rem;
+      width: 110px;
+      height: 30px;
     }
   }
 
@@ -400,6 +400,24 @@ body {
     display: flex;
     flex-direction: column;
     width: 70%;
+  }
+}
+
+@media all and (max-width: 350px) {
+  .st-animated-card {
+    height: 160px;
+  }
+}
+
+@media all and (max-width: 270px) {
+  .st-animated-card {
+    height: 160px;
+  }
+}
+
+@media all and (max-width: 255px) {
+  .st-animated-card {
+    height: 145px;
   }
 }
 
