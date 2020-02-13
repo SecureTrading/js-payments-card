@@ -8,10 +8,7 @@ html {
 
 html,
 body {
-  display: flex !important;
-  flex: 1;
-  height: 100%;
-  width: 100%;
+  display: block;
 }
 
 .st-animated-card-wrapper {
@@ -50,7 +47,7 @@ body {
 
   @media all and (max-width: 270px) {
     &__content {
-      max-height: 170px;
+      max-height: 150px;
       max-width: 270px;
     }
 
@@ -301,19 +298,9 @@ body {
 
   @media all and (max-width: 350px) {
     &__value {
-      font-size: 14px;
-      margin-top: 0;
-    }
-
-    &__label {
       font-size: 9px;
-    }
-  }
-
-  @media all and (max-width: 270px) {
-    &__value {
-      font-size: 13px;
       margin-top: 0;
+      height: 18.5px;
     }
 
     &__label {
@@ -321,14 +308,27 @@ body {
     }
   }
 
-  @media all and (max-width: 255px) {
+  @media all and (max-width: 270px) {
     &__value {
-      font-size: 12px;
+      font-size: 9px;
       margin-top: 0;
+      height: 18.5px;
     }
 
     &__label {
       font-size: 7px;
+    }
+  }
+
+  @media all and (max-width: 255px) {
+    &__value {
+      font-size: 8px;
+      margin-top: 0;
+      height: 18.5px;
+    }
+
+    &__label {
+      font-size: 6px;
     }
   }
 
@@ -378,20 +378,20 @@ body {
 
   @media all and (max-width: 350px) {
     &__security-code {
-      width: 200px;
+      width: 155px;
     }
   }
 
   @media all and (max-width: 270px) {
     &__security-code {
-      width: 160px;
+      width: 140px;
       height: 30px;
     }
   }
 
   @media all and (max-width: 255px) {
     &__security-code {
-      width: 130px;
+      width: 110px;
       height: 30px;
     }
   }
@@ -400,6 +400,24 @@ body {
     display: flex;
     flex-direction: column;
     width: 70%;
+  }
+}
+
+@media all and (max-width: 350px) {
+  .st-animated-card {
+    height: 160px;
+  }
+}
+
+@media all and (max-width: 270px) {
+  .st-animated-card {
+    height: 160px;
+  }
+}
+
+@media all and (max-width: 255px) {
+  .st-animated-card {
+    height: 145px;
   }
 }
 
