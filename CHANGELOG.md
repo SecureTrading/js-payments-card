@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Animated card styling issues.
+- Delete Typedoc.
+- binLookup methods moved to remote service.
 
 ## 1.0.7
 
