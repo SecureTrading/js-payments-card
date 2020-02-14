@@ -47,6 +47,7 @@ module.exports = {
     new webpack.DefinePlugin({
       HOST: JSON.stringify(process.env.npm_package_config_host)
     }),
+
     new webpack.ProvidePlugin({ Promise: 'es6-promise-promise' })
   ],
   module: {
