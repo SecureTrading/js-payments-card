@@ -108,12 +108,16 @@ input:-webkit-autofill.error-field {
 }
 
 .merchants-form {
-  margin: 40px auto auto auto;
+  margin: 70px auto auto auto;
   max-width: 900px;
 
   &__header {
     display: flex;
     justify-content: center;
+  }
+
+  &__fields {
+    margin: 45px 30px 15px 30px;
   }
 
   &__field {

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.10
+
+### Fixed
+
+- Wrong proportions for animated card (Mobile devices).
+
 ## 1.0.9
 
 ### Fixed

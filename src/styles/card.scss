@@ -298,13 +298,13 @@ body {
 
   @media all and (max-width: 350px) {
     &__value {
-      font-size: 9px;
+      font-size: 12px;
       margin-top: 0;
       height: 18.5px;
     }
 
     &__label {
-      font-size: 8px;
+      font-size: 9px;
     }
   }
 
@@ -334,7 +334,7 @@ body {
 
   &__pan {
     height: 40px;
-    margin-bottom: 12.5px;
+    margin-bottom: 13px;
   }
 
   &__expiration-date-and-security-code {
@@ -399,24 +399,31 @@ body {
   &__expiration-date {
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 260px;
   }
 }
 
 @media all and (max-width: 350px) {
   .st-animated-card {
-    height: 160px;
+    width: 310px;
+    height: 198px;
+
+    &__pan {
+      margin-bottom: 0;
+    }
   }
 }
 
-@media all and (max-width: 270px) {
+@media all and (max-width: 300px) {
   .st-animated-card {
-    height: 160px;
+    width: 250px;
+    height: 173px;
   }
 }
 
 @media all and (max-width: 255px) {
   .st-animated-card {
+    width: 227px;
     height: 145px;
   }
 }
