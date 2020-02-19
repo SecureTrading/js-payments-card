@@ -3,7 +3,7 @@ env:
     - DOCKER_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
     - DOCKER_BRANCH=${DOCKER_BRANCH//[\@\/]/-}
     - TESTS_TYPE=${TESTS_TYPE}
-    - TEST_TAG=${TEST_TAG}
+    - TEST_TAG=animated_card_repo_test
     - BRANCH_WITH_FULL_TESTS=master
     - APP_REPO=js-payments-card
     - APP_BRANCH=$DOCKER_BRANCH
@@ -16,6 +16,7 @@ services:
   - docker
 install: skip
 before_script:
+  - python3 -c 'import os,sys; os.set_blocking(sys.stdout.fileno(), True)'
   - git clone --branch=feature/sample-test --single-branch --depth=1 https://github.com/SecureTrading/py-payments-testing.git
   - docker-compose -f py-payments-testing/docker-compose.yml pull
   - docker-compose -f py-payments-testing/docker-compose.yml up -d
@@ -174,5 +175,5 @@ addons:
       secure: Ve3TJXy4GrvlU1H6wy/3QPDPObiOl6AlH5fyQbiTygfsQq7xFTqFLYHjgn4ikzPF5u9lQ3F83NXm8A3OsxropNB3DdTpNlg4faqjiQkiyR+rom2QUe7n0gYzTKOeM5/qIZL67wSfYKYKIjP+vlbgUwn+BAUOT68rTYZ5+5WnihxcREgs4UrmYDfekMtPrm8uHPp0HItCOnrinMIyqtLNddp9ytMidkREVvepffQ/4Zs/5n7jD17o7Ut6+nKaNY0iFIVv9TwSEbI++2U1BDFgzxm3vzGpt3Zg+mwPK7C3Q9rI4vjquN9v2R4XsLxmkzWciZLFbysodOMoyEO96piekI34aLYA0zJr5eMZYGjfvRnzS0cScZlyuzddGp/KjMocuwd1B0mrN6gl5oploEelSCHIAFc8xJkW8wi6bS1ivSeZ5IAKR3RDpfXxzP8jT8EWlPbumeauOB5U0T4f1Xz9x93LJnFk8HKyja9GIboxZ+lw6cTmrgAHTUssx/S+MbJxzxr5MPG0Ubqlh92HvqSFbiKzC8m/p0ZVnU/HLfDdB7yz+qJ5/PY4G2k5o82qNAvpjWpaKNibW/bMivgXtPU7hTTmihZsa/Q8JTvjOZcnSp6e+9AAKB5FaioFqvSii319NMuuTlyKXOEPk79OwSHNWFg7iPG6BPVwPXwiR3X8x+s=
   hosts:
     - webservices.securetrading.net
-    - merchant.example.com
+    - merchant.securetrading.net
     - thirdparty.example.com
