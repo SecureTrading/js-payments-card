@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.12
+
+### Fixed
+
+- Vulnerabilities fixed (Prototype Pollution in minimist)
+  - Introduced through: copy-files-from-to@2.3.0 and resolve-url-loader@3.1.1
+
 ## 1.0.11
 
 ### Fixed
