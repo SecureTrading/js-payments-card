@@ -2,7 +2,7 @@ env:
   global:
     - DOCKER_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
     - DOCKER_BRANCH=${DOCKER_BRANCH//[\@\/]/-}
-    - TESTS_TYPE=${TESTS_TYPE}
+    - TESTS_TYPE=smokeTest
     - TEST_TAG=animated_card_repo_test
     - BRANCH_WITH_FULL_TESTS=master
     - APP_REPO=js-payments-card
