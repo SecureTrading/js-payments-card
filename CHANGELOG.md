@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.13
+
+### Fixed
+
+- Vulnerabilities fixed (Prototype Pollution in minimist)
+  - Removed the unused package resolve-url-loader@3.1.1 completely
+
 ## 1.0.12
 
 ### Fixed
