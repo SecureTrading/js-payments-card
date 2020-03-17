@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.14
+
+### Fixed
+
+- Vulnerabilities fixed (Prototype Pollution in cpy-cli)
+
 ## 1.0.13
 
 ### Fixed
