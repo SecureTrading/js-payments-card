@@ -32,6 +32,9 @@
     "type": "git",
     "url": "git+https://github.com/SecureTrading/js-payments-card.git"
   },
+  "resolutions": {
+    "minimist": "^1.2.5"
+  },
   "author": "",
   "license": "MIT",
   "bugs": {
@@ -108,7 +111,6 @@
     "location-origin": "^1.1.4",
     "promise-polyfill": "8.1.3",
     "url-polyfill": "^1.1.7",
-    "validate": "^5.1.0",
     "whatwg-fetch": "^3.0.0"
   },
   "snyk": true
