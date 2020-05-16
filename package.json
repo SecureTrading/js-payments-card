@@ -102,7 +102,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
     "@babel/runtime": "^7.6.3",
-    "@securetrading/ts-iin-lookup": "^0.0.7",
+    "@securetrading/ts-iin-lookup": "^0.0.8",
     "@securetrading/ts-luhn-check": "^0.0.8",
     "@types/joi": "^14.3.3",
     "@types/promise-polyfill": "^6.0.3",
