@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.17
+
+### Changed
+
+- Update packages to new versions:
+    * babel-jest - 26.0.1
+    * i18next-cov - 10.0.2
+    * jest-each - 26.0.1
+    * jest-get-type - 26.0.0
+    * stylelint-webpack-plugin - 2.0.0
+    * webpack-dev-server - 3.11.0
+    * @securetrading/ts-iin-lookup - 0.0.8
+    * @securetrading/ts-luhn-check - 0.0.8
+
 ## 1.0.16
 
 ### Fixed
