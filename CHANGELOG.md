@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.18
+
+### Fixed
+
+- Recompiled before deploy
+
 ## 1.0.17
 
 ### Changed
