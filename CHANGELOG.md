@@ -8,10 +8,6 @@ All notable changes to this project will be documented in this file.
 
 - http-proxy package vulnerability fix (dependency of webpack-dev-server).
 
-### Changed
-
-- ## Update packages to new versions:
-
 ## 1.0.18
 
 ### Fixed
