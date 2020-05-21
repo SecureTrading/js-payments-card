@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.20
+
+### Changed
+
+- Get rid of preinstall script because of npm-force-resolutions [issue](https://github.com/rogeriochaves/npm-force-resolutions/issues/10).
+
 ## 1.0.19
 
 ### Fixed

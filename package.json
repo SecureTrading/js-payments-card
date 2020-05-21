@@ -1,6 +1,6 @@
 {
   "name": "@securetrading/js-payments-card",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "TypeScript Payment Card",
   "private": false,
   "browserslist": [
@@ -26,8 +26,7 @@
     "testdocker": "docker pull \"securetrading1/js-payments-testing:$DOCKER_BRANCH\" && docker run -d -p 8443:8443 -p 8760:8760 -it \"securetrading1/js-payments-testing:$DOCKER_BRANCH\"",
     "behave": "npm run testdocker && cd js-payments-testing &&",
     "export:translations": "cross-env-shell i18next-conv -l '$npm_package_config_locale' -s ./src/core/translations/$npm_package_config_locale.json -t ./translations/$npm_package_config_locale.po",
-    "import:translations": "cross-env-shell i18next-conv -l '$npm_package_config_locale' -s ./translations/$npm_package_config_locale.po -t ./src/core/translations/$npm_package_config_locale.json",
-    "preinstall": "npx npm-force-resolutions"
+    "import:translations": "cross-env-shell i18next-conv -l '$npm_package_config_locale' -s ./translations/$npm_package_config_locale.po -t ./src/core/translations/$npm_package_config_locale.json"
   },
   "repository": {
     "type": "git",
@@ -110,7 +109,6 @@
     "joi": "^14.3.1",
     "joi-browser": "^13.4.0",
     "location-origin": "^1.1.4",
-    "npm-force-resolutions": "0.0.3",
     "promise-polyfill": "8.1.3",
     "url-polyfill": "^1.1.7",
     "whatwg-fetch": "^3.0.0"
