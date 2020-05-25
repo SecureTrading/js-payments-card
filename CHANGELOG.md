@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## 1.0.20
+## 1.0.21
+
+### Changed
+
+- Bump postcss-scss from 2.0.0 to 2.1.1
+- Bump webpack-bundle-analyzer from 3.7.0 to 3.8.0
+- Bump stylelint from 13.3.3 to 13.5.0
+- Bump typescript from 3.9.2 to 3.9.3
+- Bump local-web-server from 4.0.0 to 4.1.0
+- Bump @types/jest from 25.2.2 to 25.2.3
+- Bump snyk from 1.321.0 to 1.324.0
 
 ### Changed
 
