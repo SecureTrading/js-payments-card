@@ -6,11 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Updated packages do new versions:
-  - webpack-cli ^3.3.9 → ^3.3.12
-  - source-map-loader ^1.0.0 → ^1.0.1
-  - cross-env ^7.0.0 → ^7.0.2
-  - @types/jest ^26.0.0 → ^26.0.4
+- Updated packages to new versions.
 
 ## 1.0.20
 
