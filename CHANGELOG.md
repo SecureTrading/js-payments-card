@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.21
+
+### Changed
+
+- Updated packages to new versions.
+
 ## 1.0.20
+
+### Changed
+
+- Updated packages to new versions.
 
 ### Changed
 
