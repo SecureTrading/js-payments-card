@@ -1,6 +1,6 @@
 {
   "name": "@securetrading/js-payments-card",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "TypeScript Payment Card",
   "private": false,
   "browserslist": [
@@ -33,6 +33,7 @@
     "url": "git+https://github.com/SecureTrading/js-payments-card.git"
   },
   "resolutions": {
+    "ajv": "^6.12.0",
     "minimist": "^1.2.5"
   },
   "author": "",

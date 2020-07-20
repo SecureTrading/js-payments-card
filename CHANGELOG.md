@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.22
+
+### Changed
+
+- Updated packages to new versions.
+- Fix prototype pollution vulnerability in i18next package.
+
 ## 1.0.21
 
 ### Changed
