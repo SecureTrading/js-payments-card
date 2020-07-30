@@ -7,6 +7,13 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Updated packages to new versions.
+
+  - Bump snyk from 1.362.1 to 1.366.2
+  - Bump i18next from 19.6.2 to 19.6.3
+  - Bump @types/jest from 26.0.4 to 26.0.7
+  - Bump url-polyfill from 1.1.9 to 1.1.10
+  - Bump webpack from 4.43.0 to 4.44.0
+
 - Fix prototype pollution vulnerability in i18next package.
 
 ## 1.0.21
