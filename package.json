@@ -1,6 +1,6 @@
 {
   "name": "@securetrading/js-payments-card",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "TypeScript Payment Card",
   "private": false,
   "browserslist": [
@@ -33,6 +33,7 @@
     "url": "git+https://github.com/SecureTrading/js-payments-card.git"
   },
   "resolutions": {
+    "ajv": "^6.12.0",
     "minimist": "^1.2.5"
   },
   "author": "",
@@ -106,7 +107,7 @@
     "@types/promise-polyfill": "^6.0.3",
     "es6-promise-promise": "^1.0.0",
     "i18next": "^19.5.6",
-    "joi": "^14.3.1",
+    "joi": "^17.1.1",
     "joi-browser": "^13.4.0",
     "location-origin": "^1.1.4",
     "promise-polyfill": "8.1.3",
