@@ -7,4 +7,4 @@ Consequently any further feedback should be raised on the new repository as the 
  
 ##### New repository destination
 
-https://gitlab.com/trustpayments-public/stjs/js-payments
+https://gitlab.com/trustpayments-public/stjs/js-payments-card
