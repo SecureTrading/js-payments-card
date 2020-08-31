@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.23
+
+### Changed
+
+- Updated packages to new versions.
+
+  - Bump @babel/runtime from ^7.10.4 to ^7.11.2
+  - Bump i18next from ^19.5.6 to ^19.6.3
+  - Bump joi from ^17.1.1 to^17.2.0
+  - Bump url-polyfill from ^1.1.9 to ^1.1.10
+  - Bump whatwg-fetch from ^3.2.0 → to ^3.4.0
+  - Bump @babel/core from ^7.10.4 → ^7.11.1 to ^7.11.0
+  - Bump @babel/plugin-transform-runtime from ^7.10.4 to ^7.11.0
+  - Bump @babel/plugin-transform-typescript from ^7.10.4 to ^7.11.0
+  - Bump @babel/preset-env from ^7.10.4 to ^26.0.9
+  - Bump @types/jest from ^26.0.7 to ^26.3.0
+  - Bump babel-jest from ^26.1.0 to ^26.3.0
+  - Bump jest from ^26.1.0 to ^26.3.0
+  - Bump jest-each from ^26.1.0 to ^26.3.0
+  - Bump jest-get-type from ^26.0.0 to ^0.10.0
+  - Bump mini-css-extract-plugin from ^0.9.0 to
+  - Bump sass-loader from ^9.0.2 to ^9.0.3
+  - Bump snyk from ^1.366.2 to ^1.373.1
+  - Bump ts-jest from ^26.1.1 to ^26.2.0
+  - Bump ts-loader from ^8.0.0 to ^8.0.2
+  - Bump tslint from ^6.1.2 to ^6.1.3
+  - Bump typescript from ^3.9.6 to ^3.9.7
+  - Bump webpack from ^4.44.0 to ^4.44.1
+  - Bump webpack-merge from ^5.0.9 to ^5.1.1
+
 ## 1.0.22
 
 ### Changed
